@@ -1,0 +1,1821 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="data:," />
+<title>Voxel World Pixel — 1,111 Pixel NFT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060714; --bg2:#0a0c22; --surface:#10122b; --surface2:#171a38; --surface3:#1e2145;
+    --ink:#f5f3ff; --muted:#a3a1c6; --muted2:#7c7aa3; --line:#282c58;
+    --lime:#9df04e; --lime-deep:#6fce2e; --gold:#ffd93d; --pink:#ff5c8a; --cyan:#43e8ff; --violet:#9d8cff; --coral:#ff7a59;
+    --shadow:8px 8px 0 rgba(0,0,0,.55);
+    --shadow-sm:5px 5px 0 rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,sans-serif;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;min-height:44px}
+  .pixelfont{font-family:"Press Start 2P",monospace}
+  .mono{font-family:"JetBrains Mono",monospace}
+  ::selection{background:var(--lime);color:#0a1400}
+
+  /* ===== WORLD BACKGROUND ===== */
+  .world-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+    radial-gradient(900px 480px at 85% -5%, rgba(157,140,255,.20), transparent 60%),
+    radial-gradient(760px 420px at 8% 12%, rgba(67,232,255,.12), transparent 60%),
+    radial-gradient(700px 500px at 50% 115%, rgba(255,92,138,.10), transparent 60%),
+    linear-gradient(180deg,#05060f 0%, #0a0c24 46%, #0d1030 100%)}
+  .world-bg::before{content:"";position:absolute;inset:0;
+    background-image:
+      radial-gradient(rgba(255,255,255,.9) 1.5px, transparent 1.6px),
+      radial-gradient(rgba(157,140,255,.8) 1.5px, transparent 1.6px),
+      radial-gradient(rgba(67,232,255,.7) 1px, transparent 1.1px);
+    background-size:130px 130px, 210px 210px, 74px 74px;
+    background-position:12px 22px, 60px 90px, 30px 8px;opacity:.5}
+  .world-bg::after{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(120,124,255,.055) 1px, transparent 1px),linear-gradient(90deg, rgba(120,124,255,.055) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image:linear-gradient(180deg, transparent, #000 30%, #000 75%, transparent)}
+  .moon{position:fixed;top:86px;right:5vw;width:74px;height:74px;z-index:0;pointer-events:none;opacity:.9;
+    background:#fdf6d8;box-shadow:0 0 0 6px rgba(253,246,216,.14), 0 0 60px 18px rgba(253,246,216,.16), inset -14px -10px 0 rgba(214,196,130,.55)}
+  @media(max-width:760px){ .moon{width:46px;height:46px;top:76px} }
+
+  /* ===== HEADER ===== */
+  header.site{position:sticky;top:0;z-index:60;background:rgba(6,7,20,.82);backdrop-filter:blur(14px);border-bottom:2px solid var(--line)}
+  .header-inner{max-width:1180px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:13px;min-height:44px}
+  .logo{width:52px;height:52px;flex-shrink:0;filter:drop-shadow(4px 4px 0 rgba(0,0,0,.5))}
+  .brand-name{line-height:1.05}
+  .brand-name b{font-family:"Press Start 2P",monospace;font-size:15px;display:block;letter-spacing:.01em}
+  .brand-name b .w2{color:var(--lime)}
+  .brand-name small{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:800}
+  nav{display:flex;gap:2px;align-items:center}
+  nav a{font-weight:700;font-size:14px;padding:10px 12px;border-radius:10px;color:var(--muted)}
+  nav a:hover{color:var(--ink);background:var(--surface2)}
+  @media(max-width:860px){ nav a{display:none} }
+  @media(max-width:640px){
+    .header-inner{padding:10px 12px;gap:8px}
+    .logo{width:42px;height:42px}
+    .brand{gap:9px}
+    .brand-name b{font-size:11px}
+    .brand-name small{font-size:8.5px;letter-spacing:.14em;white-space:nowrap}
+    header.site .btn{padding:10px 12px;font-size:13px}
+  }
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:14px;padding:12px 18px;border-radius:12px;border:2px solid #000;transition:transform .12s, box-shadow .12s;white-space:nowrap;color:#0b0d1f}
+  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 #000 !important}
+  .btn-lime{background:var(--lime);box-shadow:4px 4px 0 #000}
+  .btn-lime:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 #000}
+  .btn-gold{background:var(--gold);box-shadow:4px 4px 0 #000}
+  .btn-gold:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 #000}
+  .btn-pink{background:var(--pink);box-shadow:4px 4px 0 #000;color:#fff}
+  .btn-dark{background:var(--ink);box-shadow:4px 4px 0 #000}
+  .btn-ghost{background:var(--surface2);color:var(--ink);border-color:var(--line);box-shadow:4px 4px 0 rgba(0,0,0,.45)}
+  .btn svg{flex-shrink:0}
+
+  main{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 18px 90px}
+
+  /* ===== HERO ===== */
+  .hero{display:grid;grid-template-columns:1.02fr .98fr;gap:34px;padding:46px 0 0;align-items:center}
+  @media(max-width:900px){ .hero{grid-template-columns:1fr} }
+  .badge{display:inline-flex;align-items:center;gap:9px;background:rgba(157,240,78,.08);border:1.5px solid rgba(157,240,78,.45);color:#d9ffb0;padding:8px 13px;border-radius:999px;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .badge i{width:8px;height:8px;background:var(--lime);display:block;box-shadow:0 0 10px var(--lime);animation:blink 1.6s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  h1{font-family:"Press Start 2P",monospace;font-size:clamp(27px,4.6vw,48px);line-height:1.22;margin:20px 0 18px;text-shadow:4px 4px 0 rgba(0,0,0,.45)}
+  h1 .c1{color:var(--gold)} h1 .c2{color:var(--pink)} h1 .c3{color:var(--cyan)}
+  .hero p.lead{font-size:16.5px;line-height:1.75;color:var(--muted);max-width:530px;margin:0 0 24px}
+  .hero p.lead b{color:var(--ink)}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-mini{display:flex;gap:0;margin-top:28px;flex-wrap:wrap;border:2px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(16,18,43,.7);max-width:530px}
+  .hero-mini div{flex:1;min-width:104px;padding:13px 14px;border-right:2px solid var(--line)}
+  .hero-mini div:last-child{border-right:none}
+  .hero-mini b{font-family:"Press Start 2P",monospace;font-size:13px;display:block;margin-bottom:6px}
+  .hero-mini span{font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+
+  .showcase{position:relative}
+  .showcase-card{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow);position:relative;z-index:2}
+  .showcase-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;gap:10px}
+  .dots{display:flex;gap:6px}.dots i{width:12px;height:12px;display:block;border:2px solid #000;border-radius:3px}
+  .showcase-top span{font-family:"Press Start 2P",monospace;font-size:9.5px;color:var(--muted);letter-spacing:.05em;text-align:right;line-height:1.7}
+  .main-voxel{width:100%;aspect-ratio:1;border:2px solid #000;border-radius:14px;image-rendering:pixelated;display:block;background:#0a0c22}
+  .featured-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;flex-wrap:wrap}
+  .featured-meta b{font-size:16px;display:block}
+  .featured-meta span{font-size:12.5px;color:var(--muted);font-weight:600}
+  .rarity{font-family:"Press Start 2P",monospace;font-size:9px;padding:8px 9px;border:2px solid #000;border-radius:8px;background:var(--gold);color:#231a00;box-shadow:3px 3px 0 #000;white-space:nowrap}
+  .showcase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+  .showcase-grid canvas{width:100%;aspect-ratio:1;image-rendering:pixelated;border:2px solid #000;border-radius:10px;display:block;cursor:pointer;transition:transform .12s}
+  .showcase-grid canvas:hover{transform:translateY(-3px)}
+  .float-chip{position:absolute;z-index:3;background:var(--surface3);border:2px solid var(--line);border-radius:12px;padding:10px 13px;box-shadow:var(--shadow-sm);font-size:12px;font-weight:800;line-height:1.45}
+  .float-chip small{display:block;color:var(--muted);font-weight:700;font-size:11px}
+  .chip-a{left:-16px;top:64px;transform:rotate(-3deg)}
+  .chip-b{right:-12px;bottom:120px;transform:rotate(2.5deg);background:var(--gold);color:#231a00;border-color:#000}
+  .chip-b small{color:#6b5510}
+  @media(max-width:1100px){ .chip-a{left:2px} .chip-b{right:2px} }
+  @media(max-width:520px){ .float-chip{display:none} }
+
+  /* voxel terrain strip */
+  .terrain{display:block;width:100%;height:54px;margin-top:44px}
+  .terrain svg{display:block;width:100%;height:100%}
+
+  /* ===== STATS ===== */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+  @media(max-width:760px){ .stats{grid-template-columns:repeat(2,1fr)} }
+  .stat{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+  .stat::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:var(--ac,var(--lime))}
+  .stat b{font-family:"Press Start 2P",monospace;font-size:19px;display:block;margin:4px 0 9px}
+  .stat span{font-size:13px;color:var(--muted);font-weight:600;line-height:1.5;display:block}
+
+  .marquee{margin:30px -18px 0;background:var(--lime);color:#0d1a00;border-top:2px solid #000;border-bottom:2px solid #000;overflow:hidden;white-space:nowrap;padding:11px 0;font-family:"Press Start 2P",monospace;font-size:10.5px}
+  .marquee-track{display:inline-block;animation:scroll 26s linear infinite}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion: reduce){ .marquee-track{animation:none} .badge i{animation:none} }
+
+  section{padding:56px 0 0}
+  .sec-head{max-width:700px;margin-bottom:24px}
+  .sec-head h2{font-family:"Press Start 2P",monospace;font-size:clamp(19px,3.2vw,29px);line-height:1.4;margin:0 0 13px;text-shadow:3px 3px 0 rgba(0,0,0,.45)}
+  .sec-head p{color:var(--muted);line-height:1.75;margin:0;font-size:15.5px}
+  .sec-head p b{color:var(--ink)}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--cyan);margin-bottom:13px}
+  .kicker::before{content:"";width:22px;height:3px;background:var(--cyan);display:block}
+
+  /* ===== COLLECTION ===== */
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .chipbtn{padding:10px 16px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--muted);font-weight:800;font-size:13px;min-height:42px;transition:.12s}
+  .chipbtn:hover{color:var(--ink);border-color:var(--muted2)}
+  .chipbtn.active{background:var(--lime);color:#0d1a00;border-color:#000;box-shadow:3px 3px 0 #000}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:900px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:420px){ .grid{grid-template-columns:repeat(2,1fr);gap:12px} }
+  .nft{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .15s, border-color .15s}
+  .nft:hover{transform:translateY(-4px);border-color:var(--muted2)}
+  .nft .art{position:relative}
+  .nft canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated}
+  .nft .tier{position:absolute;top:10px;left:10px;font-family:"Press Start 2P",monospace;font-size:8px;padding:6px 7px;border:2px solid #000;border-radius:7px;box-shadow:2px 2px 0 #000}
+  .tier.common{background:#e8e9f5;color:#17172e}.tier.rare{background:var(--cyan);color:#00222b}.tier.legendary{background:var(--gold);color:#231a00}
+  .nft-body{padding:14px 15px 16px}
+  .nft-body h3{margin:0 0 3px;font-size:15.5px}
+  .nft-body .type{font-size:12px;color:var(--cyan);font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:9px}
+  .traits{display:grid;gap:5px}
+  .traits div{display:flex;justify-content:space-between;gap:8px;font-size:12px;border-top:1.5px dashed var(--line);padding-top:5px}
+  .traits div span:first-child{color:var(--muted2);font-weight:700}
+  .traits div span:last-child{font-weight:700;text-align:right}
+  .nft-foot{display:flex;justify-content:space-between;align-items:center;margin-top:11px}
+  .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;padding:5px 8px;border-radius:6px;border:2px solid #000}
+  .tag.free{background:var(--lime);color:#102000}.tag.paid{background:var(--gold);color:#231a00}
+  .nft-foot .id{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted2)}
+
+  .supply-box{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm);margin-top:20px}
+  .supply-bar{height:26px;border:2px solid #000;border-radius:9px;overflow:hidden;display:flex;background:#0a0c22;margin-top:15px}
+  .supply-bar .free{width:90.01%;background:repeating-linear-gradient(45deg,var(--lime),var(--lime) 12px,var(--lime-deep) 12px,var(--lime-deep) 24px)}
+  .supply-bar .paid{flex:1;background:repeating-linear-gradient(45deg,var(--gold),var(--gold) 12px,#eab308 12px,#eab308 24px)}
+  .supply-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:13px;font-size:13px;font-weight:700}
+  .supply-legend i{width:14px;height:14px;display:inline-block;vertical-align:-2px;margin-right:7px;border:2px solid #000;border-radius:4px}
+
+  /* ===== MINT ===== */
+  .mint-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:860px){ .mint-grid{grid-template-columns:1fr} }
+  .mint-card{border:2px solid #000;border-radius:20px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden;background:var(--surface)}
+  .mint-card.free{background:linear-gradient(180deg, rgba(157,240,78,.13), var(--surface) 55%)}
+  .mint-card.paid{background:linear-gradient(180deg, rgba(255,217,61,.14), var(--surface) 55%)}
+  .mint-card h3{font-family:"Press Start 2P",monospace;font-size:15.5px;line-height:1.55;margin:14px 0 8px}
+  .price{font-family:"Press Start 2P",monospace;font-size:25px;margin:8px 0}
+  .price small{font-size:11px;color:var(--muted)}
+  .progress{height:15px;background:#0a0c22;border:2px solid var(--line);border-radius:999px;overflow:hidden;margin:15px 0 9px}
+  .progress i{display:block;height:100%;background:var(--lime);transition:width .4s}
+  .mint-card.paid .progress i{background:var(--gold)}
+  .qty{display:flex;align-items:center;gap:10px;margin:17px 0}
+  .qty button{width:44px;height:44px;border-radius:10px;border:2px solid #000;background:var(--surface3);font-size:18px;font-weight:900;color:var(--ink);box-shadow:3px 3px 0 #000}
+  .qty button:active{transform:translate(2px,2px);box-shadow:0 0 0 #000}
+  .qty b{font-family:"Press Start 2P",monospace;font-size:15px;min-width:28px;text-align:center}
+  .qty span{font-size:13px;color:var(--muted);font-weight:600}
+  ul.check{list-style:none;padding:0;margin:15px 0;display:grid;gap:9px}
+  ul.check li{font-size:14px;display:flex;gap:9px;line-height:1.55;color:var(--muted)} ul.check li b{color:var(--ink)}
+  ul.check li::before{content:"▸";color:var(--lime);font-weight:900}
+  .mint-card.paid ul.check li::before{color:var(--gold)}
+  .full{width:100%}
+  .mint-open{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:rgba(157,240,78,.09);border:2px solid rgba(157,240,78,.5);border-radius:14px;padding:14px 17px;margin-bottom:18px;font-size:14px;line-height:1.6}
+  .mint-open i{width:10px;height:10px;background:var(--lime);display:block;flex-shrink:0;box-shadow:0 0 12px var(--lime);animation:blink 1.6s infinite}
+  .mint-open b{color:#d9ffb0}
+  .live-panel{background:#0a0c22;border:2px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+  .live-panel h3{font-family:"Press Start 2P",monospace;font-size:13px;margin:0 0 6px;line-height:1.7}
+  .live-panel p{margin:0 0 16px;color:var(--muted);font-size:14px;line-height:1.65}
+  .live-rows{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:16px}
+  @media(max-width:760px){.live-rows{grid-template-columns:1fr 1fr}}
+  .live-rows div{padding:13px 14px;border-right:2px solid var(--line);border-bottom:2px solid var(--line);background:var(--surface)}
+  .live-rows div:nth-child(3n){border-right:none}
+  @media(max-width:760px){.live-rows div:nth-child(3n){border-right:2px solid var(--line)}.live-rows div:nth-child(2n){border-right:none}}
+  .live-rows span{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:800;margin-bottom:5px}
+  .live-rows b{font-size:14.5px;word-break:break-word;line-height:1.45;display:block}
+  .live-actions{display:flex;gap:10px;flex-wrap:wrap}
+  .live-actions .btn{flex:1;min-width:200px}
+
+  /* ===== METHODS ===== */
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .tab-btn{flex:1;min-width:210px;padding:17px;border-radius:14px;border:2px solid var(--line);background:var(--surface);text-align:left;color:var(--ink);transition:.12s}
+  .tab-btn b{display:block;font-size:15px;margin-bottom:5px} .tab-btn span{font-size:13px;color:var(--muted);line-height:1.5;display:block}
+  .tab-btn.active{border-color:var(--lime);background:var(--surface2);box-shadow:var(--shadow-sm)}
+  .panel{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm);display:none}
+  .panel.active{display:block}
+  .wallet-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:#0a0c22;border:2px dashed var(--line);border-radius:14px;padding:17px}
+  .addr{font-family:"JetBrains Mono",monospace;font-size:13px;word-break:break-all}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+  @media(max-width:760px){ .steps{grid-template-columns:1fr} }
+  .step{background:#0a0c22;border:2px solid var(--line);border-radius:14px;padding:17px}
+  .step b.num{width:36px;height:36px;display:grid;place-items:center;background:var(--gold);color:#17172e;border:2px solid #000;font-family:"Press Start 2P",monospace;font-size:12px;margin-bottom:11px;border-radius:8px;box-shadow:3px 3px 0 #000}
+  .step h3{margin:0 0 6px;font-size:14.5px} .step p{margin:0;font-size:13px;color:var(--muted);line-height:1.65}
+
+  /* ===== PROMPTS ===== */
+  .prompt-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:860px){ .prompt-grid{grid-template-columns:1fr} }
+  .prompt-card{background:#0a0b1e;color:#e9e7ff;border:2px solid #000;border-radius:18px;padding:0;box-shadow:var(--shadow);overflow:hidden}
+  .prompt-card .p-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 18px;border-bottom:2px solid var(--line);background:var(--surface2)}
+  .prompt-card .p-head h3{margin:2px 0 0;font-size:15.5px}
+  .prompt-card .label{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+  .prompt-card .p-body{padding:17px 18px 18px}
+  .prompt-text{background:rgba(255,255,255,.045);border:1.5px solid rgba(255,255,255,.13);border-radius:12px;padding:15px;font-family:"JetBrains Mono",monospace;font-size:12.6px;line-height:1.8;white-space:pre-wrap;word-break:break-word;margin:0 0 13px}
+  .prompt-card .note{margin:0;font-size:13px;color:#b3b1d4;line-height:1.65}
+  .copy-btn{background:var(--gold);color:#17172e;border:2px solid #000;padding:9px 14px;border-radius:9px;font-weight:800;font-size:13px;min-height:40px;white-space:nowrap;box-shadow:3px 3px 0 #000}
+  .copy-btn:active{transform:translate(2px,2px);box-shadow:0 0 0 #000}
+  .agent-box{margin-top:18px;background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm)}
+  textarea{width:100%;min-height:88px;border-radius:12px;border:2px solid var(--line);background:#0a0c22;color:var(--ink);padding:14px;font-family:"JetBrains Mono",monospace;font-size:12.8px;line-height:1.75;resize:vertical}
+  textarea:focus{outline:2px solid var(--cyan);outline-offset:1px}
+  .agent-log{margin-top:14px;display:none;background:#08130b;color:#a9f29a;border:1.5px solid #1e4630;border-radius:12px;padding:15px;font-family:"JetBrains Mono",monospace;font-size:12.5px;line-height:1.85;white-space:pre-wrap}
+  .reveal{display:none;margin-top:16px;align-items:center;gap:16px;background:#0a0c22;border:2px solid var(--line);border-radius:14px;padding:15px}
+  .reveal canvas{width:92px;height:92px;image-rendering:pixelated;border:2px solid #000;border-radius:10px;flex-shrink:0}
+
+  /* ===== ROADMAP / FAQ ===== */
+  .road{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:900px){ .road{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:520px){ .road{grid-template-columns:1fr} }
+  .phase{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:16px;padding:19px;box-shadow:var(--shadow-sm)}
+  .phase span{font-family:"Press Start 2P",monospace;font-size:10px;color:var(--pink)}
+  .phase h3{margin:11px 0 8px;font-size:16px} .phase p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.7}
+  .phase .done{display:inline-block;margin-top:12px;font-size:10.5px;font-weight:800;letter-spacing:.08em;padding:5px 8px;border-radius:6px;border:1.5px solid var(--line);color:var(--muted)}
+  .phase .done.live{color:#0d1a00;background:var(--lime);border-color:#000}
+  details{background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:4px 17px;margin-bottom:10px}
+  details[open]{background:var(--surface2)}
+  summary{font-weight:800;padding:13px 0;cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:15px}
+  details p{color:var(--muted);line-height:1.75;margin:0 0 15px;font-size:14.5px}
+
+  /* ===== PLAYGROUND GAME ===== */
+  .game-shell{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+  .char-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:0 0 16px}
+  @media(max-width:760px){.char-picker{grid-template-columns:repeat(4,1fr)}}
+  @media(max-width:420px){.char-picker{grid-template-columns:repeat(3,1fr)}}
+  .char-option{background:#0a0c22;border:2px solid var(--line);border-radius:14px;padding:8px 6px 9px;color:var(--ink);text-align:center;transition:.12s}
+  .char-option canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated;border:2px solid #000;border-radius:9px}
+  .char-option span{display:block;font-size:11px;font-weight:800;margin-top:7px;line-height:1.3}
+  .char-option small{display:block;font-size:10px;color:var(--muted2);font-weight:700;margin-top:2px}
+  .char-option:hover{border-color:var(--muted2);transform:translateY(-2px)}
+  .char-option.selected{border-color:var(--lime);background:rgba(157,240,78,.10);box-shadow:3px 3px 0 #000}
+  .char-option.selected span{color:var(--lime)}
+  .game-hud{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:2px solid #000;border-radius:13px;overflow:hidden;margin-bottom:13px;background:#0a0c22}
+  @media(max-width:640px){.game-hud{grid-template-columns:repeat(3,1fr)} .game-hud div:nth-child(n+4){border-top:2px solid var(--line)}}
+  .holder-gate{border:2px dashed var(--gold);border-radius:16px;background:#0a0c22;padding:26px 20px;text-align:center;margin-bottom:16px}
+  .holder-gate h3{font-family:"Press Start 2P",monospace;font-size:clamp(13px,2.4vw,17px);line-height:1.6;margin:0 0 10px}
+  .holder-gate p{color:var(--muted);line-height:1.7;margin:0 auto 16px;max-width:560px;font-size:14.5px}
+  .holder-gate .gate-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .holder-gate .gate-note{font-size:12px;color:var(--muted2);margin:16px auto 0;max-width:600px}
+  .holder-badge{display:none;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(157,240,78,.10);border:2px solid rgba(157,240,78,.55);border-radius:12px;padding:11px 14px;margin-bottom:16px;font-size:14px;font-weight:700}
+  .holder-badge.show{display:flex}
+  .stage-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0 0 16px}
+  @media(max-width:900px){.stage-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:560px){.stage-grid{grid-template-columns:repeat(2,1fr)}}
+  .stage-card{background:#0a0c22;border:2px solid var(--line);border-radius:14px;padding:13px 12px;color:var(--ink);text-align:left;min-height:44px}
+  .stage-card b{font-family:"Press Start 2P",monospace;font-size:10px;line-height:1.6;display:block;margin-bottom:6px}
+  .stage-card span{display:block;font-size:12px;color:var(--muted);line-height:1.55}
+  .stage-card .st-status{display:inline-block;margin-top:9px;font-size:10px;font-weight:800;letter-spacing:.06em;padding:5px 8px;border-radius:6px;border:1.5px solid var(--line);color:var(--muted)}
+  .stage-card.unlocked{border-color:var(--cyan)} .stage-card.current{border-color:var(--lime);background:rgba(157,240,78,.08);box-shadow:3px 3px 0 #000}
+  .stage-card.cleared .st-status{background:var(--lime);color:#0d1a00;border-color:#000}
+  .stage-card.locked{opacity:.55}
+  .stage-card:not(.locked){cursor:pointer} .stage-card:not(.locked):hover{transform:translateY(-2px)}
+  .game-hud div{padding:10px 12px;border-right:2px solid var(--line);background:var(--surface)}
+  .game-hud div:last-child{border-right:none}
+  .game-hud span{display:block;font-family:"Press Start 2P",monospace;font-size:8.5px;color:var(--muted2);letter-spacing:.04em;margin-bottom:6px}
+  .game-hud b{font-family:"Press Start 2P",monospace;font-size:14px;display:block}
+  .game-hud b.hearts{color:var(--pink);letter-spacing:2px;font-size:13px}
+  .game-wrap{position:relative;border:2px solid #000;border-radius:16px;overflow:hidden;background:#070818;box-shadow:var(--shadow-sm)}
+  #gameCanvas{display:block;width:100%;aspect-ratio:16/9;height:auto;image-rendering:pixelated;touch-action:none;background:#070818}
+  .game-overlay{position:absolute;inset:0;display:none;place-items:center;background:rgba(5,6,18,.78);backdrop-filter:blur(3px);padding:20px;text-align:center;z-index:4}
+  .game-overlay.show{display:grid}
+  .game-overlay .box{max-width:440px}
+  .game-overlay h3{font-family:"Press Start 2P",monospace;font-size:clamp(15px,3vw,21px);line-height:1.55;margin:0 0 12px}
+  .game-overlay p{color:#cfcdea;line-height:1.7;margin:0 0 18px;font-size:14.5px}
+  .game-overlay .final-score{font-family:"Press Start 2P",monospace;font-size:30px;color:var(--gold);display:block;margin:8px 0 4px}
+  .game-controls{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-top:15px}
+  .dpad{display:grid;grid-template-columns:repeat(3,52px);grid-template-rows:repeat(3,52px);gap:5px;touch-action:none;user-select:none;-webkit-user-select:none}
+  .dpad button{width:52px;height:52px;min-height:52px;border-radius:12px;border:2px solid #000;background:var(--surface3);color:var(--ink);font-size:19px;font-weight:900;box-shadow:3px 3px 0 #000;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;display:grid;place-items:center;padding:0}
+  .dpad button:active,.dpad button.pressed{background:var(--lime);color:#0d1a00;transform:translate(2px,2px);box-shadow:0 0 0 #000}
+  .dpad .empty{visibility:hidden}
+  .game-side{flex:1;min-width:220px;display:grid;gap:10px}
+  .game-side p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.7}
+  .game-side p b{color:var(--ink)}
+  @media(max-width:640px){ .game-shell{padding:14px} .game-controls{justify-content:center} .game-side{min-width:100%;order:-1} .dpad{grid-template-columns:repeat(3,58px);grid-template-rows:repeat(3,58px)} .dpad button{width:58px;height:58px;min-height:58px} }
+
+  .tier.epic{background:var(--violet);color:#17102e}
+  .evo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+  @media(max-width:760px){.evo-gallery{grid-template-columns:repeat(3,1fr);gap:10px}}
+  @media(max-width:520px){.evo-gallery{grid-template-columns:1fr 1fr 1fr;gap:8px}}
+  .upgrade-box{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm)}
+  .own-grid{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+  .own-item{width:118px;background:#0a0c22;border:2px solid var(--line);border-radius:14px;padding:8px;color:var(--ink);text-align:center;transition:.12s}
+  .own-item canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated;border:2px solid #000;border-radius:9px}
+  .own-item span{display:block;font-size:11.5px;font-weight:800;margin-top:7px;line-height:1.35}
+  .own-item small{display:block;font-size:10px;color:var(--muted2);font-weight:700;margin-top:2px;line-height:1.4}
+  .own-item:hover{border-color:var(--muted2)}
+  .own-item.selected{border-color:var(--gold);background:rgba(255,217,61,.10);box-shadow:3px 3px 0 #000}
+  .own-item.selected span{color:var(--gold)}
+  .evo-badge{display:inline-block;font-family:"Press Start 2P",monospace;font-size:8px;padding:6px 7px;border:2px solid #000;border-radius:7px;box-shadow:2px 2px 0 #000;background:var(--gold);color:#231a00}
+
+  /* ===== STICKER PACK ===== */
+  .sticker-top{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+  .sticker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:900px){.sticker-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:640px){.sticker-grid{grid-template-columns:repeat(2,1fr);gap:12px}}
+  .sticker-card{background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:18px;padding:12px 12px 14px;box-shadow:var(--shadow-sm);text-align:center;transition:transform .15s}
+  .sticker-card:nth-child(4n+1){transform:rotate(-1.6deg)}
+  .sticker-card:nth-child(4n+2){transform:rotate(1.4deg)}
+  .sticker-card:nth-child(4n+3){transform:rotate(-1deg)}
+  .sticker-card:nth-child(4n){transform:rotate(1.8deg)}
+  .sticker-card:hover{transform:rotate(0deg) translateY(-4px)}
+  .sticker-preview{border-radius:12px;border:2px solid #000;padding:10px;background-color:#22244a;background-image:conic-gradient(#2e3160 0 25%,#1d1f42 0 50%,#2e3160 0 75%,#1d1f42 0);background-size:22px 22px}
+  .sticker-preview canvas{width:100%;aspect-ratio:1;display:block;image-rendering:pixelated;filter:drop-shadow(5px 6px 0 rgba(0,0,0,.45))}
+  .sticker-card h3{margin:11px 0 2px;font-size:15px}
+  .sticker-card .stype{font-size:11px;color:var(--cyan);font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:11px}
+  .sticker-dl{width:100%;background:var(--surface3);color:var(--ink);border:2px solid #000;border-radius:10px;padding:10px 12px;font-weight:800;font-size:13px;box-shadow:3px 3px 0 #000;min-height:44px}
+  .sticker-dl:active{transform:translate(2px,2px);box-shadow:0 0 0 #000}
+  .sticker-dl:hover{background:var(--lime);color:#0d1a00}
+  footer{margin-top:60px;border-top:2px solid var(--line);padding:26px 0 0;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px;align-items:center}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(90px);background:#f5f3ff;color:#10122b;border:2px solid #000;padding:13px 17px;border-radius:12px;font-weight:800;font-size:14px;z-index:99;box-shadow:5px 5px 0 #000;transition:.25s;max-width:92vw;text-align:center}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="world-bg"></div>
+<div class="moon" aria-hidden="true"></div>
+
+<header class="site">
+  <div class="header-inner">
+    <!-- LOGO + NAME — TOP LEFT -->
+    <a class="brand" href="#top" aria-label="Voxel World Pixel — home">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+        <!-- floating mini cubes -->
+        <rect x="2" y="6" width="7" height="7" fill="#43e8ff"/>
+        <rect x="55" y="2" width="6" height="6" fill="#ff5c8a"/>
+        <rect x="57" y="46" width="7" height="7" fill="#ffd93d"/>
+        <!-- isometric voxel cube -->
+        <polygon points="32,8 54,19 32,30 10,19" fill="#b8ff7a"/>
+        <polygon points="10,19 32,30 32,54 10,43" fill="#ff5c8a"/>
+        <polygon points="54,19 32,30 32,54 54,43" fill="#2fb9d8"/>
+        <!-- pixel W on front-left face -->
+        <g fill="#ffffff">
+          <rect x="15" y="27" width="3.4" height="9"/><rect x="21.5" y="30.5" width="3.4" height="6.5"/><rect x="28" y="27" width="3.4" height="9" transform="translate(-3.4 3.4)"/>
+        </g>
+        <!-- sparkle on top face -->
+        <g fill="#0d2b00"><rect x="30" y="14" width="4" height="4"/><rect x="38" y="18" width="3" height="3"/></g>
+        <!-- cube edges -->
+        <polyline points="10,19 32,30 54,19" fill="none" stroke="#060714" stroke-width="2.4"/>
+        <line x1="32" y1="30" x2="32" y2="54" stroke="#060714" stroke-width="2.4"/>
+        <polygon points="32,8 54,19 54,43 32,54 10,43 10,19" fill="none" stroke="#060714" stroke-width="2.6"/>
+      </svg>
+      <span class="brand-name"><b>VOXEL <span class="w2">WORLD</span></b><small>Pixel · NFT Collection</small></span>
+    </a>
+    <nav>
+      <a href="#collection">Collection</a>
+      <a href="#playground">Playground</a>
+      <a href="#stickers">Stickers</a>
+      <a href="#how">How It Works</a>
+      <a href="#mint">Mint</a>
+      <a href="#upgrade">Upgrade</a>
+      <a href="#prompt">AI Prompts</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#faq">FAQ</a>
+      <button class="btn btn-lime" id="headerWalletBtn" onclick="toggleWallet()">Connect Wallet</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <span class="badge"><i></i> Preview — Mint Opens at Launch · Contract TBA · BNB</span>
+      <h1>ENTER THE<br><span class="c1">VOXEL</span> <span class="c2">WORLD</span><br><span class="c3">PIXEL</span> REALM</h1>
+      <p class="lead">A hand-crafted pixel universe of <b>1,111 one-of-a-kind characters</b> — robots, wizards, astronauts and legends, each drawn pixel by pixel with its own traits and rarity. <b>1,000 are free</b> for Binance Agent ID holders. The final <b>111 Genesis editions</b> are reserved for collectors.</p>
+      <div class="hero-cta">
+        <a href="#mint" class="btn btn-lime" style="min-height:52px">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3h4v4H6zM14 3h4v4h-4zM6 17h4v4H6zM14 17h4v4h-4zM10 10h4v4h-4z" fill="currentColor"/></svg>
+          Mint Free — 0 BNB</a>
+        <a href="#prompt" class="btn btn-ghost" style="min-height:52px">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M12 7V3M8 12h.01M16 12h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M9 16h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Mint via AI Agent</a>
+      </div>
+      <div class="hero-mini">
+        <div><b>1,111</b><span>Total Supply</span></div>
+        <div><b>1,000</b><span>Free Mint</span></div>
+        <div><b>111</b><span>Genesis Paid</span></div>
+        <div><b>0.0015</b><span>BNB / Genesis</span></div>
+      </div>
+    </div>
+
+    <div class="showcase">
+      <div class="float-chip chip-a">12 species<small>Robot · Wizard · Alien &amp; more</small></div>
+      <div class="float-chip chip-b">No duplicates<small>Every trait combo is unique</small></div>
+      <div class="showcase-card">
+        <div class="showcase-top">
+          <div class="dots"><i style="background:#ff5c8a"></i><i style="background:#ffd93d"></i><i style="background:#9df04e"></i></div>
+          <span id="featuredLabel">FEATURED — VOXEL #007</span>
+        </div>
+        <canvas id="heroVoxel" class="main-voxel" width="320" height="320"></canvas>
+        <div class="featured-meta">
+          <div><b id="featuredName">Voxel #007 — Aurum</b><span id="featuredDesc">Pixel King · Gold Sunburst · Crown of Dawn</span></div>
+          <span class="rarity" id="featuredTier">★ LEGENDARY</span>
+        </div>
+        <div class="showcase-grid" id="showcaseGrid"></div>
+        <button class="btn btn-dark full" style="margin-top:13px" onclick="randomizeShowcase()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h4l10 16h4m0 0-3-3m3 3-3 3M20 4h-4l-2.5 4M4 20h4l2.5-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Shuffle Featured Voxel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="terrain" aria-hidden="true">
+    <svg viewBox="0 0 1180 54" preserveAspectRatio="none">
+      <path d="M0 54 V38 h60 v-8 h50 v-10 h70 v12 h60 v-16 h55 v8 h65 v-12 h70 v14 h60 v-8 h55 v-18 h70 v10 h60 v12 h65 v-14 h55 v8 h70 v-10 h60 v14 h65 v-8 h55 V54 Z" fill="#12142e"/>
+      <path d="M0 54 V46 h90 v-6 h80 v8 h95 v-10 h85 v6 h100 v-8 h90 v10 h95 v-6 h85 v8 h100 v-10 h90 v6 h95 v-8 H1180 V54 Z" fill="#171a38"/>
+      <g fill="#9df04e"><rect x="128" y="18" width="6" height="6"/><rect x="700" y="10" width="6" height="6"/><rect x="986" y="22" width="6" height="6"/></g>
+      <g fill="#ffd93d"><rect x="330" y="26" width="5" height="5"/><rect x="872" y="30" width="5" height="5"/></g>
+      <g fill="#43e8ff"><rect x="520" y="14" width="5" height="5"/><rect x="1080" y="14" width="5" height="5"/></g>
+    </svg>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat" style="--ac:var(--lime)"><b>1,111</b><span>Hard-capped supply. Minted once, never extended — ever.</span></div>
+    <div class="stat" style="--ac:var(--cyan)"><b>1,000</b><span>Free Mint reserved for Binance Agent ID holders — max 4 per wallet.</span></div>
+    <div class="stat" style="--ac:var(--gold)"><b>111</b><span>Genesis Paid Mint — rare traits, gold backgrounds, Genesis badge, and a direct shot at Legendary from the first draw.</span></div>
+    <div class="stat" style="--ac:var(--pink)"><b>0.0015 BNB</b><span>One transparent Genesis price. No tiers, no hidden fees.</span></div>
+  </div>
+
+  <div class="marquee"><span class="marquee-track" id="marqueeText"></span></div>
+
+  <!-- COLLECTION -->
+  <section id="collection">
+    <div class="sec-head">
+      <div class="kicker">The Collection</div>
+      <h2>MEET THE VOXELS</h2>
+      <p>Twelve species, hundreds of trait combinations, <b>zero duplicates</b>. Every Voxel is rendered on a 16×16 pixel canvas with its own silhouette, palette and patterned world — from a gold-sunburst Pixel King to a deep-space Astronaut.</p>
+    </div>
+    <div class="filters">
+      <button class="chipbtn active" onclick="filterGrid('all',this)">All 12</button>
+      <button class="chipbtn" onclick="filterGrid('free',this)">Free Mint</button>
+      <button class="chipbtn" onclick="filterGrid('paid',this)">Paid · Genesis</button>
+      <button class="chipbtn" onclick="filterGrid('legendary',this)">Legendary ★</button>
+    </div>
+    <div class="grid" id="collectionGrid"></div>
+
+    <div style="background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm);margin-top:20px">
+      <b class="pixelfont" style="font-size:12px;line-height:1.7;display:block;margin-bottom:8px">RARITY — HOW THE DRAW WORKS</b>
+      <p style="margin:0 0 16px;color:var(--muted);line-height:1.7;font-size:14.5px">Four tiers: <b style="color:var(--ink)">Common</b>, <b style="color:var(--cyan)">Rare</b>, <b style="color:var(--violet)">Epic</b>, and <b style="color:var(--gold)">★ Legendary</b> — the rarest Voxels, like the Pixel King, Alien and Vampire. <b style="color:var(--ink)">Epic is the Evolve-only tier</b>: it never comes from a regular mint — you get it only by evolving, and an Evolved made from Free Mint pieces caps at Epic. <b style="color:var(--ink)">Legendary is in the Paid Mint draw from the moment mint opens</b> — every Genesis mint draws from the full pool, including Legendary, on its very first draw. It is a direct chance, not a separate phase and not locked behind Free Mint. Free Mint draws from the standard pool and is not promised the same Legendary access as Genesis.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <span class="tag" style="background:#e8e9f5;color:#17172e">COMMON — Standard pool</span>
+        <span class="tag" style="background:var(--cyan);color:#00222b">RARE — In Free &amp; Genesis draws</span>
+        <span class="tag" style="background:var(--violet);color:#17102e">EPIC — Evolve only, never minted directly</span>
+        <span class="tag" style="background:var(--gold);color:#231a00">★ LEGENDARY — In Genesis draw from mint open</span>
+      </div>
+    </div>
+
+    <div class="supply-box">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+        <b class="pixelfont" style="font-size:12px;line-height:1.7">SUPPLY BREAKDOWN — 1,111</b>
+        <span class="mono" style="font-size:12px;color:var(--muted)">90% Free · 10% Genesis</span>
+      </div>
+      <div class="supply-bar"><div class="free"></div><div class="paid"></div></div>
+      <div class="supply-legend">
+        <span><i style="background:#9df04e"></i>Free Mint — 1,000 Voxels · 0 BNB · Binance Agent ID holders only</span>
+        <span><i style="background:#ffd93d"></i>Paid Mint Genesis — 111 Voxels · 0.0015 BNB</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="sec-head">
+      <div class="kicker">How It Works</div>
+      <h2>SIMPLE ON PURPOSE.</h2>
+      <p>One contract call. No long verification, no extra steps — <b>connect, pay, keep your Voxel</b>.</p>
+    </div>
+    <div class="steps" style="margin-top:0">
+      <div class="step"><b class="num">1</b><h3>Connect your wallet</h3><p>Any BNB wallet works — MetaMask, Rabby, Trust Wallet. Free Mint is reserved for Binance Agent ID holders. Paid Genesis is open to all wallets, no ID needed.</p></div>
+      <div class="step"><b class="num">2</b><h3>Pay the small fee</h3><p>One flat fee per mint — <b style="color:var(--ink)">0 BNB for Free Mint, 0.0015 BNB for Genesis</b>. Free Mint is max 4 per wallet and needs a verified Binance Agent ID. It goes straight to the contract.</p></div>
+      <div class="step"><b class="num">3</b><h3>Keep your Voxel</h3><p>Your Voxel lives in your wallet. Show it off, trade it, or hold it for Voxel World 2.</p></div>
+    </div>
+  </section>
+
+  <!-- MINT -->
+  <section id="mint">
+    <div class="sec-head">
+      <div class="kicker">Mint Now</div>
+      <h2>YOUR VOXEL IS WAITING.</h2>
+      <p>Mint preview — the contract is still TBA, so minting is not live yet. This is the whole deal: <b>1,111 Voxels, never more</b>. Free Mint (1,000) and Genesis Paid Mint (111) <b>will open together at launch</b>. <b>Free Mint is reserved for Binance Agent ID holders only</b> — Genesis stays open to every wallet. Every Genesis mint also gets a <b>direct shot at Legendary from its first draw</b>. Connect and mint in one click, or let your agent do it with the short prompt below.</p>
+    </div>
+
+    <div class="mint-open"><i></i><span><b>MINT PREVIEW — CONTRACT TBA on BNB</b> — minting is not live yet. Free Mint and Genesis Paid Mint will open together at launch. Free Mint is for Binance Agent ID holders only; Genesis is open to all wallets. No waitlist, no second phase for Genesis. The buttons on this page are a preview simulation until the contract is live.</span></div>
+
+    <div class="live-panel">
+      <h3>MINT PREVIEW — ONE-CLICK MINT SIMULATION</h3>
+      <p>Preview simulation — the contract is TBA and no real mint happens yet. When the contract is live, you will connect your wallet and mint directly: one <span class="mono">mint()</span> call, one flat fee, done.</p>
+      <div class="live-rows">
+        <div><span>Supply</span><b>1,111 Voxels</b></div>
+        <div><span>Mint Fee</span><b>0 BNB Free · 0.0015 BNB Genesis</b></div>
+        <div><span>Chain</span><b>BNB</b></div>
+        <div><span>Contract</span><b class="mono" style="font-size:12.5px">TBA — add your contract address</b></div>
+        <div><span>Free Mint · Example Preview Count</span><b><span id="liveFreeMinted">438</span> / 1,000 minted (example) · <span id="liveFreeLeft">562</span> left · Max 4 / wallet · Binance Agent ID holders only</b></div>
+        <div><span>Paid · Genesis · Example Preview Count</span><b><span id="livePaidMinted">30</span> / 111 minted (example) · <span id="livePaidLeft">81</span> left · Open to all wallets · Max 5 / wallet</b></div>
+      </div>
+      <div class="live-actions">
+        <button class="btn btn-lime" onclick="doMint('free')">Mint Free — 0 BNB</button>
+        <button class="btn btn-gold" onclick="doMint('paid')">Mint Genesis — 0.0015 BNB</button>
+      </div>
+      <p style="margin:12px 0 0;font-size:12.5px">Fee goes to the contract wallet. Contract is TBA — replace the placeholder above and in the agent prompts with your real address when the contract is live, and the prompts are ready to execute as-is. The minted counts shown on this page (438 / 1,000 Free and 30 / 111 Genesis) are example preview numbers, not real on-chain mints.</p>
+    </div>
+
+    <div class="mint-grid">
+      <article class="mint-card free">
+        <span class="tag free">FREE MINT · 1,000 SUPPLY · BINANCE AGENT ID HOLDERS ONLY</span>
+        <h3>FREE MINT</h3>
+        <div class="price">0 BNB <small>/ FREE FOREVER</small></div>
+        <p style="color:var(--muted);line-height:1.65;margin:0;font-size:14.5px">The Binance Agent ID door — <b style="color:var(--ink)">Free Mint is reserved for Binance Agent ID holders only</b>. First come, first served — verify your Agent ID, then connect a wallet or send the Free Mint prompt to an AI Agent and your Voxel is on its way.</p>
+        <div class="progress"><i id="freeBar" style="width:43.8%"></i></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span><span id="freeMinted">438</span> / 1,000 minted (example)</span><span style="color:var(--muted)"><span id="freeLeft">562</span> left</span></div>
+        <ul class="check">
+          <li><span><b>Binance Agent ID required</b> — holders only, verified before minting</span></li>
+          <li><span><b>Max 4 per wallet</b> — fairness built into the drop</span></li>
+          <li><span>Standard trait pool: 12 species, all backgrounds</span></li>
+          <li><span>Mint by <b>wallet or AI Agent</b> — your choice</span></li>
+        </ul>
+        <div class="qty">
+          <button onclick="changeQty('free',-1)" aria-label="Decrease quantity">−</button><b id="qtyFree">1</b><button onclick="changeQty('free',1)" aria-label="Increase quantity">+</button><span>Max 4 / wallet</span>
+        </div>
+        <div id="freeGateStatus" style="border:2px dashed var(--line);border-radius:12px;padding:11px 13px;margin:0 0 14px;font-size:13px;line-height:1.6;color:var(--muted);background:#0a0c22">🔒 Free Mint is for Binance Agent ID holders only — verify your Agent ID in the wallet panel below to unlock.</div>
+        <button class="btn btn-lime full" onclick="doMint('free')">Mint Free Now</button>
+        <button class="btn btn-ghost full" style="margin-top:10px" onclick="copyPrompt('freePrompt')">Copy Free Mint Prompt</button>
+      </article>
+
+      <article class="mint-card paid">
+        <span class="tag paid">PAID MINT · 111 SUPPLY · GENESIS · OPENS AT LAUNCH</span>
+        <h3>PAID MINT — GENESIS</h3>
+        <div class="price">0.0015 <small>BNB</small></div>
+        <p style="color:var(--muted);line-height:1.65;margin:0;font-size:14.5px">The collector door — <b style="color:var(--ink)">open from the moment mint opens</b>, side by side with Free Mint. Just 111 editions with boosted odds for crowns, laser eyes and gold worlds — plus a permanent Genesis badge on every piece.</p>
+        <div style="margin-top:14px;background:var(--gold);color:#231a00;border:2px solid #000;border-radius:12px;padding:12px 14px;box-shadow:3px 3px 0 #000;font-size:13.5px;line-height:1.6"><b>★ Direct shot at Legendary — every Genesis mint draws from the full pool, including Legendary, right at mint open.</b> Your first Genesis draw can already land a Legendary — no lock, no separate phase.</div>
+        <div class="progress"><i id="paidBar" style="width:27%"></i></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span><span id="paidMinted">30</span> / 111 minted (example)</span><span style="color:var(--muted)"><span id="paidLeft">81</span> left</span></div>
+        <ul class="check">
+          <li><span><b>Opens at launch</b> — together with Free Mint, no later phase</span></li>
+          <li><span><b>Direct shot at Legendary</b> — full pool including Legendary from the first draw</span></li>
+          <li><span><b>Max 5 per wallet</b> — built for collectors</span></li>
+          <li><span>Boosted <b>Rare &amp; Legendary</b> trait odds</span></li>
+          <li><span><b>Genesis 111 badge</b> + priority access to future drops</span></li>
+        </ul>
+        <div class="qty">
+          <button onclick="changeQty('paid',-1)" aria-label="Decrease quantity">−</button><b id="qtyPaid">1</b><button onclick="changeQty('paid',1)" aria-label="Increase quantity">+</button><span id="paidTotal">Total: 0.0015 BNB</span>
+        </div>
+        <button class="btn btn-gold full" onclick="doMint('paid')">Mint Genesis — 0.0015 BNB</button>
+        <button class="btn btn-ghost full" style="margin-top:10px" onclick="copyPrompt('paidPrompt')">Copy Paid Mint Prompt</button>
+      </article>
+    </div>
+
+    <!-- METHODS -->
+    <div style="margin-top:30px">
+      <h3 class="pixelfont" style="font-size:13.5px;line-height:1.7;margin:0 0 15px">2 WAYS TO MINT</h3>
+      <div class="tabs">
+        <button class="tab-btn active" id="tabWalletBtn" onclick="showTab('wallet')"><b>1 · Connect Wallet</b><span>The direct route — connect MetaMask, Rabby or any Web3 wallet and mint straight from this page.</span></button>
+        <button class="tab-btn" id="tabAgentBtn" onclick="showTab('agent')"><b>2 · AI Agent</b><span>The hands-free route — copy a ready-made prompt, send it to your AI Agent, and let it mint for you.</span></button>
+      </div>
+
+      <div class="panel active" id="panel-wallet">
+        <div class="wallet-row">
+          <div>
+            <b id="walletStatus">Wallet not connected</b>
+            <div class="addr" id="walletAddr" style="color:var(--muted);margin-top:5px">Connect on BNB — then mint in one click above. Free Mint asks for a quick Binance Agent ID check; Genesis needs none.</div>
+          </div>
+          <button class="btn btn-dark" id="walletBtn2" onclick="toggleWallet()">Connect Wallet</button>
+        </div>
+        <div class="wallet-row" style="margin-top:12px">
+          <div>
+            <b id="agentIdStatus">Binance Agent ID — not verified</b>
+            <div class="addr" id="agentIdNote" style="color:var(--muted);margin-top:5px">Free Mint is reserved for Binance Agent ID holders — verify once and Free Mint unlocks for this wallet (max 4). Genesis needs no ID. On this preview page the check is simulated; once the contract is live it verifies your Binance Agent ID on-chain.</div>
+          </div>
+          <button class="btn btn-gold" id="agentIdBtn" onclick="verifyAgentId()">Verify Binance Agent ID</button>
+        </div>
+        <p style="margin:14px 0 0;color:var(--muted);font-size:13.5px;line-height:1.65">Connect → verify your Binance Agent ID if you want the Free Mint → click Mint → confirm the flat fee. That's it — your Voxel lands straight in your wallet.</p>
+      </div>
+
+      <div class="panel" id="panel-agent">
+        <p style="margin:0;line-height:1.75;color:var(--muted);font-size:15px">Agents welcome. <b style="color:var(--ink)">Copy the prompt, paste it to your agent, done</b> — it already contains the chain, contract placeholder, <span class="mono">mint()</span> call and exact fee in wei, so the agent executes in one call and returns the transaction link. Try the simulator:</p>
+        <div class="agent-box" style="box-shadow:none;margin-top:16px">
+          <label for="agentInput" style="font-weight:800;font-size:12.5px;letter-spacing:.08em">PROMPT FOR YOUR AI AGENT</label>
+          <textarea id="agentInput" style="margin-top:11px">Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: TBA — add your contract address. Call mint() with 0 BNB plus gas. Return the transaction link.</textarea>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:13px">
+            <button class="btn btn-pink" onclick="runAgent()">Run AI Agent</button>
+            <button class="btn btn-ghost" onclick="fillAgentPrompt('free')">Load Free Mint Prompt</button>
+            <button class="btn btn-ghost" onclick="fillAgentPrompt('paid')">Load Paid Mint Prompt</button>
+            <button class="btn btn-ghost" onclick="fillAgentPrompt('upgrade')">Load Upgrade Prompt</button>
+          </div>
+          <div class="agent-log" id="agentLog"></div>
+          <div class="reveal" id="agentReveal">
+            <canvas id="revealCanvas" width="160" height="160"></canvas>
+            <div><b id="revealTitle">Voxel #??? is yours</b><p id="revealDesc" style="margin:6px 0 0;color:var(--muted);font-size:13.5px;line-height:1.65"></p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPGRADE / EVOLVE -->
+  <section id="upgrade">
+    <div class="sec-head">
+      <div class="kicker">Upgrade · Evolve</div>
+      <h2>EVOLVE YOUR VOXEL.</h2>
+      <p>Burn <b>2 of your own Voxels</b> and receive <b>1 brand-new Evolved character</b> — an exclusive form you can never get from a regular mint — for <b>0.001 BNB</b> per upgrade. The result is <b>guaranteed at least +1 rarity tier</b> above the best piece you burn. One rule protects Genesis value: an Evolved made from Free Mint pieces caps at <b>Epic</b> — <b>Legendary stays exclusive to Genesis</b>.</p>
+    </div>
+
+    <div class="steps" style="margin:0 0 18px">
+      <div class="step"><b class="num">1</b><h3>Pick 2 of your Voxels</h3><p>Choose any 2 Voxels in your wallet below. They will be <b style="color:var(--ink)">burned forever</b> — choose pieces you are ready to let go.</p></div>
+      <div class="step"><b class="num">2</b><h3>Pay 0.001 BNB</h3><p>One small evolve fee per upgrade — <b style="color:var(--ink)">0.001 BNB</b>, paid in a single <span class="mono">evolve()</span> call on BNB.</p></div>
+      <div class="step"><b class="num">3</b><h3>Receive 1 Evolved</h3><p>A new exclusive character with a gold evolved aura, <b style="color:var(--ink)">guaranteed at least +1 rarity tier</b> — plus a real bonus in Pixel Playground: <b style="color:var(--ink)">+1 life</b>.</p></div>
+    </div>
+
+    <b class="pixelfont" style="font-size:11px;line-height:1.7;display:block;margin-bottom:11px">EVOLVED FORMS — EXCLUSIVE, NEVER MINTED DIRECTLY</b>
+    <div class="evo-gallery" id="evoGallery"></div>
+
+    <div class="upgrade-box">
+      <h3 class="pixelfont" style="font-size:13px;line-height:1.7;margin:0 0 8px">UPGRADE SIMULATOR — HOLDERS ONLY</h3>
+      <p id="upgradeStatus" style="margin:0;color:var(--muted);line-height:1.7;font-size:14.5px">Connect your wallet to see your Voxels. Upgrading is holders-only — you need at least 2 Voxels to evolve.</p>
+      <div class="own-grid" id="ownList"></div>
+      <p id="upgradePredict" style="margin:0 0 14px;color:var(--muted);line-height:1.7;font-size:14px"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-gold" id="upgradeBtn" onclick="doUpgrade()" disabled style="opacity:.55">Upgrade — Burn 2 · Pay 0.001 BNB</button>
+        <span style="font-size:13px;color:var(--muted);font-weight:700">Fee: 0.001 BNB per upgrade · Result: 1 Evolved Voxel</span>
+      </div>
+      <div class="agent-log" id="upgradeLog"></div>
+      <div class="reveal" id="upgradeReveal">
+        <canvas id="upgradeRevealCanvas" width="160" height="160"></canvas>
+        <div><b id="upgradeRevealTitle">Your Evolved Voxel</b><p id="upgradeRevealDesc" style="margin:6px 0 0;color:var(--muted);font-size:13.5px;line-height:1.65"></p></div>
+      </div>
+      <p style="margin:16px 0 0;font-size:13px;color:var(--muted);line-height:1.7"><b style="color:var(--ink)">Supply stays honest:</b> total ever minted stays 1,111 — upgrading burns the 2 originals, so supply only shrinks. Every upgrade makes the remaining Voxels scarcer, never more numerous.</p>
+    </div>
+  </section>
+
+  <!-- PROMPT LIBRARY -->
+  <section id="prompt">
+    <div class="sec-head">
+      <div class="kicker">For Agents</div>
+      <h2>LET YOUR AGENT MINT.</h2>
+      <p>Super-short prompts with <b>every execution parameter already inside</b> — chain, contract, <span class="mono">mint()</span> call and exact fee in wei. No thinking, no long verification. Copy, paste, done. <b>Contract is TBA:</b> replace “TBA — add your contract address” with your real address in one place when the contract is live.</p>
+    </div>
+    <div class="prompt-grid">
+      <article class="prompt-card">
+        <div class="p-head"><div><div class="label" style="color:#9df04e">Free Mint · 0 BNB</div><h3>Free Mint Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('freePrompt')">Copy</button></div>
+        <div class="p-body">
+          <div class="prompt-text" id="freePrompt">Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: TBA — add your contract address. Call mint() with 0 BNB plus gas. Return the transaction link.</div>
+          <p class="note">One line, one call — the agent checks your Binance Agent ID first, then mints from your connected wallet and returns the tx link. No Agent ID, no Free Mint.</p>
+        </div>
+      </article>
+
+      <article class="prompt-card">
+        <div class="p-head"><div><div class="label" style="color:#ffd93d">Paid Mint · Genesis 111</div><h3>Paid Mint Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('paidPrompt')">Copy</button></div>
+        <div class="p-body">
+          <div class="prompt-text" id="paidPrompt">Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: TBA — add your contract address. Call mint() with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.</div>
+          <p class="note">Exact fee in wei included — open to all wallets, no ID needed. Genesis opens at launch, together with Free Mint, with a direct shot at Legendary on every draw.</p>
+        </div>
+      </article>
+
+      <article class="prompt-card">
+        <div class="p-head"><div><div class="label" style="color:#9d8cff">Upgrade · Evolve · 0.001 BNB</div><h3>Upgrade / Evolve Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('upgradePrompt')">Copy</button></div>
+        <div class="p-body">
+          <div class="prompt-text" id="upgradePrompt">Upgrade my Voxel World Pixel NFTs on BNB. Burn 2 of my Voxels [token ids] and evolve them into 1 Evolved Voxel. Contract: TBA — add your contract address. Call evolve() with 0.001 BNB (1000000000000000 wei) plus gas. Return the transaction link.</div>
+          <p class="note">Replace [token ids] with the 2 Voxels you want to burn. Result is guaranteed at least +1 rarity tier; Evolved from Free pieces caps at Epic — Legendary stays exclusive to Genesis.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="prompt-card" style="margin-top:18px">
+      <div class="p-head"><div><div class="label" style="color:#43e8ff">Bonus · For Image Generators</div><h3>Voxel Art Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('imgPrompt')">Copy</button></div>
+      <div class="p-body">
+        <div class="prompt-text" id="imgPrompt">16×16 pixel art NFT portrait, one voxel character, bold outline, two-tone shading, signature accessory (crown, astronaut dome, wizard hat), patterned retro background, crisp chunky pixels, no text, square 1:1 — Voxel World Pixel style.</div>
+        <p class="note">Paste into Midjourney, DALL·E or any image generator to dream up your own Voxel.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIXEL PLAYGROUND — PHASE 02 -->
+  <section id="playground">
+    <div class="sec-head">
+      <div class="kicker">Phase 02 · Holders Only · 5 Stages</div>
+      <h2>PIXEL PLAYGROUND — 5 STAGES, HOLDERS ONLY</h2>
+      <p>The roadmap promise, playable right here — <b>exclusively for Voxel holders</b>. Clear <b>5 stages</b> from Night Meadow to the King's Sky: hit each stage's gem target before time runs out to unlock the next. Pick your Voxel, dodge the slimes — three hits and the run is over, unless you play as an Evolved Voxel: it starts with 4 lives, so four hits end its run.</p>
+    </div>
+
+    <div class="game-shell">
+      <div class="holder-badge" id="holderBadge" role="status"></div>
+
+      <div class="holder-gate" id="holderGate">
+        <h3 id="gateTitle">🔒 HOLDERS ONLY — CONNECT YOUR WALLET TO PLAY</h3>
+        <p id="gateText">Pixel Playground is reserved for Voxel World Pixel holders. Connect your wallet — if it holds a Voxel minted on this page, Stage 1 unlocks for you; clear each stage to unlock the next, through all 5 stages.</p>
+        <div class="gate-actions">
+          <button class="btn btn-lime" id="gateConnectBtn" onclick="toggleWallet()">Connect Wallet</button>
+          <a class="btn btn-lime" id="gateMintFreeBtn" href="#mint" style="display:none">Mint Free — 0 BNB</a>
+          <a class="btn btn-gold" id="gateMintPaidBtn" href="#mint" style="display:none">Mint Genesis — 0.0015 BNB</a>
+          <button class="btn btn-ghost" id="gateDemoBtn" onclick="tryDemoPlay()">Try demo — preview without an NFT</button>
+        </div>
+        <p class="gate-note">Holder check runs on this page's mint record until the contract is live — connect the contract to verify on-chain. The demo button is a free preview only and does not make you a holder.</p>
+      </div>
+
+      <div id="gamePlayArea" style="display:none">
+      <b class="pixelfont" style="font-size:11px;line-height:1.7;display:block;margin-bottom:11px">1 · CHOOSE YOUR STAGE</b>
+      <div class="stage-grid" id="stageSelect" role="group" aria-label="Stage select"></div>
+
+      <p style="margin:0 0 12px;font-size:13.5px;color:var(--muted);line-height:1.65"><b style="color:var(--gold)">★ Evolved bonus: +1 life</b> — play as an <b style="color:var(--ink)">Evolved</b> Voxel and you start every stage with <b style="color:var(--ink)">4 lives</b> instead of 3. Evolved Voxels appear in the picker below after you upgrade.</p>
+      <b class="pixelfont" style="font-size:11px;line-height:1.7;display:block;margin-bottom:11px">2 · CHOOSE YOUR VOXEL</b>
+      <div class="char-picker" id="charPicker" role="group" aria-label="Choose your Voxel character"></div>
+
+      <div class="game-hud" aria-live="polite">
+        <div><span>STAGE</span><b id="hudStage" style="color:var(--pink);font-size:11px">1 · MEADOW</b></div>
+        <div><span>SCORE</span><b id="hudScore">0</b></div>
+        <div><span>GEMS</span><b id="hudGems" style="color:var(--cyan)">0/10</b></div>
+        <div><span>TIME</span><b id="hudTime" style="color:var(--gold)">60</b></div>
+        <div><span>LIVES</span><b class="hearts" id="hudLives">♥♥♥</b></div>
+        <div><span>BEST</span><b id="hudBest" style="color:var(--lime)">0</b></div>
+      </div>
+
+      <div class="game-wrap">
+        <canvas id="gameCanvas" width="960" height="540" aria-label="Pixel Playground game world"></canvas>
+        <div class="game-overlay show" id="gameOverlay">
+          <div class="box">
+            <h3 id="overlayTitle">STAGE 1 — NIGHT MEADOW</h3>
+            <p id="overlayText">Collect <b style="color:var(--cyan)">10 gems</b> in 60 seconds to clear this stage. Each gem is <b style="color:var(--gold)">+100 points</b>. Avoid the slimes — each hit costs a life.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+              <button class="btn btn-lime" id="overlayBtn" style="min-height:52px;font-size:15px">▶ Start Stage 1</button>
+              <button class="btn btn-ghost" id="overlayBtn2" onclick="backToStageSelect()" style="min-height:52px;display:none">Stage Select</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-controls">
+        <div class="dpad" id="dpad" aria-label="Touch direction controls">
+          <span class="empty"></span>
+          <button type="button" data-dir="up" aria-label="Move up">▲</button>
+          <span class="empty"></span>
+          <button type="button" data-dir="left" aria-label="Move left">◀</button>
+          <span class="empty"></span>
+          <button type="button" data-dir="right" aria-label="Move right">▶</button>
+          <span class="empty"></span>
+          <button type="button" data-dir="down" aria-label="Move down">▼</button>
+          <span class="empty"></span>
+        </div>
+        <div class="game-side">
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-lime" id="startBtn" onclick="startGame()" style="flex:1;min-width:140px">▶ Start</button>
+            <button class="btn btn-ghost" onclick="startGame()" style="flex:1;min-width:140px">↻ Restart</button>
+            <button class="btn btn-ghost" onclick="backToStageSelect()" style="flex:1;min-width:140px">▦ Stage Select</button>
+          </div>
+          <p><b>How to play:</b> Use <b>arrow keys / WASD</b> on desktop or the <b>D-pad</b> on mobile. Explore left and right — the world is wider than the screen and the camera follows you. <b>Reach the gem target before time runs out</b> (watch Gems 7/15 in the HUD) to clear the stage and unlock the next one. Stage 3 and up add moving obstacles; Stage 4–5 slimes chase much harder.</p>
+          <p id="selectedLabel" style="font-size:12.5px">Playing as: <b>Voxel #007 — Aurum the Pixel King</b></p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKER PACK — PHASE 03 DIGITAL STICKERS -->
+  <section id="stickers">
+    <div class="sec-head">
+      <div class="kicker">Phase 03 · Digital Stickers · Free</div>
+      <h2>VOXEL STICKER PACK — PHASE 03 DIGITAL STICKERS ARE LIVE</h2>
+      <p>All <b>12 Voxel characters</b> as big, chat-ready stickers — thick white outline, transparent background, crisp pixels — plus <b>4 pixel text stickers</b>: GM, MINT IT, HODL and TO THE MOON. <b>Free for everyone — share them everywhere.</b> No wallet, no NFT needed: this pack is a gift to anyone who wants to spread Voxel World in chats and groups. Download single stickers, or grab the whole pack as one sheet.</p>
+    </div>
+    <div class="sticker-top">
+      <button class="btn btn-lime" id="sheetDownloadBtn" style="min-height:52px;font-size:15px">⬇ Download Full Sticker Sheet (PNG)</button>
+      <span style="font-size:13.5px;color:var(--muted);font-weight:700">16 stickers · 4×4 sheet · 2048×2048 PNG · Transparent background</span>
+    </div>
+    <div class="sticker-grid" id="stickerGrid"></div>
+    <p style="margin:16px 0 0;font-size:13px;color:var(--muted);line-height:1.7">Each sticker downloads as a <b style="color:var(--ink)">512×512 transparent PNG</b> — drop it straight into Telegram, Discord, WhatsApp or X. Physical merch is still planned and is not part of this digital pack.</p>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="roadmap">
+    <div class="sec-head"><div class="kicker">Roadmap</div><h2>THE ROAD AHEAD</h2></div>
+    <div class="road">
+      <div class="phase"><span>PHASE 01</span><h3>Genesis Mint</h3><p>Mint opens on BNB at launch and both doors open together: 1,000 Free for Binance Agent ID holders, 111 Genesis at 0.0015 BNB — from day one. Contract is still TBA, so this phase has not launched yet.</p><span class="done">● PREVIEW — CONTRACT TBA</span></div>
+      <div class="phase"><span>PHASE 02</span><h3>Pixel Playground</h3><p>A holders-only browser game with 5 stages — holders explore Voxel World and play as their own character, from Night Meadow to the King's Sky.</p><span class="done live">● LIVE · HOLDERS ONLY</span><a href="#playground" class="btn btn-lime" style="display:flex;margin-top:12px;min-height:44px;font-size:13px">▶ Play Now</a></div>
+      <div class="phase"><span>PHASE 03</span><h3>Merch &amp; Stickers</h3><p>The digital sticker pack is live — all 12 Voxels plus 4 pixel text stickers, free for everyone to download as transparent PNGs. Physical merch is still planned.</p><span class="done live">● LIVE · DIGITAL STICKERS</span><span class="done" style="margin-left:6px">MERCH · STILL PLANNED</span><a href="#stickers" class="btn btn-lime" style="display:flex;margin-top:12px;min-height:44px;font-size:13px">Get Stickers</a></div>
+      <div class="phase"><span>PHASE 04</span><h3>Voxel World 2</h3><p>A new map, new species, and an exclusive airdrop reserved for Genesis 111 holders.</p><span class="done">PLANNED</span></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="sec-head"><div class="kicker">FAQ</div><h2>QUESTIONS, ANSWERED</h2></div>
+    <details open><summary>What exactly is Voxel World Pixel?</summary><p>A collection of 1,111 pixel-art characters across 12 species — robot, cat, astronaut, alien, wizard, ninja, king, panda, frog, pirate, vampire and dino. Every piece is generated on a 16×16 pixel canvas with its own trait combination, so no two Voxels are alike.</p></details>
+    <details><summary>How is the 1,111 supply split?</summary><p>1,000 pieces are Free Mint for Binance Agent ID holders (max 4 per wallet), and 111 are Paid Mint Genesis editions at 0.0015 BNB (max 5 per wallet). Once they're gone, the supply is closed forever.</p></details>
+    <details><summary>Who can use the Free Mint?</summary><p>Only holders of a Binance Agent ID. Free Mint is gated: your wallet must hold a Binance Agent ID, and the check runs before the mint — on this preview page it is simulated in the wallet panel, and once the contract is live it verifies on-chain. No Binance Agent ID, no Free Mint — but Genesis stays open to everyone, no ID needed, up to 5 per wallet.</p></details>
+    <details><summary>Why mint a Genesis instead of a free one?</summary><p>Genesis is the only mint with a direct shot at Legendary from its first draw. Every Genesis mint draws from the full pool — including Legendary pieces like the Pixel King — right at mint open, with boosted odds for Rare and Legendary traits such as crowns, laser eyes and gold sunburst worlds. Every Genesis also carries a permanent Genesis 111 badge plus priority access to future drops, including the Voxel World 2 airdrop. Free Mint is great for joining the world, but it draws from the standard pool and is not promised the same Legendary access.</p></details>
+    <details><summary>Can a Paid Mint get a Legendary right away?</summary><p>Yes — it can, from its very first draw. Legendary is already in the Genesis draw when mint opens, not locked and not saved for a separate phase, so a Genesis mint can land a Legendary immediately. It is a direct chance on every Genesis draw, which is why Genesis is limited to just 111 pieces.</p></details>
+    <details><summary>How does upgrading work?</summary><p>Burn 2 of your own Voxels and pay 0.001 BNB to receive 1 brand-new Evolved character — an exclusive form that can never be minted directly. The Evolved result is guaranteed at least +1 rarity tier above the best piece you burned. Total ever minted stays 1,111 — upgrading burns the 2 originals, so supply only shrinks. Evolved Voxels also get a real bonus in Pixel Playground: +1 life (you start with 4 lives).</p></details>
+    <details><summary>Can an Evolved Voxel be Legendary?</summary><p>Not from Free Mint pieces — an Evolved made from Free Voxels caps at Epic, no matter what you burn. Legendary stays exclusive to Genesis: the only way to hold a Legendary is the Genesis Paid Mint draw (or evolving Genesis material). That keeps the Genesis 111 special.</p></details>
+    <details><summary>When does the Paid Mint open?</summary><p>At launch — the Genesis Paid Mint (111 pieces at 0.0015 BNB) opens at exactly the same time as the Free Mint, not in a later phase. The contract is still TBA, so neither mint is live yet and the minting on this page is a preview simulation; once the contract is live, you will be able to mint a Genesis — and draw for Legendary — from day one.</p></details>
+    <details><summary>How does minting via AI Agent work?</summary><p>Copy the prompt, paste it to your agent, done. The prompt already contains everything for one fast execution — BNB, the contract, a single mint() call, and the exact fee (0 BNB for Free, 0.0015 BNB / 1500000000000000 wei for Genesis) — and the agent returns the transaction link. Contract is currently TBA: replace the placeholder in the prompt with the real address once the contract is live. You can rehearse the flow in the simulator on this page.</p></details>
+    <details><summary>Do I need any ID to mint Genesis?</summary><p>No. Paid Genesis is open to all wallets — no ID, no whitelist check. Connect any BNB wallet and mint directly, up to 5 per wallet.</p></details>
+    <details><summary>Who can play Pixel Playground, and how do stages work?</summary><p>Only Voxel holders can play. Connect your wallet — if it has minted a Voxel on this page (by wallet or AI Agent), the game unlocks and shows “Holder verified.” Until the contract is live, the holder check runs on this page's mint record, not on-chain; a clearly labelled demo preview is also available without an NFT. There are 5 stages — Night Meadow, Sunset Dunes, Neon Forest, Lava Caves and King's Sky. Each stage has a gem target and a time limit; reach the target before time runs out, with lives left, to clear it and unlock the next stage.</p></details>
+    <details><summary>Which wallets are supported?</summary><p>Any major Web3 wallet — MetaMask, Rabby, Trust Wallet and Coinbase Wallet included. Just set your wallet to BNB and use the Connect Wallet button in the top-right corner to get started.</p></details>
+  </section>
+
+  <footer>
+    <span style="display:flex;align-items:center;gap:10px">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><polygon points="32,8 54,19 32,30 10,19" fill="#b8ff7a"/><polygon points="10,19 32,30 32,54 10,43" fill="#ff5c8a"/><polygon points="54,19 32,30 32,54 54,43" fill="#2fb9d8"/><polygon points="32,8 54,19 54,43 32,54 10,43 10,19" fill="none" stroke="#060714" stroke-width="3"/></svg>
+      <span><b style="color:var(--ink)">Voxel World Pixel</b> — 1,111 pixels, one world.</span>
+    </span>
+    <span>Free Mint 1,000 · Genesis 111 @ 0.0015 BNB · BNB</span>
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// ================= PIXEL ART ENGINE =================
+// Every Voxel is hand-mapped on a 16x16 grid. K = outline on every character.
+var MAPS = {
+robot:{pal:{K:'#151630',A:'#ff4d6d',S:'#d9deeb',s:'#98a0b8',C:'#3ee6ff',B:'#5468ff',b:'#39448f',Y:'#ffd93d'},rows:[
+".......KK.......","......KAAK......",".......KK.......","....KKKKKKKK....","...KSSSSSSSSK...","...KSKKKKKKSK...","...KSKCCKKCSK...","...KSKKKKKKSK...","...KSSssssSSK...","....KKKKKKKK....","..KKBBBBBBBBKK..","..KSKBBBBBBKSK..","..KSKBBYYBBKSK..","...KKBBBBBBKK...","....KBBbbBBK....","....KK....KK...."]},
+cat:{pal:{K:'#151630',O:'#ffa53a',o:'#e07f2e',P:'#ffc2d4',F:'#fff3e2',N:'#ff5c8a',T:'#2ec4b6',t:'#1f9e8f'},rows:[
+"..KK........KK..",".KOOK......KOOK.",".KOPOK....KOPOK.",".KOOKKKKKKKKOOK.",".KOOOOOOOOOOOOK.",".KOKKOOOOOKKOK.",".KOPOOOOOOOOPOK.",".KOOOFFFFFFOOOK.",".KOOOFFNKFFOOOK.","..KOOOFFFFOOK...","...KKKKKKKKK....","..KKTTTTTTTTKK..",".KOOKTTTTTTKOOK.",".KOOKTTFFTTKOOK.","..KKKTTttTTKKK..","....KK....KK...."]},
+astro:{pal:{K:'#151630',G:'#bfeaff',g:'#79c6ea',F:'#ffcf9e',H:'#6b4423',W:'#f4f6fb',w:'#c3cadb',R:'#ff4d6d',Y:'#ffd93d',P:'#ff9db1'},rows:[
+"....KKKKKKKK....","..KKGGGGGGGGKK..",".KGGGGGGGGGGGGK.",".KGKFFFFFFFFKGK.",".KGGKHHHHHHKGGK.",".KGGFKKFFKKFGGK.",".KGGFPFFFFPFGGK.",".KGGFFFFKFFFGGK.",".KGGGGGGGGGGGGK.","..KKWWWWWWWWKK..","..KWWWRWWWWWwK..",".KwWWWWWWWWWWwK.",".KWWKWWYYWWKWWK.","..KKWWWWWWWWKK..","..KKWWKKKKWWKK..",".KRRK......KRRK."]},
+alien:{pal:{K:'#151630',A:'#43e8ff',G:'#7be382',g:'#4cc45e',W:'#ffffff',P:'#a78bfa',p:'#7c5cd6'},rows:[
+".......KK.......","......KAAK......",".......KK.......",".....KKKKKK.....","...KKGGGGGGKK...","..KGGGGGGGGGGK..","..KGKKKKKKKKGK..","..KGKWKKKKWKGK..","...KGGGGGGGGK...","...KGgGGGGgGK...","....KKKKKKKK....","..KKPPPPPPPPKK..",".KGGKPPPPPPKGGK.",".KGGKPPWWPPKGGK.","..KKKPPPPPPKKK..","....KK....KK...."]},
+wizard:{pal:{K:'#151630',V:'#7c5cff',v:'#5a3ee0',S:'#ffd93d',F:'#ffcf9e',W:'#f2f2f7',w:'#c9c9d6',R:'#7c5cff',r:'#5a3ee0',Y:'#ffd93d'},rows:[
+".......KK.......","......KVVK......",".....KVVVVK.....",".....KVVSVK.....","....KVVVVVVK....","....KVVVVVVVK...","...KVVVVVVVVVK..","..KKKKKKKKKKKKK.","...KFFFFFFFFK...","...KFKKFFKKFK...","...KFWWWWWWFK...","....KWWWWWWK....","..KKRWWWWWWRKK..",".KRRKWWWWWWKRRK.",".KRRKRWYYWRKRRK.","..KKKK....KKKK.."]},
+ninja:{pal:{K:'#151630',N:'#262640',n:'#17172a',F:'#ffcf9e',R:'#ff4d6d',S:'#3a3f5c',s:'#2a2e47',W:'#ffffff'},rows:[
+"....KKKKKKKK....","..KKNNNNNNNNKK..",".KNNNNNNNNNNNNK.",".KNNNNNNNNNNNNK.",".KNFFFFFFFFFFNK.",".KNFKKFFFFKKFNK.",".KNFFFFFFFFFFNK.",".KNNKNNNNNNKNNK.","..KKNNNNNNNNKK..",".KRRKNNNNNNKRRK.",".KRRKSSSSSSKRRK.","..KKSSSWWSSSKK..","..KFKSSSSSSKFK..","...KKSSSSSSKK...","....KSSssSSK....","....KK....KK...."]},
+king:{pal:{K:'#151630',Y:'#ffd93d',y:'#eab308',R:'#ff4d6d',C:'#43e8ff',F:'#ffcf9e',H:'#8a5a2b',W:'#ffffff',P:'#a855f7',p:'#7e22ce'},rows:[
+".KK.KK.KK.KK.KK.",".KYYYYYYYYYYYYK.",".KYRYYYCYYRYYYK.",".KyyyyyyyyyyyyK.","..KKKKKKKKKKKK..",".KFFFFFFFFFFFFK.",".KFFKKFFFFKKFFK.",".KFHHFFFFFFHHFK.",".KHHHFFKKFFHHHK.","..KHHHFFFFFHHHK.",".KWWKPPPPPPKWWK.",".KPPKPPYYPPKPPK.",".KPPKPPYYPPKPPK.","..KKPPPPPPPPKK..","..KpPPPPPPPPpK..","...KKK....KKK..."]},
+panda:{pal:{K:'#151630',W:'#ffffff',w:'#dfe3ee',P:'#ff9db1',B:'#23233c',R:'#ff4d6d'},rows:[
+".KKK........KKK.",".KKKK......KKKK.","..KKKKKKKKKKKK..",".KWWWWWWWWWWWWK.",".KWWKKKKKKKKWWK.",".KWWKWKKKKWKWWK.",".KWWKKKKKKKKWWK.",".KWWWWWPPWWWWWK.",".KWWWWWKKWWWWWK.","..KWWWWWWWWWWK..","...KKKKKKKKKK...","..KKBBBBBBBBKK..",".KWWKBBBBBBKWWK.",".KWWKBBRRBBKWWK.","..KKKBBBBBBKKK..","....KK....KK...."]},
+frog:{pal:{K:'#151630',G:'#69d84f',g:'#45b231',W:'#ffffff',P:'#ff9db1',O:'#ff8c42',C:'#eaffd0'},rows:[
+"..KK........KK..",".KWWK......KWWK.",".KWKKK....KWKKK.",".KGGGK....KGGGK.","..KKKKKKKKKKKK..",".KGGGGGGGGGGGGK.",".KGGGGGGGGGGGGK.",".KPGGGGGGGGGGPK.",".KGGKKKKKKKKGGK.","..KGGGGGGGGGGK..","...KKGGGGGGKK...","..KKOOCCCCOOKK..",".KGGKOCCCCOKGGK.",".KGGKOCCCCOKGGK.","..KKKOOOOOOKKK..","....KK....KK...."]},
+pirate:{pal:{K:'#151630',H:'#23233c',W:'#ffffff',F:'#ffcf9e',B:'#5b3a1e',b:'#3f2812',S:'#ff4d6d',P:'#ff9db1'},rows:[
+"....KKKKKKKK....","..KKHHHHHHHHKK..",".KHHHHHHHHHHHHK.",".KHHKWWWWKHHHHK.","..KKKKKKKKKKKKK.","...KFFFFFFFFK...","...KFKKKKKKFK...","...KFPFFFFPFK...","...KFBBBBBBFK...","....KBBBBBBK....","....KBBKKBBK....","..KKSSSSSSSSKK..",".KFFKSWSWSWKFFK.",".KFFKSSSSSSKFFK.","..KKKSWSWSWKKK..","....KK....KK...."]},
+vampire:{pal:{K:'#151630',H:'#17172a',F:'#ffe9d6',f:'#f3d3b8',E:'#ff3355',P:'#ff9db1',W:'#ffffff',R:'#c1122e',r:'#7f0d20',S:'#23233c',Y:'#ffd93d'},rows:[
+"...KKKKKKKKKK...","..KHHHHHHHHHHK..","..KHHKKKKKKHHK..","...KFFFFFFFFK...","...KFEKFFKEFK...","...KFFFFFFFFK...","...KFPFFFFPFK...","...KFFFKKFFFK...","....KFWKKWFK....","..KKKKFFFFKKKK..",".KRRRKWWWWKRRRK.",".KRRKSSYYSSKRRK.",".KRRKSSSSSSKRRK.","..KKKSSSSSSKKK..","..KrrKSSSSKrrK..","...KKK....KKK..."]},
+dino:{pal:{K:'#151630',G:'#58cc5e',g:'#3aa844',S:'#ffd93d',C:'#eaffd0',W:'#ffffff',Y:'#ffd93d'},rows:[
+"....KSSKSSK.....","....KGGGGGK.....","...KGGGGGGGK....","...KGWKGGGGK....","..KGGGGGGGGGK...","..KGGGGGGGGGGK..","..KGKGGGGGGKGK..","..KGGGGGGGGGGK..","...KGGKKKKGGK...","....KGGGGGGK....","..KKGGGGGGGGKK..",".KGGKCCCCCCKGGK.",".KGGKCCCCCCKGGK.",".KgGKCCYYCCKgGK.","..KKKGGGGGGKKK..","....KK....KK...."]}
+};
+
+// Patterned worlds behind each character
+function drawBackground(ctx,S,bg,seed){
+  var cell=S/16;
+  ctx.fillStyle=bg.a; ctx.fillRect(0,0,S,S);
+  ctx.fillStyle=bg.b;
+  if(bg.p==='checker'){ for(var y=0;y<8;y++)for(var x=0;x<8;x++){ if((x+y)%2===0) ctx.fillRect(x*cell*2,y*cell*2,cell*2,cell*2); } }
+  else if(bg.p==='dots'){ ctx.globalAlpha=.5; for(var yy=0;yy<8;yy++)for(var xx=0;xx<8;xx++){ ctx.fillRect((xx*2+(yy%2))*cell+cell*.25,(yy*2)*cell+cell*.75,cell*.5,cell*.5); } ctx.globalAlpha=1; }
+  else if(bg.p==='grid'){ ctx.globalAlpha=.45; for(var i=0;i<=8;i++){ ctx.fillRect(i*cell*2,0,Math.max(2,cell*.14),S); ctx.fillRect(0,i*cell*2,S,Math.max(2,cell*.14)); } ctx.globalAlpha=1; }
+  else if(bg.p==='rays'){ ctx.globalAlpha=.4; ctx.save(); ctx.translate(S/2,S/2); for(var r=0;r<8;r++){ ctx.rotate(Math.PI/4); ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(S,-S*.28); ctx.lineTo(S,S*.28); ctx.closePath(); ctx.fill(); } ctx.restore(); ctx.globalAlpha=1; }
+  else if(bg.p==='rings'){ ctx.globalAlpha=.4; for(var q=7;q>0;q--){ if(q%2===0) ctx.strokeStyle=bg.b; ctx.lineWidth=cell*.8; ctx.strokeRect(cell*q*.9,cell*q*.9,S-cell*q*1.8,S-cell*q*1.8); } ctx.globalAlpha=1; }
+  else if(bg.p==='stars'){ ctx.globalAlpha=.9; ctx.fillStyle='#ffffff'; var s=seed*37+11; for(var st=0;st<16;st++){ s=(s*9301+49297)%233280; var px=(s/233280)*S; s=(s*9301+49297)%233280; var py=(s/233280)*S; var sz=cell*.42; ctx.fillRect(px,py,sz,sz); if(st%4===0){ ctx.fillRect(px-sz*.6,py+sz*.3,sz*2.2,sz*.4); ctx.fillRect(px+sz*.3,py-sz*.6,sz*.4,sz*2.2); } } ctx.globalAlpha=1; }
+  // sparkles
+  ctx.fillStyle='rgba(255,255,255,.75)'; var s2=seed*91+5;
+  for(var k=0;k<5;k++){ s2=(s2*9301+49297)%233280; var ax=(s2/233280)*S; s2=(s2*9301+49297)%233280; var ay=(s2/233280)*S; ctx.fillRect(ax,ay,cell*.4,cell*.4); }
+}
+function drawVoxel(canvas, w){
+  var ctx=canvas.getContext('2d'); var S=canvas.width; var cell=S/16;
+  drawBackground(ctx,S,w.bg,w.id*13+3);
+  var art=MAPS[w.art]; if(!art) return;
+  for(var y=0;y<art.rows.length;y++){ var row=art.rows[y];
+    for(var x=0;x<row.length;x++){ var ch=row[x]; if(ch==='.'||ch===' ') continue;
+      ctx.fillStyle=art.pal[ch]||'#f0f'; ctx.fillRect(x*cell,y*cell,Math.ceil(cell),Math.ceil(cell));
+    }
+  }
+  if(w.evolved){
+    ctx.strokeStyle='#ffd93d'; ctx.lineWidth=Math.max(3,cell*.55); ctx.strokeRect(cell*.5,cell*.5,S-cell,S-cell);
+    ctx.fillStyle='#ffd93d';
+    ctx.fillRect(S/2-cell,cell*.15,cell*2,cell*.55);
+    ctx.fillRect(cell*.8,cell*.8,cell*.8,cell*.8); ctx.fillRect(S-cell*1.6,cell*.8,cell*.8,cell*.8);
+    ctx.fillRect(cell*.8,S-cell*1.6,cell*.8,cell*.8); ctx.fillRect(S-cell*1.6,S-cell*1.6,cell*.8,cell*.8);
+    ctx.fillStyle='#ffffff'; ctx.fillRect(S/2-cell*.25,cell*1.15,cell*.5,cell*.5);
+  }
+}
+
+// ================= COLLECTION DATA =================
+var collection=[
+ {id:1, name:'Pico', type:'Robot', art:'robot', cat:'free', tier:'Rare', bg:{a:'#8fdcff',b:'#3aa8e0',p:'grid'}, traits:[['Background','Circuit Sky'],['Head','Antenna Mk-II'],['Eyes','Cyan Visor'],['Extra','Core Reactor']]},
+ {id:2, name:'Momo', type:'Cat', art:'cat', cat:'free', tier:'Common', bg:{a:'#ffd9ec',b:'#ff9ec7',p:'dots'}, traits:[['Background','Sakura Dots'],['Head','Twin Ears'],['Eyes','Amber Gaze'],['Extra','Teal Tee']]},
+ {id:3, name:'Bibo', type:'Astronaut', art:'astro', cat:'free', tier:'Rare', bg:{a:'#232a5e',b:'#141a42',p:'stars'}, traits:[['Background','Deep Space'],['Head','Glass Dome'],['Eyes','Star Eyes'],['Extra','Mission Belt']]},
+ {id:4, name:'Zuzu', type:'Alien', art:'alien', cat:'paid', tier:'Legendary', bg:{a:'#c9b8ff',b:'#8b7bff',p:'rings'}, traits:[['Background','Nebula Rings'],['Head','Antenna Orb'],['Eyes','Void Eyes'],['Extra','Cosmic Core']]},
+ {id:5, name:'Toto', type:'Wizard', art:'wizard', cat:'free', tier:'Rare', bg:{a:'#453078',b:'#2a1c52',p:'stars'}, traits:[['Background','Arcane Stars'],['Head','Star Hat'],['Eyes','Wise Eyes'],['Extra','Cloud Beard']]},
+ {id:6, name:'Kiki', type:'Ninja', art:'ninja', cat:'free', tier:'Common', bg:{a:'#ffb59d',b:'#ff7a59',p:'grid'}, traits:[['Background','Ember Grid'],['Head','Shadow Hood'],['Eyes','Focus Eyes'],['Extra','Crimson Scarf']]},
+ {id:7, name:'Aurum', type:'Pixel King', art:'king', cat:'paid', tier:'Legendary', bg:{a:'#ffe873',b:'#ffb52e',p:'rays'}, traits:[['Background','Gold Sunburst'],['Head','Crown of Dawn'],['Eyes','Royal Gaze'],['Extra','Genesis Medallion']]},
+ {id:8, name:'Nana', type:'Panda', art:'panda', cat:'free', tier:'Common', bg:{a:'#c2f5d3',b:'#5ed68a',p:'dots'}, traits:[['Background','Mint Dots'],['Head','Round Ears'],['Eyes','Patch Eyes'],['Extra','Ribbon Bow']]},
+ {id:9, name:'Roro', type:'Frog', art:'frog', cat:'free', tier:'Common', bg:{a:'#b5f3d8',b:'#34c98e',p:'rings'}, traits:[['Background','Pond Rings'],['Head','Bubble Eyes'],['Eyes','Happy Shine'],['Extra','Sunny Belly']]},
+ {id:10, name:'Pipi', type:'Pirate', art:'pirate', cat:'paid', tier:'Rare', bg:{a:'#9fe0ff',b:'#2f9fd8',p:'checker'}, traits:[['Background','Ocean Checker'],['Head','Tricorn + Skull'],['Eyes','Eye Patch'],['Extra','Striped Shirt']]},
+ {id:11, name:'Dodo', type:'Vampire', art:'vampire', cat:'paid', tier:'Legendary', bg:{a:'#571636',b:'#2e0a1e',p:'stars'}, traits:[['Background','Gothic Night'],['Head','Widow Peak'],['Eyes','Crimson Eyes'],['Extra','Blood Amulet']]},
+ {id:12, name:'Mimi', type:'Dino', art:'dino', cat:'paid', tier:'Common', bg:{a:'#ffe9b0',b:'#ffb85c',p:'dots'}, traits:[['Background','Sunset Dots'],['Head','Sun Spikes'],['Eyes','Dino Snout'],['Extra','Spotted Belly']]}
+];
+var evolvedVoxels=[];
+function byId(id){ for(var i=0;i<collection.length;i++) if(collection[i].id===id) return collection[i]; for(var j=0;j<evolvedVoxels.length;j++) if(evolvedVoxels[j].id===id) return evolvedVoxels[j]; return collection[0]; }
+function pad3(n){ return ('00'+n).slice(-3); }
+function tierClass(t){ return t.toLowerCase(); }
+
+function renderGrid(filter){
+  filter=filter||'all';
+  var grid=document.getElementById('collectionGrid'); grid.innerHTML='';
+  collection.filter(function(w){
+    if(filter==='all') return true;
+    if(filter==='legendary') return w.tier==='Legendary';
+    return w.cat===filter;
+  }).forEach(function(w){
+    var el=document.createElement('article'); el.className='nft';
+    var traitsHtml=w.traits.map(function(t){ return '<div><span>'+t[0]+'</span><span>'+t[1]+'</span></div>'; }).join('');
+    el.innerHTML='<div class="art"><canvas width="320" height="320"></canvas><span class="tier '+tierClass(w.tier)+'">'+(w.tier==='Legendary'?'★ ':'')+w.tier.toUpperCase()+'</span></div>'
+      +'<div class="nft-body"><h3>'+w.name+'</h3><div class="type">'+w.type+' · 16×16 Pixel</div><div class="traits">'+traitsHtml+'</div>'
+      +'<div class="nft-foot"><span class="tag '+w.cat+'">'+(w.cat==='free'?'FREE MINT':'PAID · 0.0015 BNB')+'</span><span class="id">VOXEL #'+pad3(w.id)+'</span></div></div>';
+    grid.appendChild(el); drawVoxel(el.querySelector('canvas'), w);
+  });
+  if(!grid.children.length) grid.innerHTML='<p style="color:var(--muted)">No Voxels in this category yet.</p>';
+}
+renderGrid('all');
+function filterGrid(f,btn){
+  var btns=document.querySelectorAll('.chipbtn'); for(var i=0;i<btns.length;i++) btns[i].classList.remove('active');
+  btn.classList.add('active'); renderGrid(f);
+}
+
+// ================= SHOWCASE =================
+var featuredId=7;
+function setFeatured(id){
+  featuredId=id; var w=byId(id);
+  drawVoxel(document.getElementById('heroVoxel'), w);
+  document.getElementById('featuredLabel').textContent='FEATURED — VOXEL #'+pad3(id);
+  document.getElementById('featuredName').textContent='Voxel #'+pad3(id)+' — '+w.name;
+  document.getElementById('featuredDesc').textContent=w.type+' · '+w.traits[0][1]+' · '+w.traits[1][1];
+  var tier=document.getElementById('featuredTier');
+  tier.textContent=(w.tier==='Legendary'?'★ ':'')+w.tier.toUpperCase();
+  tier.style.background = w.tier==='Legendary' ? 'var(--gold)' : (w.tier==='Rare' ? 'var(--cyan)' : '#e8e9f5');
+  tier.style.color = w.tier==='Rare' ? '#00222b' : '#231a00';
+}
+function renderShowcaseMinis(){
+  var wrap=document.getElementById('showcaseGrid'); wrap.innerHTML='';
+  [1,3,5,11].forEach(function(id){
+    var c=document.createElement('canvas'); c.width=160; c.height=160;
+    c.title='Feature Voxel #'+pad3(id);
+    c.onclick=function(){ setFeatured(id); };
+    wrap.appendChild(c); drawVoxel(c, byId(id));
+  });
+}
+renderShowcaseMinis(); setFeatured(7);
+function randomizeShowcase(){
+  var next=featuredId; while(next===featuredId){ next=collection[Math.floor(Math.random()*collection.length)].id; }
+  setFeatured(next); toast('New featured Voxel — #'+pad3(next)+' '+byId(next).name+' ('+byId(next).tier+')');
+}
+
+// ================= MARQUEE =================
+var phrase='✦ VOXEL WORLD PIXEL &nbsp; ✦ 1,111 SUPPLY &nbsp; ✦ 1,000 FREE MINT &nbsp; ✦ 111 GENESIS — 0.0015 BNB &nbsp; ✦ 12 SPECIES &nbsp; ✦ MINT BY WALLET OR AI AGENT &nbsp; ';
+document.getElementById('marqueeText').innerHTML=phrase.repeat(4);
+</script>
+
+<script>
+// ================= WALLET (UI SIMULATION) + HOLDER RECORD =================
+var walletConnected=false;
+var walletOwnedCount=0, walletOwnedIds=[], lastMintedVoxelId=null, demoHolder=false;
+function isHolder(){ return walletOwnedCount>0; }
+var walletInstances=[], instanceSeq=0;
+function makeInstance(voxelId, origin, genesisOrigin){
+  var w=byId(voxelId); instanceSeq++;
+  return {uid:instanceSeq, voxelId:voxelId, tier:w.tier, origin:origin||'free', genesisOrigin:!!genesisOrigin};
+}
+function syncOwnership(){
+  walletOwnedCount=walletInstances.length;
+  walletOwnedIds=walletInstances.map(function(ins){ return ins.voxelId; });
+}
+function registerOwnership(voxelId,count,origin){
+  count=count||1;
+  if(voxelId){ for(var i=0;i<count;i++) walletInstances.push(makeInstance(voxelId, origin||'free', origin==='genesis')); lastMintedVoxelId=voxelId; }
+  syncOwnership();
+  if(window.__setGameCharacter&&lastMintedVoxelId) window.__setGameCharacter(lastMintedVoxelId);
+  if(window.__refreshHolderGate) window.__refreshHolderGate();
+  if(window.__refreshUpgradePanel) window.__refreshUpgradePanel();
+}
+function tryDemoPlay(){
+  demoHolder=true;
+  if(window.__refreshHolderGate) window.__refreshHolderGate();
+  toast('Demo preview on — this is a free preview, not holder access. Mint a Voxel to play as a verified holder.');
+  var el=document.getElementById('playground'); if(el) el.scrollIntoView({behavior:'smooth'});
+}
+function toggleWallet(){
+  walletConnected=!walletConnected;
+  if(!walletConnected) agentIdVerified=false; // disconnecting drops the Agent ID verification with the session
+  var addr='0x7a3F…9eVoxel42';
+  document.getElementById('walletStatus').textContent=walletConnected?'Wallet connected':'Wallet not connected';
+  document.getElementById('walletAddr').textContent=walletConnected?addr+' · Ready to mint Free and Genesis.':'Connect MetaMask, Rabby, Trust Wallet or Coinbase Wallet to begin.';
+  document.getElementById('walletBtn2').textContent=walletConnected?'Disconnect':'Connect Wallet';
+  document.getElementById('headerWalletBtn').textContent=walletConnected?'0x7a3F…9e42':'Connect Wallet';
+  refreshAgentIdUI();
+  if(window.__refreshHolderGate) window.__refreshHolderGate();
+  if(window.__refreshUpgradePanel) window.__refreshUpgradePanel();
+  toast(walletConnected?'Wallet connected: '+addr:'Wallet disconnected.');
+}
+
+// ================= BINANCE AGENT ID GATE (FREE MINT) =================
+var agentIdVerified=false;
+function refreshAgentIdUI(){
+  var st=document.getElementById('agentIdStatus'), btn=document.getElementById('agentIdBtn'), pill=document.getElementById('freeGateStatus');
+  if(st) st.textContent=agentIdVerified?'Binance Agent ID — verified ✓':'Binance Agent ID — not verified';
+  if(btn){ btn.textContent=agentIdVerified?'Agent ID Verified ✓':'Verify Binance Agent ID'; btn.disabled=agentIdVerified; btn.style.opacity=agentIdVerified?'.55':'1'; }
+  if(pill){
+    if(agentIdVerified){ pill.textContent='✓ Binance Agent ID verified — Free Mint is unlocked for this wallet (max 4 per wallet).'; pill.style.borderColor='rgba(157,240,78,.55)'; pill.style.color='#d9ffb0'; }
+    else { pill.textContent='🔒 Free Mint is for Binance Agent ID holders only — verify your Agent ID in the wallet panel below to unlock.'; pill.style.borderColor=''; pill.style.color=''; }
+  }
+}
+function verifyAgentId(){
+  if(!walletConnected){ toast('Connect your wallet first — then verify your Binance Agent ID.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
+  if(agentIdVerified){ toast('Binance Agent ID already verified for this wallet.'); return; }
+  agentIdVerified=true; refreshAgentIdUI();
+  toast('Binance Agent ID verified — Free Mint unlocked for this wallet (max 4 per wallet).');
+}
+refreshAgentIdUI();
+
+// ================= QTY + MINT =================
+var qty={free:1,paid:1};
+function changeQty(type,d){
+  var max=type==='free'?4:5;
+  qty[type]=Math.min(max,Math.max(1,qty[type]+d));
+  document.getElementById(type==='free'?'qtyFree':'qtyPaid').textContent=qty[type];
+  if(type==='paid') document.getElementById('paidTotal').textContent='Total: '+(qty.paid*0.0015).toFixed(4).replace(/0+$/,'').replace(/\.$/,'.0')+' BNB';
+}
+var freeMinted=438, paidMinted=30;
+var freePerWallet=0; // Free Mint minted by the current wallet in this session — max 4 per wallet
+var paidPerWallet=0; // Genesis minted by the current wallet in this session — max 5 per wallet, cumulative across transactions
+function syncMintCounts(){
+  var els={freeMinted:freeMinted,freeLeft:1000-freeMinted,liveFreeMinted:freeMinted,liveFreeLeft:1000-freeMinted,paidMinted:paidMinted,paidLeft:111-paidMinted,livePaidMinted:paidMinted,livePaidLeft:111-paidMinted};
+  for(var k in els){ var e=document.getElementById(k); if(e) e.textContent=els[k]; }
+  document.getElementById('freeBar').style.width=(freeMinted/10)+'%';
+  document.getElementById('paidBar').style.width=(paidMinted/111*100)+'%';
+}
+function doMint(type){
+  if(!walletConnected){ toast('Connect your wallet first — then mint in one click. Or use the AI Agent prompt.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
+  if(type==='free'){
+    if(!agentIdVerified){ toast('Free Mint is only for Binance Agent ID holders — verify your Binance Agent ID in the wallet panel below first. Genesis is open to all wallets.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
+    if(freeMinted>=1000){ toast('Free Mint is sold out.'); return; }
+    if(freePerWallet>=4){ toast('Free Mint limit reached — max 4 per wallet. This wallet has already minted 4 Free Voxels.'); return; }
+    if(freePerWallet+qty.free>4){ toast('Free Mint limit reached — max 4 per wallet. You have minted '+freePerWallet+' Free Voxel(s), so you can mint '+(4-freePerWallet)+' more.'); return; }
+    var freePool=[1,2,3,5,6,8,9,10,12];
+    var freeVoxel=byId(freePool[freeMinted%freePool.length]);
+    freeMinted+=qty.free; freePerWallet+=qty.free; syncMintCounts();
+    registerOwnership(freeVoxel.id,qty.free,'free');
+    toast('Free Mint successful — Voxel #'+freeMinted+' is yours. ('+freePerWallet+' / 4 Free per wallet) Pixel Playground unlocked — you are a holder!');
+  } else {
+    if(paidMinted>=111){ toast('Genesis is sold out.'); return; }
+    if(paidPerWallet>=5){ toast('Genesis limit reached — max 5 per wallet. This wallet has already minted 5 Genesis Voxels.'); return; }
+    if(paidPerWallet+qty.paid>5){ toast('Genesis limit reached — max 5 per wallet. You have minted '+paidPerWallet+' Genesis Voxel(s), so you can mint '+(5-paidPerWallet)+' more.'); return; }
+    var paidPool=[7,11,10,4,5,3];
+    var paidVoxel=byId(paidPool[paidMinted%paidPool.length]);
+    paidMinted+=qty.paid; paidPerWallet+=qty.paid; syncMintCounts();
+    registerOwnership(paidVoxel.id,qty.paid,'genesis');
+    toast('Genesis Mint successful — '+qty.paid+' Voxel(s) added. ('+paidPerWallet+' / 5 Genesis per wallet) Genesis draws from the full pool, including Legendary. Pixel Playground unlocked — you are a holder!');
+  }
+}
+
+// ================= TABS =================
+function showTab(which){
+  document.getElementById('panel-wallet').classList.toggle('active',which==='wallet');
+  document.getElementById('panel-agent').classList.toggle('active',which==='agent');
+  document.getElementById('tabWalletBtn').classList.toggle('active',which==='wallet');
+  document.getElementById('tabAgentBtn').classList.toggle('active',which==='agent');
+}
+
+// ================= PROMPTS / COPY / AGENT =================
+var PROMPTS={
+free:"Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: TBA — add your contract address. Call mint() with 0 BNB plus gas. Return the transaction link.",
+paid:"Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: TBA — add your contract address. Call mint() with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.",
+upgrade:"Upgrade my Voxel World Pixel NFTs on BNB. Burn 2 of my Voxels [token ids] and evolve them into 1 Evolved Voxel. Contract: TBA — add your contract address. Call evolve() with 0.001 BNB (1000000000000000 wei) plus gas. Return the transaction link."
+};
+function fillAgentPrompt(type){
+  showTab('agent');
+  document.getElementById('agentInput').value=PROMPTS[type];
+  document.getElementById('agentInput').scrollIntoView({behavior:'smooth',block:'center'});
+  toast(type==='free'?'Free Mint prompt loaded for the AI Agent.':(type==='upgrade'?'Upgrade / Evolve prompt loaded for the AI Agent.':'Paid Mint Genesis prompt loaded for the AI Agent.'));
+}
+async function copyPrompt(id){
+  var el=document.getElementById(id); var text=el?el.innerText.trim():'';
+  try{ await navigator.clipboard.writeText(text); toast('Prompt copied — paste it into your AI Agent.'); }
+  catch(e){
+    var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(_){}
+    ta.remove(); toast('Prompt copied.');
+  }
+}
+function runAgent(){
+  var log=document.getElementById('agentLog'); var reveal=document.getElementById('agentReveal');
+  var v=document.getElementById('agentInput').value.toUpperCase();
+  var isPaid=v.indexOf('GENESIS')>-1||v.indexOf('0.0015')>-1||v.indexOf('PAID')>-1;
+  log.style.display='block'; reveal.style.display='none';
+  var isUpgrade=v.indexOf('EVOLVE')>-1||v.indexOf('UPGRADE')>-1;
+  if(isUpgrade){
+    if(walletInstances.length<2){
+      log.textContent='[AGENT] Prompt received.\n[AGENT] Upgrade needs 2 Voxels in your wallet — you currently hold '+walletInstances.length+'. Mint at least 2 Voxels first, then run the upgrade again.';
+      toast('Upgrade needs 2 Voxels in your wallet.');
+      return;
+    }
+    var picks=(typeof upgradeSelected!=='undefined'&&upgradeSelected.length===2)?upgradeSelected.slice():[walletInstances[0].uid,walletInstances[1].uid];
+    log.textContent='[AGENT] Prompt received — executing now.\n[AGENT] Calling evolve() on BNB — 0.001 BNB (1000000000000000 wei) + gas. Burning 2 Voxels...';
+    setTimeout(function(){
+      var evo=performEvolve(picks[0],picks[1]);
+      if(!evo){ log.textContent+='\n[AGENT] Upgrade failed — the selected Voxels are no longer in this wallet.'; return; }
+      if(typeof upgradeSelected!=='undefined') upgradeSelected=[];
+      log.textContent+='\n[AGENT] Evolve confirmed. Tx: bscscan.com/tx/0xevolve'+evo.id+'…\n[AGENT] Done — 1 Evolved Voxel received: '+evo.name+' ('+evo.tier+'). Transaction link returned.';
+      drawVoxel(document.getElementById('revealCanvas'), evo);
+      document.getElementById('revealTitle').textContent='Evolved — '+evo.name+' · '+evo.tier;
+      document.getElementById('revealDesc').textContent='Burned 2 Voxels, paid 0.001 BNB, received 1 exclusive Evolved character — guaranteed at least +1 rarity tier. Evolved bonus in Pixel Playground: +1 life.';
+      reveal.style.display='flex';
+      toast('AI Agent evolved your Voxels — '+evo.name+' ('+evo.tier+') is yours.');
+    },1200);
+    return;
+  }
+  if(!isPaid && !agentIdVerified){
+    log.textContent='[AGENT] Prompt received.\n[AGENT] Free Mint is reserved for Binance Agent ID holders — no verified Binance Agent ID found for this wallet, so the mint was not executed. Verify your Agent ID in the wallet panel first, or mint Genesis (0.0015 BNB), which is open to all wallets.';
+    toast('Free Mint needs a verified Binance Agent ID.');
+    return;
+  }
+  if(!isPaid && freePerWallet>=4){
+    log.textContent='[AGENT] Prompt received.\n[AGENT] Free Mint limit reached — max 4 per wallet. This wallet has already minted 4 Free Voxels, so no more Free Mints can be executed for this wallet.';
+    toast('Free Mint limit reached — max 4 per wallet.');
+    return;
+  }
+  if(isPaid && paidPerWallet>=5){
+    log.textContent='[AGENT] Prompt received.\n[AGENT] Genesis limit reached — max 5 per wallet. This wallet has already minted 5 Genesis Voxels, so no more Genesis mints can be executed for this wallet.';
+    toast('Genesis limit reached — max 5 per wallet.');
+    return;
+  }
+  log.textContent='[AGENT] Prompt received — executing now.\n[AGENT] Calling mint() on BNB — '+(isPaid?'0.0015 BNB (1500000000000000 wei)':'0 BNB')+' + gas, from connected wallet...';
+  setTimeout(function(){
+    var voxel;
+    if(isPaid){ paidMinted=Math.min(111,paidMinted+1); paidPerWallet=Math.min(5,paidPerWallet+1); var paidPool=[7,11,10,4,7,5]; voxel=byId(paidPool[paidMinted%paidPool.length]); syncMintCounts();
+    } else { freeMinted=Math.min(1000,freeMinted+1); freePerWallet=Math.min(4,freePerWallet+1); var freePool=[1,2,3,5,6,8,9,1,3,6]; voxel=byId(freePool[freeMinted%freePool.length]); syncMintCounts();
+    }
+    var tokenNo=isPaid?(1000+paidMinted):freeMinted;
+    registerOwnership(voxel.id,1,isPaid?'genesis':'free');
+    log.textContent+='\n[AGENT] Mint confirmed. Tx: bscscan.com/tx/0xvoxel'+tokenNo+'…'+(isPaid&&voxel.tier==='Legendary'?'\n[AGENT] ★ Legendary pull! Genesis draws include Legendary from the first mint at mint open.':'')+'\n[AGENT] Done — transaction link returned. Pixel Playground unlocked — you are a holder.';
+    drawVoxel(document.getElementById('revealCanvas'), voxel);
+    document.getElementById('revealTitle').textContent='Voxel #'+tokenNo+' — '+voxel.name+' the '+voxel.type+(isPaid?' · Genesis':' · Free Mint')+(voxel.tier==='Legendary'?' · ★ LEGENDARY':'');
+    document.getElementById('revealDesc').textContent='Tier: '+voxel.tier+' · '+voxel.traits.map(function(t){return t[0]+': '+t[1];}).join(' · ')+'. '+(isPaid?'Genesis draw — full pool including Legendary, from the first draw at launch. ':'')+'Hand-rendered on a 16×16 pixel grid — no other Voxel shares this exact trait combination.';
+    reveal.style.display='flex';
+    toast('AI Agent minted Voxel #'+tokenNo+' for you.');
+  },1200);
+}
+
+// ================= TOAST =================
+var toastTimer;
+function toast(msg){
+  var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(function(){ t.classList.remove('show'); },3200);
+}
+
+// ================= UPGRADE / EVOLVE =================
+var TIER_ORDER=['Common','Rare','Epic','Legendary'];
+function tierRank(t){ var i=TIER_ORDER.indexOf(t); return i<0?0:i; }
+var evolveSeq=0, upgradeSelected=[];
+function findInstance(uid){ for(var i=0;i<walletInstances.length;i++) if(walletInstances[i].uid===uid) return walletInstances[i]; return null; }
+function predictedEvolveTier(a,b){
+  var r=Math.min(3, Math.max(tierRank(a.tier),tierRank(b.tier))+1);
+  var capped=false;
+  if(!a.genesisOrigin && !b.genesisOrigin && r>2){ r=2; capped=true; }
+  return {tier:TIER_ORDER[r], capped:capped};
+}
+function performEvolve(uidA, uidB){
+  var a=findInstance(uidA), b=findInstance(uidB);
+  if(!a||!b||a===b) return null;
+  var pred=predictedEvolveTier(a,b);
+  var baseIns=tierRank(b.tier)>tierRank(a.tier)?b:a;
+  var base=byId(baseIns.voxelId);
+  evolveSeq++;
+  var newId=9000+evolveSeq;
+  var genesisOrigin=a.genesisOrigin||b.genesisOrigin;
+  var evo={id:newId, name:base.name+' Evo', type:base.type, art:base.art, cat:'evolved', tier:pred.tier, evolved:true,
+    bg:{a:'#2a1c52',b:'#ffd93d',p:'rays'},
+    traits:base.traits.map(function(tr){ return [tr[0],tr[1]]; }).concat([['Form','Evolved ★']])};
+  // swap the Extra trait to the evolved aura for flavour
+  evo.traits=base.traits.map(function(tr,i){ return i===3?['Extra','Evolved Aura']: [tr[0],tr[1]]; });
+  evolvedVoxels.push(evo);
+  walletInstances=walletInstances.filter(function(ins){ return ins.uid!==uidA&&ins.uid!==uidB; });
+  instanceSeq++;
+  walletInstances.push({uid:instanceSeq, voxelId:newId, tier:pred.tier, origin:'evolved', genesisOrigin:genesisOrigin});
+  syncOwnership();
+  lastMintedVoxelId=newId;
+  if(window.__addEvolvedToPicker) window.__addEvolvedToPicker(evo);
+  if(window.__setGameCharacter) window.__setGameCharacter(newId);
+  if(window.__refreshHolderGate) window.__refreshHolderGate();
+  if(window.__refreshUpgradePanel) window.__refreshUpgradePanel();
+  return evo;
+}
+function originLabel(ins){ return ins.origin==='genesis'?'Genesis':(ins.origin==='evolved'?'Evolved':'Free'); }
+function refreshUpgradePanel(){
+  var status=document.getElementById('upgradeStatus'), list=document.getElementById('ownList'),
+      pred=document.getElementById('upgradePredict'), btn=document.getElementById('upgradeBtn');
+  if(!status||!list) return;
+  // drop selections that no longer exist
+  upgradeSelected=upgradeSelected.filter(function(uid){ return !!findInstance(uid); });
+  list.innerHTML='';
+  walletInstances.forEach(function(ins){
+    var w=byId(ins.voxelId);
+    var b=document.createElement('button'); b.type='button';
+    b.className='own-item'+(upgradeSelected.indexOf(ins.uid)>-1?' selected':'');
+    b.setAttribute('aria-label','Select '+w.name+' ('+ins.tier+') to burn');
+    b.innerHTML='<canvas width="120" height="120"></canvas><span>'+w.name+(w.evolved?' ★':'')+'</span><small>'+ins.tier+' · '+originLabel(ins)+'<br>Hold #'+ins.uid+'</small>';
+    b.onclick=function(){ toggleUpgradePick(ins.uid); };
+    list.appendChild(b); drawVoxel(b.querySelector('canvas'), w);
+  });
+  if(!walletConnected){
+    status.textContent='Connect your wallet to see your Voxels. Upgrading is holders-only — you need at least 2 Voxels to evolve.';
+  } else if(walletInstances.length===0){
+    status.textContent='You don\'t own any Voxels yet — mint first (Free Mint is 0 BNB), then come back with at least 2 Voxels to evolve.';
+  } else if(walletInstances.length===1){
+    status.textContent='You own 1 Voxel — mint 1 more to unlock upgrading (burn 2 → 1 Evolved, 0.001 BNB).';
+  } else {
+    status.textContent='You own '+walletInstances.length+' Voxels. Select exactly 2 to burn — they are destroyed forever and replaced by 1 Evolved Voxel.';
+  }
+  if(upgradeSelected.length===2){
+    var pa=findInstance(upgradeSelected[0]), pb=findInstance(upgradeSelected[1]);
+    var pr=predictedEvolveTier(pa,pb);
+    pred.innerHTML='Burning these 2 → <b style="color:var(--gold)">guaranteed result: '+pr.tier+' Evolved</b> (at least +1 tier above the best piece burned).'+(pr.capped?' Capped at Epic — Legendary stays exclusive to Genesis.':'');
+  } else if(upgradeSelected.length===1){
+    pred.textContent='1 of 2 selected — pick one more Voxel to burn.';
+  } else {
+    pred.textContent=walletInstances.length>=2?'No Voxels selected yet — tap 2 of your Voxels above.':'';
+  }
+  var ready=walletConnected&&upgradeSelected.length===2;
+  btn.disabled=!ready; btn.style.opacity=ready?'1':'.55';
+}
+window.__refreshUpgradePanel=refreshUpgradePanel;
+function toggleUpgradePick(uid){
+  var i=upgradeSelected.indexOf(uid);
+  if(i>-1) upgradeSelected.splice(i,1);
+  else { if(upgradeSelected.length>=2){ toast('Only 2 Voxels are burned per upgrade — deselect one first.'); return; } upgradeSelected.push(uid); }
+  refreshUpgradePanel();
+}
+function doUpgrade(){
+  if(!walletConnected){ toast('Connect your wallet first — upgrading is holders-only.'); return; }
+  if(upgradeSelected.length!==2){ toast('Select exactly 2 of your Voxels to burn first.'); return; }
+  var log=document.getElementById('upgradeLog'), reveal=document.getElementById('upgradeReveal');
+  log.style.display='block'; reveal.style.display='none';
+  log.textContent='[UPGRADE] Calling evolve() on BNB — burning 2 Voxels + 0.001 BNB fee...';
+  var evo=performEvolve(upgradeSelected[0], upgradeSelected[1]);
+  upgradeSelected=[];
+  if(!evo){ log.textContent='[UPGRADE] Failed — the selected Voxels are no longer in your wallet.'; refreshUpgradePanel(); return; }
+  log.textContent='[UPGRADE] Burn confirmed — 2 Voxels destroyed. Total ever minted stays 1,111; live supply shrinks by 1.\n[UPGRADE] Evolve confirmed. Tx: bscscan.com/tx/0xevolve'+evo.id+'…\n[UPGRADE] Received: '+evo.name+' — '+evo.tier+' tier Evolved (guaranteed at least +1 tier). Play it in Pixel Playground with +1 bonus life.';
+  drawVoxel(document.getElementById('upgradeRevealCanvas'), evo);
+  document.getElementById('upgradeRevealTitle').textContent='Evolved — '+evo.name+' · '+evo.tier;
+  document.getElementById('upgradeRevealDesc').textContent='Exclusive Evolved form — never available from a regular mint. Tier: '+evo.tier+'. In Pixel Playground this character starts with 4 lives (Evolved bonus: +1 life).';
+  reveal.style.display='flex';
+  refreshUpgradePanel();
+  toast('Upgrade complete — '+evo.name+' ('+evo.tier+') is yours. 2 Voxels burned, 0.001 BNB paid.');
+}
+function renderEvoGallery(){
+  var wrap=document.getElementById('evoGallery'); if(!wrap) return;
+  var examples=[{base:1,tier:'Epic'},{base:5,tier:'Epic'},{base:12,tier:'Rare'}];
+  examples.forEach(function(ex,i){
+    var base=byId(ex.base);
+    var evo={id:8001+i, name:base.name+' Evo', type:base.type, art:base.art, cat:'evolved', tier:ex.tier, evolved:true, bg:{a:'#2a1c52',b:'#ffd93d',p:'rays'}, traits:base.traits};
+    var el=document.createElement('article'); el.className='nft';
+    el.innerHTML='<div class="art"><canvas width="320" height="320"></canvas><span class="tier epic" style="left:auto;right:10px;background:var(--gold);color:#231a00">EVOLVED ★</span><span class="tier '+tierClass(ex.tier)+'">'+ex.tier.toUpperCase()+'</span></div>'
+      +'<div class="nft-body"><h3>'+evo.name+'</h3><div class="type">'+base.type+' · Evolved Form</div>'
+      +'<div class="nft-foot"><span class="tag paid">BURN 2 → 1 · 0.001 BNB</span><span class="id">EXAMPLE</span></div></div>';
+    wrap.appendChild(el); drawVoxel(el.querySelector('canvas'), evo);
+  });
+}
+renderEvoGallery();
+refreshUpgradePanel();
+</script>
+
+<script>
+// ================= PIXEL PLAYGROUND — 5 STAGES, HOLDERS ONLY =================
+(function(){
+  var canvas=document.getElementById('gameCanvas'); if(!canvas) return;
+  var ctx=canvas.getContext('2d');
+  var VIEW_W=960, VIEW_H=540, WORLD_W=2600, GROUND_Y=452;
+  var selectedId=7, sprite=null, maxLives=3;
+
+  var STAGES=[
+    {name:'Night Meadow', short:'MEADOW', target:10, time:60, enemies:3, eSpeed:52, chase:240, chaseMult:1.15, moving:false, theme:{sky0:'#05060f',sky1:'#0b0d28',sky2:'#12142e',ground:'#171a38',gtop:'#232650',hill:'#141736',accent:'#9df04e',enemy:'#3ee06f',enemyD:'#2bb673',gem:'#43e8ff',decor:'tree'}},
+    {name:'Sunset Dunes', short:'DUNES', target:15, time:60, enemies:5, eSpeed:68, chase:260, chaseMult:1.25, moving:false, theme:{sky0:'#2b0f2e',sky1:'#7a2347',sky2:'#e05a3a',ground:'#4a2438',gtop:'#ff8c42',hill:'#5c1f3d',accent:'#ffd93d',enemy:'#ff7a59',enemyD:'#d94f30',gem:'#ffd93d',decor:'rock'}},
+    {name:'Neon Forest', short:'FOREST', target:20, time:75, enemies:6, eSpeed:80, chase:280, chaseMult:1.35, moving:true, theme:{sky0:'#071a12',sky1:'#0d3320',sky2:'#2a1452',ground:'#0f2e1e',gtop:'#3ee06f',hill:'#123524',accent:'#43e8ff',enemy:'#b26bff',enemyD:'#7c3ee0',gem:'#7dff9e',decor:'tree'}},
+    {name:'Lava Caves', short:'CAVES', target:25, time:75, enemies:7, eSpeed:96, chase:320, chaseMult:1.55, moving:true, theme:{sky0:'#160404',sky1:'#330d08',sky2:'#571a08',ground:'#2b0d08',gtop:'#ff5a2e',hill:'#200806',accent:'#ff7a59',enemy:'#ffd93d',enemyD:'#e08a00',gem:'#ff9d5c',decor:'rock'}},
+    {name:"King's Sky", short:'SKY', target:30, time:90, enemies:9, eSpeed:112, chase:360, chaseMult:1.7, moving:true, theme:{sky0:'#1c0f3a',sky1:'#3d1f6e',sky2:'#7a4a1f',ground:'#2e1c52',gtop:'#ffd93d',hill:'#241547',accent:'#ffd93d',enemy:'#ff5c8a',enemyD:'#d12e63',gem:'#ffe873',decor:'tree'}}
+  ];
+  var curStage=0, unlockedStage=1, cleared={}, totalScore=0;
+
+  function makeSprite(w){
+    var c=document.createElement('canvas'); c.width=160; c.height=160;
+    var x=c.getContext('2d'); var art=MAPS[w.art]; if(!art) return c;
+    var cell=10;
+    for(var yy=0;yy<art.rows.length;yy++){ var row=art.rows[yy];
+      for(var xx=0;xx<row.length;xx++){ var ch=row[xx]; if(ch==='.'||ch===' ') continue;
+        x.fillStyle=art.pal[ch]||'#f0f'; x.fillRect(xx*cell,yy*cell,cell+1,cell+1); } }
+    if(w.evolved){
+      x.strokeStyle='#ffd93d'; x.lineWidth=5; x.strokeRect(4,4,152,152);
+      x.fillStyle='#ffd93d';
+      x.fillRect(72,2,16,6); x.fillRect(8,8,10,10); x.fillRect(142,8,10,10);
+      x.fillStyle='#ffffff'; x.fillRect(77,14,6,6);
+    }
+    return c;
+  }
+  function pad(n){ return ('00'+n).slice(-3); }
+  function selectCharacter(id){
+    selectedId=id; refreshSprite();
+    var opts=document.querySelectorAll('#charPicker .char-option');
+    for(var i=0;i<opts.length;i++) opts[i].classList.toggle('selected', +opts[i].getAttribute('data-id')===selectedId);
+  }
+  window.__setGameCharacter=function(id){ selectCharacter(id); };
+  window.__addEvolvedToPicker=function(w){
+    var b=document.createElement('button'); b.type='button';
+    b.className='char-option'; b.setAttribute('data-id',w.id);
+    b.setAttribute('aria-label','Play as '+w.name+' the '+w.type+' (Evolved)');
+    b.innerHTML='<canvas width="120" height="120"></canvas><span>'+w.name+' ★</span><small>'+w.type+' · '+w.tier+' · EVOLVED · +1 life</small>';
+    b.onclick=function(){ selectCharacter(w.id); toast('Now playing as '+w.name+' — Evolved bonus: +1 life.'); };
+    picker.appendChild(b); drawVoxel(b.querySelector('canvas'), w);
+  };
+  function refreshSprite(){
+    var w=byId(selectedId); maxLives=w.evolved?4:3; sprite=makeSprite(w);
+    var lbl=document.getElementById('selectedLabel');
+    if(lbl) lbl.innerHTML='Playing as: <b>Voxel #'+pad(w.id)+' — '+w.name+' the '+w.type+'</b>'+(w.evolved?' · <span style="color:var(--gold)">★ EVOLVED — bonus: +1 life (start with 4 lives)</span>':'');
+  }
+  var picker=document.getElementById('charPicker');
+  collection.forEach(function(w){
+    var b=document.createElement('button'); b.type='button';
+    b.className='char-option'+(w.id===selectedId?' selected':''); b.setAttribute('data-id',w.id);
+    b.setAttribute('aria-label','Play as '+w.name+' the '+w.type);
+    b.innerHTML='<canvas width="120" height="120"></canvas><span>'+w.name+'</span><small>'+w.type+' · '+w.tier+'</small>';
+    b.onclick=function(){ selectCharacter(w.id); toast('Now playing as '+w.name+' the '+w.type+'.'); };
+    picker.appendChild(b); drawVoxel(b.querySelector('canvas'), w);
+  });
+  refreshSprite();
+
+  // --- Stage select ---
+  var stageWrap=document.getElementById('stageSelect');
+  function renderStageSelect(){
+    stageWrap.innerHTML='';
+    STAGES.forEach(function(s,idx){
+      var locked=(idx+1)>unlockedStage, isCleared=!!cleared[idx];
+      var d=document.createElement(locked?'div':'button'); if(!locked) d.type='button';
+      d.className='stage-card '+(locked?'locked':(isCleared?'cleared unlocked':'unlocked'))+(idx===curStage?' current':'');
+      d.innerHTML='<b>STAGE '+(idx+1)+'<br>'+s.name.toUpperCase()+'</b><span>Target: '+s.target+' gems · '+s.time+'s<br>Enemies: '+s.enemies+(s.moving?' · Moving obstacles':'')+'</span><span class="st-status">'+(locked?'🔒 LOCKED':(isCleared?'✓ CLEARED':'● UNLOCKED'))+'</span>';
+      if(!locked){ d.onclick=function(){ pickStage(idx); }; }
+      stageWrap.appendChild(d);
+    });
+  }
+  function pickStage(idx){
+    if(!playUnlocked()){ toast('Holders only — connect your wallet and hold a Voxel to play.'); return; }
+    curStage=idx; running=false; resetWorld(); hud(); renderStageSelect();
+    var s=STAGES[idx];
+    showOverlay('STAGE '+(idx+1)+' — '+s.name.toUpperCase(),'Collect <b style="color:var(--cyan)">'+s.target+' gems</b> in '+s.time+' seconds to clear this stage. Each gem is <b style="color:var(--gold)">+100 points</b>. Avoid the enemies — each hit costs a life.','▶ Start Stage '+(idx+1),false);
+    document.getElementById('startBtn').textContent='▶ Start Stage '+(idx+1);
+    canvas.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  window.backToStageSelect=function(){
+    running=false; renderStageSelect();
+    var s=STAGES[curStage];
+    showOverlay('STAGE '+(curStage+1)+' — '+s.name.toUpperCase(),'Collect <b style="color:var(--cyan)">'+s.target+' gems</b> in '+s.time+' seconds to clear this stage. Pick any unlocked stage above, then start.','▶ Start Stage '+(curStage+1),false);
+    var el=document.getElementById('stageSelect'); if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+  };
+
+  // --- Holder gate ---
+  function playUnlocked(){ return (typeof walletConnected!=='undefined'&&walletConnected&&typeof isHolder==='function'&&isHolder())||(typeof demoHolder!=='undefined'&&demoHolder); }
+  window.__refreshHolderGate=function(){
+    var gate=document.getElementById('holderGate'), area=document.getElementById('gamePlayArea'), badge=document.getElementById('holderBadge');
+    var title=document.getElementById('gateTitle'), text=document.getElementById('gateText');
+    var cBtn=document.getElementById('gateConnectBtn'), fBtn=document.getElementById('gateMintFreeBtn'), pBtn=document.getElementById('gateMintPaidBtn'), dBtn=document.getElementById('gateDemoBtn');
+    if(playUnlocked()){
+      gate.style.display='none'; area.style.display='block'; badge.classList.add('show');
+      if(typeof demoHolder!=='undefined'&&demoHolder&&!(typeof isHolder==='function'&&isHolder())){
+        badge.innerHTML='👀 <span>Demo preview — playing without an NFT. <b>Mint a Voxel</b> to become a verified holder.</span>';
+      } else {
+        badge.innerHTML='✓ <span>Holder verified ✓ — <b>'+walletOwnedCount+' Voxel'+(walletOwnedCount===1?'':'s')+'</b> in your wallet. All unlocked stages are yours to play.</span>';
+      }
+      renderStageSelect(); return;
+    }
+    running=false;
+    gate.style.display='block'; area.style.display='none'; badge.classList.remove('show');
+    if(typeof walletConnected!=='undefined'&&walletConnected){
+      title.textContent='NO VOXEL FOUND IN THIS WALLET';
+      text.textContent='This wallet is connected, but it does not hold a Voxel yet. Mint one below — Free Mint is 0 BNB for Binance Agent ID holders, Genesis is open to all wallets — and the game unlocks automatically, with your minted Voxel as your default character.';
+      cBtn.style.display='none'; fBtn.style.display=''; pBtn.style.display=''; dBtn.style.display='';
+    } else {
+      title.textContent='🔒 HOLDERS ONLY — CONNECT YOUR WALLET TO PLAY';
+      text.textContent='Pixel Playground is reserved for Voxel World Pixel holders. Connect your wallet — if it holds a Voxel minted on this page, Stage 1 unlocks for you; clear each stage to unlock the next, through all 5 stages.';
+      cBtn.style.display=''; fBtn.style.display='none'; pBtn.style.display='none'; dBtn.style.display='';
+    }
+  };
+
+  function rng(seed){ var s=seed; return function(){ s=(s*9301+49297)%233280; return s/233280; }; }
+  var R=rng(1234), stars=[], decors=[], i;
+  for(i=0;i<190;i++) stars.push({x:R()*WORLD_W, y:R()*300, s:R()<.22?4:2.5, c:R()<.5?'#ffffff':(R()<.5?'#9d8cff':'#43e8ff')});
+  for(i=0;i<26;i++){ var dx=60+i*100+R()*50; decors.push({x:dx, kind:R()<.55?'tree':'rock', s:.8+R()*.6}); }
+  var baseObstacles=[
+    {x:430,y:GROUND_Y-38,w:56,h:38},{x:880,y:GROUND_Y-38,w:56,h:38},
+    {x:1330,y:GROUND_Y-38,w:56,h:38},{x:1780,y:GROUND_Y-38,w:56,h:38},
+    {x:2210,y:GROUND_Y-38,w:56,h:38},{x:1080,y:GROUND_Y-76,w:56,h:38}
+  ];
+  var obstacles=[];
+
+  var running=false, score=0, gemsGot=0, best=0, lives=3, timeLeft=60, elapsed=0, invUntil=0, camX=0, lastTs=0, animT=0;
+  var player={x:110,y:330,w:54,h:54,speed:350};
+  var gems=[], enemies=[], parts=[];
+  function spawnGem(){ gems.push({x:40+R()*(WORLD_W-80), y:95+R()*300, ph:R()*6.28}); }
+  function resetWorld(){
+    var s=STAGES[curStage];
+    gems=[]; enemies=[]; parts=[];
+    for(var g=0;g<9;g++) spawnGem();
+    for(var e=0;e<s.enemies;e++){
+      var ex=420+e*((WORLD_W-700)/Math.max(1,s.enemies-1))+R()*120;
+      enemies.push({x:ex,y:170+(e%4)*65,home:ex,range:130+(e%3)*45,dir:e%2?1:-1,speed:s.eSpeed+e*6,ph:e*1.3});
+    }
+    obstacles=baseObstacles.map(function(o,idx){
+      var c={x:o.x,y:o.y,w:o.w,h:o.h,baseY:o.y,moving:false,range:0,sp:0,ph:idx*1.1};
+      if(s.moving&&idx%2===0){ c.moving=true; c.range=52; c.sp=1.1+curStage*.18; }
+      return c;
+    });
+    timeLeft=s.time;
+  }
+  resetWorld();
+
+  var AC=null;
+  function beep(f,d,type,v){
+    try{
+      if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)();
+      if(AC.state==='suspended') AC.resume();
+      var o=AC.createOscillator(), gn=AC.createGain();
+      o.type=type||'square'; o.frequency.value=f; gn.gain.value=v||.05;
+      o.connect(gn); gn.connect(AC.destination); o.start();
+      gn.gain.exponentialRampToValueAtTime(.0001, AC.currentTime+(d||.09));
+      o.stop(AC.currentTime+(d||.09));
+    }catch(e){}
+  }
+
+  function hud(){
+    var s=STAGES[curStage];
+    document.getElementById('hudStage').textContent=(curStage+1)+' · '+s.short;
+    document.getElementById('hudScore').textContent=score;
+    document.getElementById('hudGems').textContent=gemsGot+'/'+s.target;
+    document.getElementById('hudTime').textContent=Math.max(0,Math.ceil(timeLeft));
+    document.getElementById('hudTime').style.color=timeLeft<=10?'var(--pink)':'var(--gold)';
+    var ml=maxLives||3, lv=Math.max(0,lives); document.getElementById('hudLives').textContent='♥'.repeat(lv)+'♡'.repeat(Math.max(0,ml-lv));
+    document.getElementById('hudBest').textContent=best;
+  }
+  var overlayAction='start';
+  function showOverlay(title,html,btn,showSecond){
+    document.getElementById('overlayTitle').textContent=title;
+    document.getElementById('overlayText').innerHTML=html;
+    var b=document.getElementById('overlayBtn'); b.textContent=btn; b.style.display='';
+    document.getElementById('overlayBtn2').style.display=showSecond?'':'none';
+    document.getElementById('gameOverlay').classList.add('show');
+  }
+  function hideOverlay(){ document.getElementById('gameOverlay').classList.remove('show'); }
+  document.getElementById('overlayBtn').onclick=function(){
+    if(overlayAction==='next'){ pickStage(curStage+1); startGame(); }
+    else startGame();
+  };
+
+  window.startGame=function(){
+    if(!playUnlocked()){ toast('Holders only — connect your wallet and hold a Voxel to play, or try the demo preview.'); if(window.__refreshHolderGate) window.__refreshHolderGate(); return; }
+    overlayAction='start';
+    score=0; gemsGot=0; lives=maxLives; elapsed=0; invUntil=0;
+    player.x=110; player.y=330; camX=0;
+    resetWorld(); running=true; hud(); hideOverlay(); renderStageSelect();
+    document.getElementById('startBtn').textContent='↻ Restart Stage '+(curStage+1);
+    beep(660,.08,'square',.04);
+    canvas.scrollIntoView({behavior:'smooth',block:'center'});
+  };
+  function stageCleared(){
+    running=false;
+    var s=STAGES[curStage]; cleared[curStage]=true;
+    if(curStage+2>unlockedStage) unlockedStage=Math.min(5,curStage+2);
+    var bonus=Math.ceil(timeLeft)*10; score+=bonus; totalScore+=score;
+    if(score>best) best=score; hud(); renderStageSelect(); beep(880,.12,'square',.05); setTimeout(function(){beep(1174,.14,'square',.05);},120);
+    if(curStage===4){
+      overlayAction='start';
+      showOverlay('🏆 YOU CLEARED PIXEL PLAYGROUND!','You beat all 5 stages — final stage score <span class="final-score">'+score+' PTS</span>Gems: <b style="color:var(--cyan)">'+gemsGot+'/'+s.target+'</b> · Time bonus: <b style="color:var(--gold)">+'+bonus+'</b> · Best: <b style="color:var(--lime)">'+best+'</b><br>Replay any stage from Stage Select and chase a higher score.','↻ Replay Stage 5',true);
+    } else {
+      overlayAction='next';
+      showOverlay('★ STAGE '+(curStage+1)+' CLEARED!','<b>'+s.name+'</b> complete.<span class="final-score">'+score+' PTS</span>Gems: <b style="color:var(--cyan)">'+gemsGot+'/'+s.target+'</b> · Time bonus: <b style="color:var(--gold)">+'+bonus+'</b><br>Stage '+(curStage+2)+' — '+STAGES[curStage+1].name+' — is now unlocked.','▶ Next Stage — '+STAGES[curStage+1].name,true);
+    }
+  }
+  function endGame(reason){
+    running=false; if(score>best) best=score; hud(); renderStageSelect();
+    beep(196,.25,'sawtooth',.05);
+    var s=STAGES[curStage]; overlayAction='start';
+    showOverlay(reason==='time'?'TIME UP — STAGE FAILED':'GAME OVER — STAGE FAILED',
+      'Stage '+(curStage+1)+' — '+s.name+' needs <b style="color:var(--cyan)">'+s.target+' gems</b>. You got <b style="color:var(--cyan)">'+gemsGot+'</b>.<span class="final-score">'+score+' PTS</span>Best score: <b style="color:var(--lime)">'+best+'</b> · Try again — the stage stays unlocked.',
+      '↻ Retry Stage '+(curStage+1),true);
+  }
+
+  var dirs={up:false,down:false,left:false,right:false};
+  var KEYMAP={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',KeyW:'up',KeyS:'down',KeyA:'left',KeyD:'right'};
+  window.addEventListener('keydown',function(e){ var d=KEYMAP[e.code]; if(!d) return; dirs[d]=true; if(running) e.preventDefault(); });
+  window.addEventListener('keyup',function(e){ var d=KEYMAP[e.code]; if(d) dirs[d]=false; });
+  var dpadBtns=document.querySelectorAll('#dpad button[data-dir]');
+  for(var bI=0;bI<dpadBtns.length;bI++){
+    (function(btn){
+      var dir=btn.getAttribute('data-dir');
+      function on(e){ e.preventDefault(); dirs[dir]=true; btn.classList.add('pressed'); }
+      function off(e){ if(e) e.preventDefault(); dirs[dir]=false; btn.classList.remove('pressed'); }
+      btn.addEventListener('pointerdown',on); btn.addEventListener('pointerup',off);
+      btn.addEventListener('pointercancel',off); btn.addEventListener('pointerleave',off);
+      btn.addEventListener('touchstart',function(e){ e.preventDefault(); },{passive:false});
+      btn.addEventListener('contextmenu',function(e){ e.preventDefault(); });
+    })(dpadBtns[bI]);
+  }
+  canvas.addEventListener('touchmove',function(e){ e.preventDefault(); },{passive:false});
+
+  function drawSlime(x,y,s,t,ph){
+    var th=STAGES[curStage].theme;
+    var bob=Math.sin(t*5+ph)*3, sq=1+Math.sin(t*5+ph)*.06;
+    ctx.save(); ctx.translate(x,y+bob); ctx.scale(sq,1/sq);
+    ctx.fillStyle='rgba(0,0,0,.35)'; ctx.fillRect(-s*.42,s*.40,s*.84,6);
+    ctx.fillStyle=th.enemy; ctx.fillRect(-s*.5,-s*.28,s,s*.68);
+    ctx.fillStyle=th.enemyD; ctx.fillRect(-s*.5,s*.14,s,s*.26);
+    ctx.fillStyle='rgba(255,255,255,.55)'; ctx.fillRect(-s*.34,-s*.42,s*.30,s*.18); ctx.fillRect(s*.08,-s*.38,s*.20,s*.14);
+    ctx.fillStyle='#0b2413'; ctx.fillRect(-s*.26,-s*.08,s*.13,s*.20); ctx.fillRect(s*.14,-s*.08,s*.13,s*.20);
+    ctx.fillStyle='#ffffff'; ctx.fillRect(-s*.22,-s*.06,s*.05,s*.07); ctx.fillRect(s*.18,-s*.06,s*.05,s*.07);
+    ctx.fillStyle='#0b2413'; ctx.fillRect(-s*.09,s*.20,s*.18,4);
+    ctx.restore();
+  }
+  function drawGem(g,t){
+    var th=STAGES[curStage].theme;
+    var bob=Math.sin(t*3+g.ph)*6, x=g.x-camX, y=g.y+bob;
+    if(x<-40||x>VIEW_W+40) return;
+    ctx.save(); ctx.translate(x,y);
+    ctx.fillStyle='rgba(255,255,255,.16)'; ctx.beginPath(); ctx.arc(0,0,20+Math.sin(t*4+g.ph)*3,0,6.29); ctx.fill();
+    ctx.fillStyle=th.gem; ctx.beginPath(); ctx.moveTo(0,-15); ctx.lineTo(11,0); ctx.lineTo(0,17); ctx.lineTo(-11,0); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#ffffff'; ctx.beginPath(); ctx.moveTo(0,-15); ctx.lineTo(6,-2); ctx.lineTo(0,6); ctx.lineTo(-6,-2); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#ffffff'; var sp=(Math.sin(t*5+g.ph)>0.72); if(sp){ ctx.fillRect(-2,-24,4,10); ctx.fillRect(-7,-19,14,4); }
+    ctx.restore();
+  }
+  function drawScene(t){
+    var th=STAGES[curStage].theme;
+    var grad=ctx.createLinearGradient(0,0,0,VIEW_H); grad.addColorStop(0,th.sky0); grad.addColorStop(.55,th.sky1); grad.addColorStop(1,th.sky2);
+    ctx.fillStyle=grad; ctx.fillRect(0,0,VIEW_W,VIEW_H);
+    for(var sI=0;sI<stars.length;sI++){ var st=stars[sI]; var sx=((st.x-camX*.3)%VIEW_W+VIEW_W)%VIEW_W; ctx.globalAlpha=.35+.4*Math.sin(t*2+sI); ctx.fillStyle=st.c; ctx.fillRect(sx,st.y,st.s,st.s); }
+    ctx.globalAlpha=1;
+    var mx=VIEW_W-150-camX*.06, my=52;
+    ctx.fillStyle= curStage===1 ? '#ff9d5c' : '#fdf6d8'; ctx.fillRect(mx,my,58,58);
+    ctx.fillStyle='rgba(0,0,0,.18)'; ctx.fillRect(mx+38,my+12,12,12); ctx.fillRect(mx+10,my+38,10,10);
+    ctx.fillStyle='rgba(253,246,216,.12)'; ctx.fillRect(mx-8,my-8,74,74);
+    ctx.fillStyle=th.hill;
+    for(var hI=0;hI<14;hI++){ var hx=hI*90-((camX*.45)%90), hh=60+((hI*47)%70); ctx.fillRect(hx,GROUND_Y-hh,74,hh); }
+    ctx.fillStyle=th.accent; ctx.fillRect(180-((camX*.45)%900)+400, GROUND_Y-118,5,5); ctx.fillRect(620-((camX*.45)%900)+200, GROUND_Y-96,5,5);
+    ctx.fillStyle=th.ground; ctx.fillRect(0,GROUND_Y,VIEW_W,VIEW_H-GROUND_Y);
+    ctx.fillStyle=th.gtop; ctx.fillRect(0,GROUND_Y,VIEW_W,10);
+    ctx.fillStyle=th.accent; for(var gI=0;gI<VIEW_W;gI+=28){ if(((gI+camX)%56)<28) ctx.fillRect(gI,GROUND_Y,14,4); }
+    ctx.fillStyle='rgba(255,255,255,.06)'; for(var dI=0;dI<12;dI++){ var ddx=((dI*173+60-camX)%(VIEW_W+60)+VIEW_W+60)%(VIEW_W+60)-30; ctx.fillRect(ddx,GROUND_Y+34+(dI%3)*16,16,6); }
+    if(curStage===3){ ctx.fillStyle='rgba(255,90,46,.35)'; for(var lI=0;lI<8;lI++){ var lx=((lI*211+80-camX)%(VIEW_W+80)+VIEW_W+80)%(VIEW_W+80)-40; ctx.fillRect(lx,GROUND_Y+52,44,8); } }
+    for(var cI=0;cI<decors.length;cI++){ var dc=decors[cI], dx2=dc.x-camX; if(dx2<-60||dx2>VIEW_W+60) continue;
+      var kind = th.decor==='tree' ? 'tree' : (dc.kind==='tree'?'rock':'rock');
+      if(kind==='tree'){ ctx.fillStyle='#5b3a1e'; ctx.fillRect(dx2-5,GROUND_Y-30*dc.s,10,30*dc.s); ctx.fillStyle= curStage===2?'#7c3ee0':'#1f9e57'; ctx.fillRect(dx2-20*dc.s,GROUND_Y-58*dc.s,40*dc.s,32*dc.s); ctx.fillStyle= curStage===2?'#b26bff':'#2ecc71'; ctx.fillRect(dx2-13*dc.s,GROUND_Y-72*dc.s,26*dc.s,18*dc.s); }
+      else { ctx.fillStyle='#3a3f5c'; ctx.fillRect(dx2-16*dc.s,GROUND_Y-16*dc.s,32*dc.s,16*dc.s); ctx.fillStyle='#4a4f73'; ctx.fillRect(dx2-10*dc.s,GROUND_Y-24*dc.s,20*dc.s,10*dc.s); }
+    }
+    for(var oI=0;oI<obstacles.length;oI++){ var ob=obstacles[oI], ox=ob.x-camX; if(ox<-70||ox>VIEW_W+70) continue;
+      ctx.fillStyle= ob.moving ? '#7c3ee0' : '#8a5a2b'; ctx.fillRect(ox,ob.y,ob.w,ob.h); ctx.fillStyle= ob.moving ? '#b26bff' : '#a9713a'; ctx.fillRect(ox,ob.y,ob.w,8);
+      ctx.strokeStyle='#060714'; ctx.lineWidth=3; ctx.strokeRect(ox,ob.y,ob.w,ob.h);
+      ctx.beginPath(); ctx.moveTo(ox,ob.y); ctx.lineTo(ox+ob.w,ob.y+ob.h); ctx.moveTo(ox+ob.w,ob.y); ctx.lineTo(ox,ob.y+ob.h); ctx.stroke();
+    }
+    ctx.fillStyle='#ffd93d'; ctx.font='10px "Press Start 2P", monospace'; ctx.textAlign='left';
+    var s1x=30-camX; if(s1x>-80&&s1x<VIEW_W) ctx.fillText('STAGE '+(curStage+1)+' START',s1x,120);
+    var s2x=WORLD_W-230-camX; if(s2x>-80&&s2x<VIEW_W) ctx.fillText('GEM FIELDS ▶',s2x,120);
+    for(var gm=0;gm<gems.length;gm++) drawGem(gems[gm],t);
+    for(var en=0;en<enemies.length;en++){ var em=enemies[en], ex=em.x-camX; if(ex<-60||ex>VIEW_W+60) continue; drawSlime(ex,em.y,44,t,em.ph); }
+    for(var pI=parts.length-1;pI>=0;pI--){ var pt=parts[pI]; ctx.globalAlpha=Math.max(0,pt.life*2.4); ctx.fillStyle=pt.c; ctx.fillRect(pt.x-camX-3,pt.y-3,6,6); }
+    ctx.globalAlpha=1;
+    var blink = performance.now()<invUntil && Math.floor(performance.now()/130)%2===0;
+    if(sprite && !blink){
+      var px=player.x-camX, bobP=running?0:Math.sin(t*2.4)*4;
+      ctx.fillStyle='rgba(0,0,0,.38)'; ctx.beginPath(); ctx.ellipse(px+player.w/2,player.y+player.h+6,24,6,0,0,6.29); ctx.fill();
+      ctx.imageSmoothingEnabled=false;
+      ctx.drawImage(sprite,px,player.y+bobP,player.w,player.h);
+    }
+    if(running&&timeLeft<=10){ ctx.fillStyle='rgba(255,60,90,'+(0.05+0.04*Math.sin(t*8))+')'; ctx.fillRect(0,0,VIEW_W,VIEW_H); }
+  }
+
+  function rectHit(ax,ay,aw,ah,bx,by,bw,bh){ return ax<bx+bw&&ax+aw>bx&&ay<by+bh&&ay+ah>by; }
+  function update(dt){
+    elapsed+=dt; timeLeft-=dt;
+    var s=STAGES[curStage];
+    if(timeLeft<=0){ timeLeft=0; hud(); if(gemsGot>=s.target) stageCleared(); else endGame('time'); return; }
+    for(var mI=0;mI<obstacles.length;mI++){ var mo=obstacles[mI]; if(mo.moving) mo.y=mo.baseY+Math.sin(elapsed*mo.sp+mo.ph)*mo.range; }
+    var vx=0, vy=0;
+    if(dirs.left) vx-=1; if(dirs.right) vx+=1; if(dirs.up) vy-=1; if(dirs.down) vy+=1;
+    if(vx&&vy){ vx*=.707; vy*=.707; }
+    var ox=player.x, oy=player.y;
+    player.x+=vx*player.speed*dt; player.y+=vy*player.speed*dt;
+    player.x=Math.max(8,Math.min(WORLD_W-player.w-8,player.x));
+    player.y=Math.max(74,Math.min(VIEW_H-player.h-10,player.y));
+    for(var oI=0;oI<obstacles.length;oI++){ var ob=obstacles[oI];
+      if(rectHit(player.x+6,player.y+8,player.w-12,player.h-10,ob.x,ob.y,ob.w,ob.h)){ player.x=ox; if(rectHit(player.x+6,player.y+8,player.w-12,player.h-10,ob.x,ob.y,ob.w,ob.h)) player.y=oy; }
+    }
+    camX=Math.max(0,Math.min(WORLD_W-VIEW_W, player.x+player.w/2-VIEW_W/2));
+    for(var eI=0;eI<enemies.length;eI++){ var em=enemies[eI];
+      var dxp=(player.x+27)-em.x, dyp=(player.y+27)-em.y, dist=Math.sqrt(dxp*dxp+dyp*dyp)||1;
+      var spd=em.speed+elapsed*.7;
+      if(dist<s.chase){ em.x+=(dxp/dist)*spd*s.chaseMult*dt; em.y+=(dyp/dist)*spd*s.chaseMult*dt; }
+      else { em.x+=em.dir*spd*dt; if(Math.abs(em.x-em.home)>em.range) em.dir*=-1; em.y+=Math.sin(elapsed*2+em.ph)*14*dt; }
+      em.y=Math.max(90,Math.min(VIEW_H-50,em.y));
+      if(dist<42 && performance.now()>invUntil){
+        lives--; invUntil=performance.now()+1600; hud(); beep(140,.18,'sawtooth',.06);
+        for(var pp=0;pp<10;pp++) parts.push({x:player.x+27,y:player.y+27,vx:(Math.random()-.5)*160,vy:(Math.random()-.5)*160,life:.5,c:'#ff5c8a'});
+        player.x=Math.max(8,player.x-(dxp>0?-70:70));
+        toast(lives>0?'Ouch! Hit — '+lives+(lives===1?' life':' lives')+' left.':'Ouch! That was your last life.');
+        if(lives<=0){ endGame('lives'); return; }
+      }
+    }
+    for(var gI=gems.length-1;gI>=0;gI--){ var gm=gems[gI];
+      var gdx=(player.x+27)-gm.x, gdy=(player.y+27)-gm.y;
+      if(Math.sqrt(gdx*gdx+gdy*gdy)<46){
+        gems.splice(gI,1); spawnGem(); score+=100; gemsGot++; hud(); beep(920,.07,'square',.045); setTimeout(function(){beep(1320,.06,'square',.035);},55);
+        for(var pq=0;pq<8;pq++) parts.push({x:gm.x,y:gm.y,vx:(Math.random()-.5)*140,vy:(Math.random()-.5)*140,life:.45,c:pq%2?'#43e8ff':'#ffd93d'});
+        if(gemsGot>=s.target){ stageCleared(); return; }
+      }
+    }
+    hud();
+  }
+  function loop(ts){
+    var dt=Math.min(.033,(ts-lastTs)/1000||0); lastTs=ts; animT=ts/1000;
+    if(running) update(dt);
+    for(var pI=parts.length-1;pI>=0;pI--){ var pt=parts[pI]; pt.life-=dt; pt.x+=(pt.vx||0)*dt; pt.y+=(pt.vy||0)*dt; if(pt.life<=0) parts.splice(pI,1); }
+    if(!running) camX=Math.max(0,Math.min(WORLD_W-VIEW_W, player.x+player.w/2-VIEW_W/2));
+    drawScene(animT);
+    requestAnimationFrame(loop);
+  }
+  renderStageSelect(); hud(); if(window.__refreshHolderGate) window.__refreshHolderGate();
+  drawScene(0); requestAnimationFrame(loop);
+})();
+
+</script>
+
+<script>
+// ================= STICKER PACK — PHASE 03 DIGITAL STICKERS =================
+(function(){
+  var grid=document.getElementById('stickerGrid'); if(!grid) return;
+
+  var redraws=[];
+  var TEXT_STICKERS=[
+    {slug:'gm', label:'GM', lines:['GM'], fill:'#9df04e', ink:'#0d1a00'},
+    {slug:'mint-it', label:'MINT IT', lines:['MINT','IT'], fill:'#43e8ff', ink:'#00222b'},
+    {slug:'hodl', label:'HODL', lines:['HODL'], fill:'#ffd93d', ink:'#231a00'},
+    {slug:'to-the-moon', label:'TO THE MOON', lines:['TO THE','MOON'], fill:'#ff5c8a', ink:'#ffffff'}
+  ];
+
+  function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
+
+  // Draw only the character pixels (no collection background) at 0,0 origin, total canvas = size x size
+  function drawCharSticker(ctx, w, size){
+    var art=MAPS[w.art]; if(!art) return;
+    ctx.clearRect(0,0,size,size);
+    ctx.imageSmoothingEnabled=false;
+    var margin=size*0.11;
+    var cell=(size-2*margin)/16;
+    var thick=Math.max(3, Math.round(cell*0.85));
+    // Pass 1 — thick white outline: expanded white square behind every character pixel
+    ctx.fillStyle='#ffffff';
+    for(var y=0;y<art.rows.length;y++){ var row=art.rows[y];
+      for(var x=0;x<row.length;x++){ var ch=row[x]; if(ch==='.'||ch===' ') continue;
+        ctx.fillRect(Math.floor(margin+x*cell-thick), Math.floor(margin+y*cell-thick), Math.ceil(cell+thick*2), Math.ceil(cell+thick*2));
+      }
+    }
+    // Pass 2 — the real pixel art on top
+    for(var y2=0;y2<art.rows.length;y2++){ var row2=art.rows[y2];
+      for(var x2=0;x2<row2.length;x2++){ var ch2=row2[x2]; if(ch2==='.'||ch2===' ') continue;
+        ctx.fillStyle=art.pal[ch2]||'#f0f';
+        ctx.fillRect(Math.floor(margin+x2*cell), Math.floor(margin+y2*cell), Math.ceil(cell), Math.ceil(cell));
+      }
+    }
+    if(w.evolved){
+      ctx.strokeStyle='#ffd93d'; ctx.lineWidth=Math.max(3,cell*.5);
+      var gx=margin+cell*.4, gy=margin+cell*.4, gs=cell*15.2;
+      ctx.strokeRect(gx,gy,gs,gs);
+    }
+  }
+
+  // Pixel speech-balloon text sticker at 0,0 origin, total canvas = size x size
+  function drawTextSticker(ctx, ts, size){
+    ctx.clearRect(0,0,size,size);
+    ctx.imageSmoothingEnabled=false;
+    var thick=Math.max(4, Math.round(size*0.028));
+    var bx=size*0.09, by=size*0.24, bw=size*0.82, bh=size*0.42;
+    // White outline — expanded balloon + tail
+    ctx.fillStyle='#ffffff';
+    ctx.fillRect(bx-thick, by-thick, bw+thick*2, bh+thick*2);
+    ctx.fillRect(bx+bw*0.20-thick, by+bh-2, size*0.11+thick*2, size*0.09+thick);
+    ctx.fillRect(bx+bw*0.20-thick, by+bh+size*0.07, size*0.055+thick*2, size*0.07+thick);
+    // Black border
+    ctx.fillStyle='#060714';
+    var b2=Math.max(3, Math.round(size*0.014));
+    ctx.fillRect(bx, by, bw, bh);
+    ctx.fillRect(bx+bw*0.20, by+bh-2, size*0.11, size*0.09);
+    ctx.fillRect(bx+bw*0.20, by+bh+size*0.07, size*0.055, size*0.07);
+    // Balloon fill
+    ctx.fillStyle=ts.fill;
+    ctx.fillRect(bx+b2, by+b2, bw-b2*2, bh-b2*2);
+    // Pixel text
+    ctx.fillStyle=ts.ink;
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    var longest=0; ts.lines.forEach(function(l){ if(l.length>longest) longest=l.length; });
+    var fs=Math.min(size*0.155, (bw*0.86)/(longest*0.82));
+    if(ts.lines.length>1) fs=Math.min(fs, size*0.125);
+    ctx.font=fs+'px "Press Start 2P", monospace';
+    var lh=fs*1.45, startY=by+bh/2-((ts.lines.length-1)*lh)/2;
+    ts.lines.forEach(function(line,i){ ctx.fillText(line, bx+bw/2, startY+i*lh); });
+    // Sparkles
+    ctx.fillStyle='#ffffff';
+    var sp=size*0.035;
+    ctx.fillRect(size*0.06, size*0.10, sp, sp); ctx.fillRect(size*0.90, size*0.13, sp, sp);
+    ctx.fillRect(size*0.86, size*0.78, sp, sp); ctx.fillRect(size*0.10, size*0.82, sp*.7, sp*.7);
+  }
+
+  function makeCanvas(size){ var c=document.createElement('canvas'); c.width=size; c.height=size; return c; }
+  function downloadCanvas(canvas, filename){
+    var a=document.createElement('a');
+    a.download=filename;
+    a.href=canvas.toDataURL('image/png');
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  function notify(msg){ if(typeof toast==='function') toast(msg); }
+
+  function downloadChar(w){
+    var c=makeCanvas(512); drawCharSticker(c.getContext('2d'), w, 512);
+    downloadCanvas(c, 'voxel-sticker-'+slugify(w.type)+'.png');
+    notify('Sticker downloaded — '+w.name+' the '+w.type+' (512×512 PNG).');
+  }
+  function downloadText(ts){
+    var c=makeCanvas(512); drawTextSticker(c.getContext('2d'), ts, 512);
+    downloadCanvas(c, 'voxel-sticker-'+ts.slug+'.png');
+    notify('Sticker downloaded — "'+ts.label+'" (512×512 PNG).');
+  }
+
+  // Build the grid: 12 characters + 4 text stickers
+  collection.forEach(function(w){
+    var card=document.createElement('article'); card.className='sticker-card';
+    card.innerHTML='<div class="sticker-preview"><canvas width="320" height="320" aria-label="'+w.name+' the '+w.type+' sticker"></canvas></div>'
+      +'<h3>'+w.name+'</h3><div class="stype">'+w.type+' · '+w.tier+'</div>';
+    var btn=document.createElement('button'); btn.type='button'; btn.className='sticker-dl'; btn.textContent='⬇ Download PNG';
+    btn.setAttribute('aria-label','Download '+w.name+' sticker as PNG');
+    btn.onclick=function(){ downloadChar(w); };
+    card.appendChild(btn);
+    grid.appendChild(card);
+    var cctx=card.querySelector('canvas').getContext('2d');
+    drawCharSticker(cctx, w, 320);
+    redraws.push(function(){ drawCharSticker(cctx, w, 320); });
+  });
+  TEXT_STICKERS.forEach(function(ts){
+    var card=document.createElement('article'); card.className='sticker-card';
+    card.innerHTML='<div class="sticker-preview"><canvas width="320" height="320" aria-label="'+ts.label+' text sticker"></canvas></div>'
+      +'<h3>'+ts.label+'</h3><div class="stype">Pixel Text Sticker</div>';
+    var btn=document.createElement('button'); btn.type='button'; btn.className='sticker-dl'; btn.textContent='⬇ Download PNG';
+    btn.setAttribute('aria-label','Download '+ts.label+' sticker as PNG');
+    btn.onclick=function(){ downloadText(ts); };
+    card.appendChild(btn);
+    grid.appendChild(card);
+    var tctx=card.querySelector('canvas').getContext('2d');
+    drawTextSticker(tctx, ts, 320);
+    redraws.push(function(){ drawTextSticker(tctx, ts, 320); });
+  });
+  // Redraw once the pixel font arrives so text stickers use Press Start 2P, not a fallback
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ redraws.forEach(function(fn){ fn(); }); }); }
+
+  // Full sheet: 16 stickers, 4x4 grid, 512 per cell = 2048x2048, transparent
+  var sheetBtn=document.getElementById('sheetDownloadBtn');
+  if(sheetBtn){
+    sheetBtn.onclick=function(){
+      var cell=512, sheet=makeCanvas(cell*4); sheet.height=cell*4;
+      var sctx=sheet.getContext('2d'); sctx.imageSmoothingEnabled=false;
+      var items=[];
+      collection.forEach(function(w){ items.push({kind:'char', data:w}); });
+      TEXT_STICKERS.forEach(function(ts){ items.push({kind:'text', data:ts}); });
+      items.forEach(function(item, i){
+        var col=i%4, row=Math.floor(i/4);
+        sctx.save(); sctx.translate(col*cell, row*cell);
+        if(item.kind==='char') drawCharSticker(sctx, item.data, cell);
+        else drawTextSticker(sctx, item.data, cell);
+        sctx.restore();
+      });
+      downloadCanvas(sheet, 'voxel-sticker-pack.png');
+      notify('Full sticker sheet downloaded — 16 stickers, 2048×2048 PNG.');
+    };
+  }
+})();
+</script>
+</body>
+</html>
