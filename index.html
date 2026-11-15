@@ -507,7 +507,7 @@
   <!-- HERO -->
   <div class="hero">
     <div>
-      <span class="badge"><i></i> Preview — Mint Opens at Launch · Contract TBA · BNB</span>
+      <span class="badge"><i></i> Contract Deployed · Mint Opens Soon · BNB</span>
       <h1>ENTER THE<br><span class="c1">VOXEL</span> <span class="c2">WORLD</span><br><span class="c3">PIXEL</span> REALM</h1>
       <p class="lead">A hand-crafted pixel universe of <b>1,111 one-of-a-kind characters</b> — robots, wizards, astronauts and legends, each drawn pixel by pixel with its own traits and rarity. <b>1,000 are free</b> for Binance Agent ID holders. The final <b>111 Genesis editions</b> are reserved for collectors.</p>
       <div class="hero-cta">
@@ -625,19 +625,19 @@
     <div class="sec-head">
       <div class="kicker">Mint Now</div>
       <h2>YOUR VOXEL IS WAITING.</h2>
-      <p>Mint preview — the contract is still TBA, so minting is not live yet. This is the whole deal: <b>1,111 Voxels, never more</b>. Free Mint (1,000) and Genesis Paid Mint (111) <b>will open together at launch</b>. <b>Free Mint is reserved for Binance Agent ID holders only</b> — Genesis stays open to every wallet. Every Genesis mint also gets a <b>direct shot at Legendary from its first draw</b>. Connect and mint in one click, or let your agent do it with the short prompt below.</p>
+      <p>Mint preview — the contract is deployed, but minting is not open yet. This is the whole deal: <b>1,111 Voxels, never more</b>. Free Mint (1,000) and Genesis Paid Mint (111) <b>will open together at launch</b>. <b>Free Mint is reserved for Binance Agent ID holders only</b> — Genesis stays open to every wallet. Every Genesis mint also gets a <b>direct shot at Legendary from its first draw</b>. Connect and mint in one click, or let your agent do it with the short prompt below.</p>
     </div>
 
-    <div class="mint-open"><i></i><span><b>MINT PREVIEW — CONTRACT TBA on BNB</b> — minting is not live yet. Free Mint and Genesis Paid Mint will open together at launch. Free Mint is for Binance Agent ID holders only; Genesis is open to all wallets. No waitlist, no second phase for Genesis. The buttons on this page are a preview simulation until the contract is live.</span></div>
+    <div class="mint-open"><i></i><span><b>CONTRACT DEPLOYED ON BNB — MINT OPENS SOON</b> — minting is not live yet. Free Mint and Genesis Paid Mint will open together at launch. Free Mint is for Binance Agent ID holders only; Genesis is open to all wallets. No waitlist, no second phase for Genesis. The buttons on this page are a preview simulation until mint opens.</span></div>
 
     <div class="live-panel">
       <h3>MINT PREVIEW — ONE-CLICK MINT SIMULATION</h3>
-      <p>Preview simulation — the contract is TBA and no real mint happens yet. When the contract is live, you will connect your wallet and mint directly: one <span class="mono">mint()</span> call, one flat fee, done.</p>
+      <p>Preview simulation — no real mint happens on this page yet. The contract is deployed on BNB Chain; when mint opens, you will connect your wallet and mint directly: one <span class="mono">freeMint()</span> or <span class="mono">genesisMint()</span> call, one flat fee, done.</p>
       <div class="live-rows">
         <div><span>Supply</span><b>1,111 Voxels</b></div>
         <div><span>Mint Fee</span><b>0 BNB Free · 0.0015 BNB Genesis</b></div>
         <div><span>Chain</span><b>BNB</b></div>
-        <div><span>Contract</span><b class="mono" style="font-size:12.5px">TBA — add your contract address</b></div>
+        <div><span>Contract</span><b class="mono" style="font-size:12.5px;word-break:break-all"><a href="https://bscscan.com/address/0x097E34c0A1657537aA0D94d171D39AB3954Fee57" target="_blank" rel="noopener">0x097E34c0A1657537aA0D94d171D39AB3954Fee57</a></b></div>
         <div><span>Free Mint · Example Preview Count</span><b><span id="liveFreeMinted">438</span> / 1,000 minted (example) · <span id="liveFreeLeft">562</span> left · Max 4 / wallet · Binance Agent ID holders only</b></div>
         <div><span>Paid · Genesis · Example Preview Count</span><b><span id="livePaidMinted">30</span> / 111 minted (example) · <span id="livePaidLeft">81</span> left · Open to all wallets · Max 5 / wallet</b></div>
       </div>
@@ -645,7 +645,7 @@
         <button class="btn btn-lime" onclick="doMint('free')">Mint Free — 0 BNB</button>
         <button class="btn btn-gold" onclick="doMint('paid')">Mint Genesis — 0.0015 BNB</button>
       </div>
-      <p style="margin:12px 0 0;font-size:12.5px">Fee goes to the contract wallet. Contract is TBA — replace the placeholder above and in the agent prompts with your real address when the contract is live, and the prompts are ready to execute as-is. The minted counts shown on this page (438 / 1,000 Free and 30 / 111 Genesis) are example preview numbers, not real on-chain mints.</p>
+      <p style="margin:12px 0 0;font-size:12.5px">Fee goes to the contract wallet. The contract is deployed — the address above and in the agent prompts is the real one, and the prompts are ready to execute as soon as mint opens. The minted counts shown on this page (438 / 1,000 Free and 30 / 111 Genesis) are example preview numbers, not real on-chain mints.</p>
     </div>
 
     <div class="mint-grid">
@@ -712,7 +712,7 @@
         <div class="wallet-row" style="margin-top:12px">
           <div>
             <b id="agentIdStatus">Binance Agent ID — not verified</b>
-            <div class="addr" id="agentIdNote" style="color:var(--muted);margin-top:5px">Free Mint is reserved for Binance Agent ID holders — verify once and Free Mint unlocks for this wallet (max 4). Genesis needs no ID. On this preview page the check is simulated; once the contract is live it verifies your Binance Agent ID on-chain.</div>
+            <div class="addr" id="agentIdNote" style="color:var(--muted);margin-top:5px">Free Mint is reserved for Binance Agent ID holders — verify once and Free Mint unlocks for this wallet (max 4). Genesis needs no ID. On this preview page the check is simulated; the deployed contract verifies your Binance Agent ID on-chain.</div>
           </div>
           <button class="btn btn-gold" id="agentIdBtn" onclick="verifyAgentId()">Verify Binance Agent ID</button>
         </div>
@@ -720,10 +720,10 @@
       </div>
 
       <div class="panel" id="panel-agent">
-        <p style="margin:0;line-height:1.75;color:var(--muted);font-size:15px">Agents welcome. <b style="color:var(--ink)">Copy the prompt, paste it to your agent, done</b> — it already contains the chain, contract placeholder, <span class="mono">mint()</span> call and exact fee in wei, so the agent executes in one call and returns the transaction link. Try the simulator:</p>
+        <p style="margin:0;line-height:1.75;color:var(--muted);font-size:15px">Agents welcome. <b style="color:var(--ink)">Copy the prompt, paste it to your agent, done</b> — it already contains the chain, the real contract address, <span class="mono">freeMint() / genesisMint()</span> call and exact fee in wei, so the agent executes in one call and returns the transaction link. Try the simulator:</p>
         <div class="agent-box" style="box-shadow:none;margin-top:16px">
           <label for="agentInput" style="font-weight:800;font-size:12.5px;letter-spacing:.08em">PROMPT FOR YOUR AI AGENT</label>
-          <textarea id="agentInput" style="margin-top:11px">Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: TBA — add your contract address. Call mint() with 0 BNB plus gas. Return the transaction link.</textarea>
+          <textarea id="agentInput" style="margin-top:11px">Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call freeMint(1) with 0 BNB plus gas. Return the transaction link.</textarea>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:13px">
             <button class="btn btn-pink" onclick="runAgent()">Run AI Agent</button>
             <button class="btn btn-ghost" onclick="fillAgentPrompt('free')">Load Free Mint Prompt</button>
@@ -780,13 +780,13 @@
     <div class="sec-head">
       <div class="kicker">For Agents</div>
       <h2>LET YOUR AGENT MINT.</h2>
-      <p>Super-short prompts with <b>every execution parameter already inside</b> — chain, contract, <span class="mono">mint()</span> call and exact fee in wei. No thinking, no long verification. Copy, paste, done. <b>Contract is TBA:</b> replace “TBA — add your contract address” with your real address in one place when the contract is live.</p>
+      <p>Super-short prompts with <b>every execution parameter already inside</b> — chain, contract, <span class="mono">freeMint() / genesisMint()</span> call and exact fee in wei. No thinking, no long verification. Copy, paste, done. <b>Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57</b> — deployed on BNB Chain; the prompts below are ready to execute as soon as mint opens.</p>
     </div>
     <div class="prompt-grid">
       <article class="prompt-card">
         <div class="p-head"><div><div class="label" style="color:#9df04e">Free Mint · 0 BNB</div><h3>Free Mint Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('freePrompt')">Copy</button></div>
         <div class="p-body">
-          <div class="prompt-text" id="freePrompt">Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: TBA — add your contract address. Call mint() with 0 BNB plus gas. Return the transaction link.</div>
+          <div class="prompt-text" id="freePrompt">Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call freeMint(1) with 0 BNB plus gas. Return the transaction link.</div>
           <p class="note">One line, one call — the agent checks your Binance Agent ID first, then mints from your connected wallet and returns the tx link. No Agent ID, no Free Mint.</p>
         </div>
       </article>
@@ -794,7 +794,7 @@
       <article class="prompt-card">
         <div class="p-head"><div><div class="label" style="color:#ffd93d">Paid Mint · Genesis 111</div><h3>Paid Mint Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('paidPrompt')">Copy</button></div>
         <div class="p-body">
-          <div class="prompt-text" id="paidPrompt">Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: TBA — add your contract address. Call mint() with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.</div>
+          <div class="prompt-text" id="paidPrompt">Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call genesisMint(1) with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.</div>
           <p class="note">Exact fee in wei included — open to all wallets, no ID needed. Genesis opens at launch, together with Free Mint, with a direct shot at Legendary on every draw.</p>
         </div>
       </article>
@@ -802,7 +802,7 @@
       <article class="prompt-card">
         <div class="p-head"><div><div class="label" style="color:#9d8cff">Upgrade · Evolve · 0.001 BNB</div><h3>Upgrade / Evolve Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('upgradePrompt')">Copy</button></div>
         <div class="p-body">
-          <div class="prompt-text" id="upgradePrompt">Upgrade my Voxel World Pixel NFTs on BNB. Burn 2 of my Voxels [token ids] and evolve them into 1 Evolved Voxel. Contract: TBA — add your contract address. Call evolve() with 0.001 BNB (1000000000000000 wei) plus gas. Return the transaction link.</div>
+          <div class="prompt-text" id="upgradePrompt">Upgrade my Voxel World Pixel NFTs on BNB. Burn 2 of my Voxels [token ids] and evolve them into 1 Evolved Voxel. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call evolve() with my 2 token ids and 0.001 BNB (1000000000000000 wei) plus gas. Return the transaction link.</div>
           <p class="note">Replace [token ids] with the 2 Voxels you want to burn. Result is guaranteed at least +1 rarity tier — unless the best piece burned is already Legendary, in which case the result stays Legendary; Evolved from Free pieces caps at Epic — Legendary stays exclusive to Genesis.</p>
         </div>
       </article>
@@ -837,7 +837,7 @@
           <a class="btn btn-gold" id="gateMintPaidBtn" href="#mint" style="display:none">Mint Genesis — 0.0015 BNB</a>
           <button class="btn btn-ghost" id="gateDemoBtn" onclick="tryDemoPlay()">Try demo — preview without an NFT</button>
         </div>
-        <p class="gate-note">Holder check runs on this page's mint record until the contract is live — connect the contract to verify on-chain. The demo button is a free preview only and does not make you a holder.</p>
+        <p class="gate-note">Holder check runs on this page's mint record until mint opens — the deployed contract verifies holders on-chain. The demo button is a free preview only and does not make you a holder.</p>
       </div>
 
       <div id="gamePlayArea" style="display:none">
@@ -916,7 +916,7 @@
   <section id="roadmap">
     <div class="sec-head"><div class="kicker">Roadmap</div><h2>THE ROAD AHEAD</h2></div>
     <div class="road">
-      <div class="phase"><span>PHASE 01</span><h3>Genesis Mint</h3><p>Mint opens on BNB at launch and both doors open together: 1,000 Free for Binance Agent ID holders, 111 Genesis at 0.0015 BNB — from day one. Contract is still TBA, so this phase has not launched yet.</p><span class="done">● PREVIEW — CONTRACT TBA</span></div>
+      <div class="phase"><span>PHASE 01</span><h3>Genesis Mint</h3><p>Mint opens on BNB at launch and both doors open together: 1,000 Free for Binance Agent ID holders, 111 Genesis at 0.0015 BNB — from day one. The contract is deployed on BNB Chain, and this phase launches the moment mint opens.</p><span class="done">● CONTRACT DEPLOYED — MINT SOON</span></div>
       <div class="phase"><span>PHASE 02</span><h3>Pixel Playground</h3><p>A holders-only browser game with 5 stages — holders explore Voxel World and play as their own character, from Night Meadow to the King's Sky.</p><span class="done live">● LIVE · HOLDERS ONLY</span><a href="#playground" class="btn btn-lime" style="display:flex;margin-top:12px;min-height:44px;font-size:13px">▶ Play Now</a></div>
       <div class="phase"><span>PHASE 03</span><h3>Merch &amp; Stickers</h3><p>The digital sticker pack is live — all 12 Voxels plus 4 pixel text stickers, free for everyone to download as transparent PNGs. Physical merch is still planned.</p><span class="done live">● LIVE · DIGITAL STICKERS</span><span class="done" style="margin-left:6px">MERCH · STILL PLANNED</span><a href="#stickers" class="btn btn-lime" style="display:flex;margin-top:12px;min-height:44px;font-size:13px">Get Stickers</a></div>
       <div class="phase"><span>PHASE 04</span><h3>Voxel World 2</h3><p>A new map, new species, and an exclusive airdrop reserved for Genesis 111 holders.</p><span class="done">PLANNED</span></div>
@@ -928,15 +928,15 @@
     <div class="sec-head"><div class="kicker">FAQ</div><h2>QUESTIONS, ANSWERED</h2></div>
     <details open><summary>What exactly is Voxel World Pixel?</summary><p>A collection of 1,111 pixel-art characters across 12 species — robot, cat, astronaut, alien, wizard, ninja, king, panda, frog, pirate, vampire and dino. Every piece is generated on a 16×16 pixel canvas with its own trait combination, so no two Voxels are alike.</p></details>
     <details><summary>How is the 1,111 supply split?</summary><p>1,000 pieces are Free Mint for Binance Agent ID holders (max 4 per wallet), and 111 are Paid Mint Genesis editions at 0.0015 BNB (max 5 per wallet). Once they're gone, the supply is closed forever.</p></details>
-    <details><summary>Who can use the Free Mint?</summary><p>Only holders of a Binance Agent ID. Free Mint is gated: your wallet must hold a Binance Agent ID, and the check runs before the mint — on this preview page it is simulated in the wallet panel, and once the contract is live it verifies on-chain. No Binance Agent ID, no Free Mint — but Genesis stays open to everyone, no ID needed, up to 5 per wallet. The Free Mint draw itself is random, from the Common and Rare pool only — Free Mint never yields a Legendary.</p></details>
+    <details><summary>Who can use the Free Mint?</summary><p>Only holders of a Binance Agent ID. Free Mint is gated: your wallet must hold a Binance Agent ID, and the check runs before the mint — on this preview page it is simulated in the wallet panel, and the deployed contract verifies it on-chain. No Binance Agent ID, no Free Mint — but Genesis stays open to everyone, no ID needed, up to 5 per wallet. The Free Mint draw itself is random, from the Common and Rare pool only — Free Mint never yields a Legendary.</p></details>
     <details><summary>Why mint a Genesis instead of a free one?</summary><p>Genesis is the only mint with a direct shot at Legendary from its first draw. Every Genesis mint draws from the full pool — including Legendary pieces like the Pixel King — right at mint open, with boosted odds for Rare and Legendary traits such as crowns, laser eyes and gold sunburst worlds. Every Genesis also carries a permanent Genesis 111 badge plus priority access to future drops, including the Voxel World 2 airdrop. Free Mint is great for joining the world, but it draws randomly from Common and Rare only — no Legendary.</p></details>
     <details><summary>Can a Paid Mint get a Legendary right away?</summary><p>Yes — it can, from its very first draw. Legendary is already in the Genesis draw when mint opens, not locked and not saved for a separate phase, so a Genesis mint can land a Legendary immediately. It is a direct chance on every Genesis draw, which is why Genesis is limited to just 111 pieces.</p></details>
     <details><summary>How does upgrading work?</summary><p>Burn 2 of your own Voxels and pay 0.001 BNB to receive 1 brand-new Evolved character — an exclusive form that can never be minted directly. The Evolved result is guaranteed at least +1 rarity tier above the best piece you burned — unless that piece is already Legendary, in which case the result stays Legendary, because Legendary is the top tier. Total ever minted stays 1,111 — upgrading burns the 2 originals, so supply only shrinks. Evolved Voxels also get a real bonus in Pixel Playground: +1 life (you start with 4 lives).</p></details>
     <details><summary>Can an Evolved Voxel be Legendary?</summary><p>Not from Free Mint pieces — an Evolved made from Free Voxels caps at Epic, no matter what you burn. Legendary stays exclusive to Genesis: the only way to hold a Legendary is the Genesis Paid Mint draw (or evolving Genesis material). That keeps the Genesis 111 special.</p></details>
-    <details><summary>When does the Paid Mint open?</summary><p>At launch — the Genesis Paid Mint (111 pieces at 0.0015 BNB) opens at exactly the same time as the Free Mint, not in a later phase. The contract is still TBA, so neither mint is live yet and the minting on this page is a preview simulation; once the contract is live, you will be able to mint a Genesis — and draw for Legendary — from day one.</p></details>
-    <details><summary>How does minting via AI Agent work?</summary><p>Copy the prompt, paste it to your agent, done. The prompt already contains everything for one fast execution — BNB, the contract, a single mint() call, and the exact fee (0 BNB for Free, 0.0015 BNB / 1500000000000000 wei for Genesis) — and the agent returns the transaction link. Contract is currently TBA: replace the placeholder in the prompt with the real address once the contract is live. You can rehearse the flow in the simulator on this page.</p></details>
+    <details><summary>When does the Paid Mint open?</summary><p>At launch — the Genesis Paid Mint (111 pieces at 0.0015 BNB) opens at exactly the same time as the Free Mint, not in a later phase. The contract is deployed, but mint is not open yet, so neither mint is live and the minting on this page is a preview simulation; once mint opens, you will be able to mint a Genesis — and draw for Legendary — from day one.</p></details>
+    <details><summary>How does minting via AI Agent work?</summary><p>Copy the prompt, paste it to your agent, done. The prompt already contains everything for one fast execution — BNB, the contract, a single freeMint() or genesisMint() call, and the exact fee (0 BNB for Free, 0.0015 BNB / 1500000000000000 wei for Genesis) — and the agent returns the transaction link. The prompts already carry the real contract address (0x097E34c0A1657537aA0D94d171D39AB3954Fee57), so they are ready to run as soon as mint opens. You can rehearse the flow in the simulator on this page.</p></details>
     <details><summary>Do I need any ID to mint Genesis?</summary><p>No. Paid Genesis is open to all wallets — no ID, no whitelist check. Connect any BNB wallet and mint directly, up to 5 per wallet.</p></details>
-    <details><summary>Who can play Pixel Playground, and how do stages work?</summary><p>Only Voxel holders can play. Connect your wallet — if it has minted a Voxel on this page (by wallet or AI Agent), the game unlocks and shows “Holder verified.” Until the contract is live, the holder check runs on this page's mint record, not on-chain; a clearly labelled demo preview is also available without an NFT. There are 5 stages — Night Meadow, Sunset Dunes, Neon Forest, Lava Caves and King's Sky. Each stage has a gem target and a time limit; reach the target before time runs out, with lives left, to clear it and unlock the next stage.</p></details>
+    <details><summary>Who can play Pixel Playground, and how do stages work?</summary><p>Only Voxel holders can play. Connect your wallet — if it has minted a Voxel on this page (by wallet or AI Agent), the game unlocks and shows “Holder verified.” Until mint opens, the holder check runs on this page's mint record, not on-chain; a clearly labelled demo preview is also available without an NFT. There are 5 stages — Night Meadow, Sunset Dunes, Neon Forest, Lava Caves and King's Sky. Each stage has a gem target and a time limit; reach the target before time runs out, with lives left, to clear it and unlock the next stage.</p></details>
     <details><summary>Which wallets are supported?</summary><p>Any major Web3 wallet — MetaMask, Rabby, Trust Wallet and Coinbase Wallet included. Just set your wallet to BNB and use the Connect Wallet button in the top-right corner to get started.</p></details>
   </section>
 
@@ -1220,9 +1220,9 @@ function showTab(which){
 
 // ================= PROMPTS / COPY / AGENT =================
 var PROMPTS={
-free:"Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: TBA — add your contract address. Call mint() with 0 BNB plus gas. Return the transaction link.",
-paid:"Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: TBA — add your contract address. Call mint() with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.",
-upgrade:"Upgrade my Voxel World Pixel NFTs on BNB. Burn 2 of my Voxels [token ids] and evolve them into 1 Evolved Voxel. Contract: TBA — add your contract address. Call evolve() with 0.001 BNB (1000000000000000 wei) plus gas. Return the transaction link."
+free:"Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call freeMint(1) with 0 BNB plus gas. Return the transaction link.",
+paid:"Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call genesisMint(1) with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.",
+upgrade:"Upgrade my Voxel World Pixel NFTs on BNB. Burn 2 of my Voxels [token ids] and evolve them into 1 Evolved Voxel. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call evolve() with my 2 token ids and 0.001 BNB (1000000000000000 wei) plus gas. Return the transaction link."
 };
 function fillAgentPrompt(type){
   showTab('agent');
@@ -1298,7 +1298,7 @@ function runAgent(){
     toast('Genesis is sold out.');
     return;
   }
-  log.textContent='[AGENT] Prompt received — executing now.\n[AGENT] Calling mint() on BNB — '+(isPaid?'0.0015 BNB (1500000000000000 wei)':'0 BNB')+' + gas, from connected wallet...';
+  log.textContent='[AGENT] Prompt received — executing now.\n[AGENT] Calling '+(isPaid?'genesisMint(1)':'freeMint(1)')+' on BNB — '+(isPaid?'0.0015 BNB (1500000000000000 wei)':'0 BNB')+' + gas, from connected wallet...';
   setTimeout(function(){
     var voxel;
     if(isPaid){ paidMinted=Math.min(111,paidMinted+1); paidPerWallet=Math.min(5,paidPerWallet+1); voxel=byId(drawFromPool(GENESIS_POOL,1)[0]); syncMintCounts();
