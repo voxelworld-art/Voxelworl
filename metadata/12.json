@@ -1,0 +1,20 @@
+{
+  "name": "Voxel #012 — Mimi",
+  "description": "Voxel World Pixel — a hand-crafted pixel universe of 1,111 one-of-a-kind characters on BNB Chain. 1,000 free for Binance Agent ID holders; 111 Genesis editions for collectors.",
+  "image": "https://voxelworld.fun/nfts/voxel-012-mimi.png",
+  "external_url": "https://voxelworld.fun",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Mimi"
+    },
+    {
+      "trait_type": "Type",
+      "value": "Dino"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    }
+  ]
+}

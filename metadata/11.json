@@ -1,0 +1,20 @@
+{
+  "name": "Voxel #011 — Dodo",
+  "description": "Voxel World Pixel — a hand-crafted pixel universe of 1,111 one-of-a-kind characters on BNB Chain. 1,000 free for Binance Agent ID holders; 111 Genesis editions for collectors.",
+  "image": "https://voxelworld.fun/nfts/voxel-011-dodo.png",
+  "external_url": "https://voxelworld.fun",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Dodo"
+    },
+    {
+      "trait_type": "Type",
+      "value": "Vampire"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    }
+  ]
+}

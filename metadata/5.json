@@ -1,0 +1,20 @@
+{
+  "name": "Voxel #005 — Toto",
+  "description": "Voxel World Pixel — a hand-crafted pixel universe of 1,111 one-of-a-kind characters on BNB Chain. 1,000 free for Binance Agent ID holders; 111 Genesis editions for collectors.",
+  "image": "https://voxelworld.fun/nfts/voxel-005-toto.png",
+  "external_url": "https://voxelworld.fun",
+  "attributes": [
+    {
+      "trait_type": "Character",
+      "value": "Toto"
+    },
+    {
+      "trait_type": "Type",
+      "value": "Wizard"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    }
+  ]
+}
