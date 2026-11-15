@@ -1,0 +1,28 @@
+{
+  "name": "Voxel World Pixel",
+  "short_name": "Voxel World",
+  "description": "1,111 hand-crafted pixel characters on BNB Chain. 1,000 free for Binance Agent ID holders, 111 Genesis editions.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1026",
+  "theme_color": "#0b1026",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
