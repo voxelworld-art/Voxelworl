@@ -482,7 +482,7 @@
 
     <div style="background:linear-gradient(180deg,var(--surface2),var(--surface));border:2px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm);margin-top:20px">
       <b class="pixelfont" style="font-size:12px;line-height:1.7;display:block;margin-bottom:8px">RARITY — HOW THE DRAW WORKS</b>
-      <p style="margin:0 0 16px;color:var(--muted);line-height:1.7;font-size:14.5px">Four tiers: <b style="color:var(--ink)">Common</b>, <b style="color:var(--cyan)">Rare</b>, <b style="color:var(--violet)">Epic</b>, and <b style="color:var(--gold)">★ Legendary</b> — the rarest Voxels, like the Pixel King, Alien and Vampire. <b style="color:var(--ink)">Epic is the Evolve-only tier</b>: it never comes from a regular mint — you get it only by evolving, and an Evolved made from Free Mint pieces caps at Epic. <b style="color:var(--ink)">Legendary is in the Paid Mint draw from the moment mint opens</b> — every Genesis mint draws from the full pool, including Legendary, on its very first draw. It is a direct chance, not a separate phase and not locked behind Free Mint. Free Mint draws from the standard pool and is not promised the same Legendary access as Genesis.</p>
+      <p style="margin:0 0 16px;color:var(--muted);line-height:1.7;font-size:14.5px">Four tiers: <b style="color:var(--ink)">Common</b>, <b style="color:var(--cyan)">Rare</b>, <b style="color:var(--violet)">Epic</b>, and <b style="color:var(--gold)">★ Legendary</b> — the rarest Voxels, like the Pixel King, Alien and Vampire. <b style="color:var(--ink)">Epic is the Evolve-only tier</b>: it never comes from a regular mint — you get it only by evolving, and an Evolved made from Free Mint pieces caps at Epic. <b style="color:var(--ink)">Legendary is in the Paid Mint draw from the moment mint opens</b> — every Genesis mint draws from the full pool, including Legendary, on its very first draw. It is a direct chance, not a separate phase and not locked behind Free Mint. <b style="color:var(--ink)">Free Mint draws randomly from Common and Rare only — no Legendary.</b></p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <span class="tag" style="background:#e8e9f5;color:#17172e">COMMON — Standard pool</span>
         <span class="tag" style="background:var(--cyan);color:#00222b">RARE — In Free &amp; Genesis draws</span>
@@ -557,7 +557,7 @@
         <ul class="check">
           <li><span><b>Binance Agent ID required</b> — holders only, verified before minting</span></li>
           <li><span><b>Max 4 per wallet</b> — fairness built into the drop</span></li>
-          <li><span>Standard trait pool: 12 species, all backgrounds</span></li>
+          <li><span><b>Random draw</b> — Common and Rare only, <b>no Legendary</b></span></li>
           <li><span>Mint by <b>wallet or AI Agent</b> — your choice</span></li>
         </ul>
         <div class="qty">
@@ -643,13 +643,13 @@
     <div class="sec-head">
       <div class="kicker">Upgrade · Evolve</div>
       <h2>EVOLVE YOUR VOXEL.</h2>
-      <p>Burn <b>2 of your own Voxels</b> and receive <b>1 brand-new Evolved character</b> — an exclusive form you can never get from a regular mint — for <b>0.001 BNB</b> per upgrade. The result is <b>guaranteed at least +1 rarity tier</b> above the best piece you burn. One rule protects Genesis value: an Evolved made from Free Mint pieces caps at <b>Epic</b> — <b>Legendary stays exclusive to Genesis</b>.</p>
+      <p>Burn <b>2 of your own Voxels</b> and receive <b>1 brand-new Evolved character</b> — an exclusive form you can never get from a regular mint — for <b>0.001 BNB</b> per upgrade. The result is <b>guaranteed at least +1 rarity tier</b> above the best piece you burn — with one honest exception: if the best piece you burn is already <b>Legendary</b>, the result stays Legendary, because there is no tier above it. One rule protects Genesis value: an Evolved made from Free Mint pieces caps at <b>Epic</b> — <b>Legendary stays exclusive to Genesis</b>.</p>
     </div>
 
     <div class="steps" style="margin:0 0 18px">
       <div class="step"><b class="num">1</b><h3>Pick 2 of your Voxels</h3><p>Choose any 2 Voxels in your wallet below. They will be <b style="color:var(--ink)">burned forever</b> — choose pieces you are ready to let go.</p></div>
       <div class="step"><b class="num">2</b><h3>Pay 0.001 BNB</h3><p>One small evolve fee per upgrade — <b style="color:var(--ink)">0.001 BNB</b>, paid in a single <span class="mono">evolve()</span> call on BNB.</p></div>
-      <div class="step"><b class="num">3</b><h3>Receive 1 Evolved</h3><p>A new exclusive character with a gold evolved aura, <b style="color:var(--ink)">guaranteed at least +1 rarity tier</b> — plus a real bonus in Pixel Playground: <b style="color:var(--ink)">+1 life</b>.</p></div>
+      <div class="step"><b class="num">3</b><h3>Receive 1 Evolved</h3><p>A new exclusive character with a gold evolved aura, <b style="color:var(--ink)">guaranteed at least +1 rarity tier</b> (a Legendary input stays Legendary — it is already the top tier) — plus a real bonus in Pixel Playground: <b style="color:var(--ink)">+1 life</b>.</p></div>
     </div>
 
     <b class="pixelfont" style="font-size:11px;line-height:1.7;display:block;margin-bottom:11px">EVOLVED FORMS — EXCLUSIVE, NEVER MINTED DIRECTLY</b>
@@ -701,7 +701,7 @@
         <div class="p-head"><div><div class="label" style="color:#9d8cff">Upgrade · Evolve · 0.001 BNB</div><h3>Upgrade / Evolve Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('upgradePrompt')">Copy</button></div>
         <div class="p-body">
           <div class="prompt-text" id="upgradePrompt">Upgrade my Voxel World Pixel NFTs on BNB. Burn 2 of my Voxels [token ids] and evolve them into 1 Evolved Voxel. Contract: TBA — add your contract address. Call evolve() with 0.001 BNB (1000000000000000 wei) plus gas. Return the transaction link.</div>
-          <p class="note">Replace [token ids] with the 2 Voxels you want to burn. Result is guaranteed at least +1 rarity tier; Evolved from Free pieces caps at Epic — Legendary stays exclusive to Genesis.</p>
+          <p class="note">Replace [token ids] with the 2 Voxels you want to burn. Result is guaranteed at least +1 rarity tier — unless the best piece burned is already Legendary, in which case the result stays Legendary; Evolved from Free pieces caps at Epic — Legendary stays exclusive to Genesis.</p>
         </div>
       </article>
     </div>
@@ -826,10 +826,10 @@
     <div class="sec-head"><div class="kicker">FAQ</div><h2>QUESTIONS, ANSWERED</h2></div>
     <details open><summary>What exactly is Voxel World Pixel?</summary><p>A collection of 1,111 pixel-art characters across 12 species — robot, cat, astronaut, alien, wizard, ninja, king, panda, frog, pirate, vampire and dino. Every piece is generated on a 16×16 pixel canvas with its own trait combination, so no two Voxels are alike.</p></details>
     <details><summary>How is the 1,111 supply split?</summary><p>1,000 pieces are Free Mint for Binance Agent ID holders (max 4 per wallet), and 111 are Paid Mint Genesis editions at 0.0015 BNB (max 5 per wallet). Once they're gone, the supply is closed forever.</p></details>
-    <details><summary>Who can use the Free Mint?</summary><p>Only holders of a Binance Agent ID. Free Mint is gated: your wallet must hold a Binance Agent ID, and the check runs before the mint — on this preview page it is simulated in the wallet panel, and once the contract is live it verifies on-chain. No Binance Agent ID, no Free Mint — but Genesis stays open to everyone, no ID needed, up to 5 per wallet.</p></details>
-    <details><summary>Why mint a Genesis instead of a free one?</summary><p>Genesis is the only mint with a direct shot at Legendary from its first draw. Every Genesis mint draws from the full pool — including Legendary pieces like the Pixel King — right at mint open, with boosted odds for Rare and Legendary traits such as crowns, laser eyes and gold sunburst worlds. Every Genesis also carries a permanent Genesis 111 badge plus priority access to future drops, including the Voxel World 2 airdrop. Free Mint is great for joining the world, but it draws from the standard pool and is not promised the same Legendary access.</p></details>
+    <details><summary>Who can use the Free Mint?</summary><p>Only holders of a Binance Agent ID. Free Mint is gated: your wallet must hold a Binance Agent ID, and the check runs before the mint — on this preview page it is simulated in the wallet panel, and once the contract is live it verifies on-chain. No Binance Agent ID, no Free Mint — but Genesis stays open to everyone, no ID needed, up to 5 per wallet. The Free Mint draw itself is random, from the Common and Rare pool only — Free Mint never yields a Legendary.</p></details>
+    <details><summary>Why mint a Genesis instead of a free one?</summary><p>Genesis is the only mint with a direct shot at Legendary from its first draw. Every Genesis mint draws from the full pool — including Legendary pieces like the Pixel King — right at mint open, with boosted odds for Rare and Legendary traits such as crowns, laser eyes and gold sunburst worlds. Every Genesis also carries a permanent Genesis 111 badge plus priority access to future drops, including the Voxel World 2 airdrop. Free Mint is great for joining the world, but it draws randomly from Common and Rare only — no Legendary.</p></details>
     <details><summary>Can a Paid Mint get a Legendary right away?</summary><p>Yes — it can, from its very first draw. Legendary is already in the Genesis draw when mint opens, not locked and not saved for a separate phase, so a Genesis mint can land a Legendary immediately. It is a direct chance on every Genesis draw, which is why Genesis is limited to just 111 pieces.</p></details>
-    <details><summary>How does upgrading work?</summary><p>Burn 2 of your own Voxels and pay 0.001 BNB to receive 1 brand-new Evolved character — an exclusive form that can never be minted directly. The Evolved result is guaranteed at least +1 rarity tier above the best piece you burned. Total ever minted stays 1,111 — upgrading burns the 2 originals, so supply only shrinks. Evolved Voxels also get a real bonus in Pixel Playground: +1 life (you start with 4 lives).</p></details>
+    <details><summary>How does upgrading work?</summary><p>Burn 2 of your own Voxels and pay 0.001 BNB to receive 1 brand-new Evolved character — an exclusive form that can never be minted directly. The Evolved result is guaranteed at least +1 rarity tier above the best piece you burned — unless that piece is already Legendary, in which case the result stays Legendary, because Legendary is the top tier. Total ever minted stays 1,111 — upgrading burns the 2 originals, so supply only shrinks. Evolved Voxels also get a real bonus in Pixel Playground: +1 life (you start with 4 lives).</p></details>
     <details><summary>Can an Evolved Voxel be Legendary?</summary><p>Not from Free Mint pieces — an Evolved made from Free Voxels caps at Epic, no matter what you burn. Legendary stays exclusive to Genesis: the only way to hold a Legendary is the Genesis Paid Mint draw (or evolving Genesis material). That keeps the Genesis 111 special.</p></details>
     <details><summary>When does the Paid Mint open?</summary><p>At launch — the Genesis Paid Mint (111 pieces at 0.0015 BNB) opens at exactly the same time as the Free Mint, not in a later phase. The contract is still TBA, so neither mint is live yet and the minting on this page is a preview simulation; once the contract is live, you will be able to mint a Genesis — and draw for Legendary — from day one.</p></details>
     <details><summary>How does minting via AI Agent work?</summary><p>Copy the prompt, paste it to your agent, done. The prompt already contains everything for one fast execution — BNB, the contract, a single mint() call, and the exact fee (0 BNB for Free, 0.0015 BNB / 1500000000000000 wei for Genesis) — and the agent returns the transaction link. Contract is currently TBA: replace the placeholder in the prompt with the real address once the contract is live. You can rehearse the flow in the simulator on this page.</p></details>
@@ -1067,6 +1067,21 @@ function syncMintCounts(){
   document.getElementById('freeBar').style.width=(freeMinted/10)+'%';
   document.getElementById('paidBar').style.width=(paidMinted/111*100)+'%';
 }
+// Shared mint draw pools — ONE definition used by both the wallet buttons and the AI Agent simulator.
+// Free Mint pool: Common & Rare characters only — no Legendary, and no Paid-tagged pieces.
+// Genesis pool: the full pool — all 12 characters, including Legendary.
+var FREE_POOL=collection.filter(function(w){ return w.cat==='free'&&(w.tier==='Common'||w.tier==='Rare'); }).map(function(w){ return w.id; });
+var GENESIS_POOL=collection.map(function(w){ return w.id; });
+function drawFromPool(pool,count){
+  // Truly random draw. Within a single mint, the same character is never drawn twice
+  // while the pool still has undrawn characters left.
+  var bag=pool.slice(), picks=[];
+  for(var i=0;i<count;i++){
+    if(!bag.length) bag=pool.slice();
+    picks.push(bag.splice(Math.floor(Math.random()*bag.length),1)[0]);
+  }
+  return picks;
+}
 function doMint(type){
   if(!walletConnected){ toast('Connect your wallet first — then mint in one click. Or use the AI Agent prompt.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
   if(type==='free'){
@@ -1074,20 +1089,18 @@ function doMint(type){
     if(freeMinted>=1000){ toast('Free Mint is sold out.'); return; }
     if(freePerWallet>=4){ toast('Free Mint limit reached — max 4 per wallet. This wallet has already minted 4 Free Voxels.'); return; }
     if(freePerWallet+qty.free>4){ toast('Free Mint limit reached — max 4 per wallet. You have minted '+freePerWallet+' Free Voxel(s), so you can mint '+(4-freePerWallet)+' more.'); return; }
-    var freePool=[1,2,3,5,6,8,9,10,12];
-    var freeVoxel=byId(freePool[freeMinted%freePool.length]);
+    var freePicks=drawFromPool(FREE_POOL,qty.free);
     freeMinted+=qty.free; freePerWallet+=qty.free; syncMintCounts();
-    registerOwnership(freeVoxel.id,qty.free,'free');
-    toast('Free Mint successful — Voxel #'+freeMinted+' is yours. ('+freePerWallet+' / 4 Free per wallet) Pixel Playground unlocked — you are a holder!');
+    freePicks.forEach(function(id){ registerOwnership(id,1,'free'); });
+    toast('Free Mint successful — random draw: '+freePicks.map(function(id){ return byId(id).name; }).join(', ')+' is yours. ('+freePerWallet+' / 4 Free per wallet) Pixel Playground unlocked — you are a holder!');
   } else {
     if(paidMinted>=111){ toast('Genesis is sold out.'); return; }
     if(paidPerWallet>=5){ toast('Genesis limit reached — max 5 per wallet. This wallet has already minted 5 Genesis Voxels.'); return; }
     if(paidPerWallet+qty.paid>5){ toast('Genesis limit reached — max 5 per wallet. You have minted '+paidPerWallet+' Genesis Voxel(s), so you can mint '+(5-paidPerWallet)+' more.'); return; }
-    var paidPool=[7,11,10,4,5,3];
-    var paidVoxel=byId(paidPool[paidMinted%paidPool.length]);
+    var paidPicks=drawFromPool(GENESIS_POOL,qty.paid);
     paidMinted+=qty.paid; paidPerWallet+=qty.paid; syncMintCounts();
-    registerOwnership(paidVoxel.id,qty.paid,'genesis');
-    toast('Genesis Mint successful — '+qty.paid+' Voxel(s) added. ('+paidPerWallet+' / 5 Genesis per wallet) Genesis draws from the full pool, including Legendary. Pixel Playground unlocked — you are a holder!');
+    paidPicks.forEach(function(id){ registerOwnership(id,1,'genesis'); });
+    toast('Genesis Mint successful — random draw: '+paidPicks.map(function(id){ return byId(id).name; }).join(', ')+'. ('+paidPerWallet+' / 5 Genesis per wallet) Genesis draws from the full pool, including Legendary. Pixel Playground unlocked — you are a holder!');
   }
 }
 
@@ -1126,6 +1139,11 @@ function runAgent(){
   var isPaid=v.indexOf('GENESIS')>-1||v.indexOf('0.0015')>-1||v.indexOf('PAID')>-1;
   log.style.display='block'; reveal.style.display='none';
   var isUpgrade=v.indexOf('EVOLVE')>-1||v.indexOf('UPGRADE')>-1;
+  if(!walletConnected){
+    log.textContent='[AGENT] Prompt received.\n[AGENT] No wallet connected — the agent can only mint or evolve from your connected wallet, so nothing was executed. Connect your wallet first, then run the prompt again.';
+    toast('Connect your wallet first — the AI Agent acts from your connected wallet.');
+    return;
+  }
   if(isUpgrade){
     if(walletInstances.length<2){
       log.textContent='[AGENT] Prompt received.\n[AGENT] Upgrade needs 2 Voxels in your wallet — you currently hold '+walletInstances.length+'. Mint at least 2 Voxels first, then run the upgrade again.';
@@ -1135,13 +1153,15 @@ function runAgent(){
     var picks=(typeof upgradeSelected!=='undefined'&&upgradeSelected.length===2)?upgradeSelected.slice():[walletInstances[0].uid,walletInstances[1].uid];
     log.textContent='[AGENT] Prompt received — executing now.\n[AGENT] Calling evolve() on BNB — 0.001 BNB (1000000000000000 wei) + gas. Burning 2 Voxels...';
     setTimeout(function(){
+      var burnA=findInstance(picks[0]), burnB=findInstance(picks[1]);
+      var tierNote=(burnA&&burnB)?evolveTierNote(burnA,burnB):'Guaranteed at least +1 rarity tier above the best piece burned.';
       var evo=performEvolve(picks[0],picks[1]);
       if(!evo){ log.textContent+='\n[AGENT] Upgrade failed — the selected Voxels are no longer in this wallet.'; return; }
       if(typeof upgradeSelected!=='undefined') upgradeSelected=[];
       log.textContent+='\n[AGENT] Evolve confirmed. Tx: bscscan.com/tx/0xevolve'+evo.id+'…\n[AGENT] Done — 1 Evolved Voxel received: '+evo.name+' ('+evo.tier+'). Transaction link returned.';
       drawVoxel(document.getElementById('revealCanvas'), evo);
       document.getElementById('revealTitle').textContent='Evolved — '+evo.name+' · '+evo.tier;
-      document.getElementById('revealDesc').textContent='Burned 2 Voxels, paid 0.001 BNB, received 1 exclusive Evolved character — guaranteed at least +1 rarity tier. Evolved bonus in Pixel Playground: +1 life.';
+      document.getElementById('revealDesc').textContent='Burned 2 Voxels, paid 0.001 BNB, received 1 exclusive Evolved character. '+tierNote+' Evolved bonus in Pixel Playground: +1 life.';
       reveal.style.display='flex';
       toast('AI Agent evolved your Voxels — '+evo.name+' ('+evo.tier+') is yours.');
     },1200);
@@ -1162,11 +1182,21 @@ function runAgent(){
     toast('Genesis limit reached — max 5 per wallet.');
     return;
   }
+  if(!isPaid && freeMinted>=1000){
+    log.textContent='[AGENT] Prompt received.\n[AGENT] Free Mint is sold out — all 1,000 Free Voxels have been minted.';
+    toast('Free Mint is sold out.');
+    return;
+  }
+  if(isPaid && paidMinted>=111){
+    log.textContent='[AGENT] Prompt received.\n[AGENT] Genesis is sold out — all 111 Genesis Voxels have been minted.';
+    toast('Genesis is sold out.');
+    return;
+  }
   log.textContent='[AGENT] Prompt received — executing now.\n[AGENT] Calling mint() on BNB — '+(isPaid?'0.0015 BNB (1500000000000000 wei)':'0 BNB')+' + gas, from connected wallet...';
   setTimeout(function(){
     var voxel;
-    if(isPaid){ paidMinted=Math.min(111,paidMinted+1); paidPerWallet=Math.min(5,paidPerWallet+1); var paidPool=[7,11,10,4,7,5]; voxel=byId(paidPool[paidMinted%paidPool.length]); syncMintCounts();
-    } else { freeMinted=Math.min(1000,freeMinted+1); freePerWallet=Math.min(4,freePerWallet+1); var freePool=[1,2,3,5,6,8,9,1,3,6]; voxel=byId(freePool[freeMinted%freePool.length]); syncMintCounts();
+    if(isPaid){ paidMinted=Math.min(111,paidMinted+1); paidPerWallet=Math.min(5,paidPerWallet+1); voxel=byId(drawFromPool(GENESIS_POOL,1)[0]); syncMintCounts();
+    } else { freeMinted=Math.min(1000,freeMinted+1); freePerWallet=Math.min(4,freePerWallet+1); voxel=byId(drawFromPool(FREE_POOL,1)[0]); syncMintCounts();
     }
     var tokenNo=isPaid?(1000+paidMinted):freeMinted;
     registerOwnership(voxel.id,1,isPaid?'genesis':'free');
@@ -1196,6 +1226,13 @@ function predictedEvolveTier(a,b){
   var capped=false;
   if(!a.genesisOrigin && !b.genesisOrigin && r>2){ r=2; capped=true; }
   return {tier:TIER_ORDER[r], capped:capped};
+}
+function evolveTierNote(a,b){
+  // Honest guarantee wording: +1 tier holds unless the best piece burned is already
+  // Legendary — Legendary is the top tier, so the result then stays Legendary.
+  return Math.max(tierRank(a.tier),tierRank(b.tier))>=3
+    ? 'Your best piece is already Legendary — the top tier — so the Evolved result stays Legendary.'
+    : 'Guaranteed at least +1 rarity tier above the best piece burned.';
 }
 function performEvolve(uidA, uidB){
   var a=findInstance(uidA), b=findInstance(uidB);
@@ -1252,7 +1289,7 @@ function refreshUpgradePanel(){
   if(upgradeSelected.length===2){
     var pa=findInstance(upgradeSelected[0]), pb=findInstance(upgradeSelected[1]);
     var pr=predictedEvolveTier(pa,pb);
-    pred.innerHTML='Burning these 2 → <b style="color:var(--gold)">guaranteed result: '+pr.tier+' Evolved</b> (at least +1 tier above the best piece burned).'+(pr.capped?' Capped at Epic — Legendary stays exclusive to Genesis.':'');
+    pred.innerHTML='Burning these 2 → <b style="color:var(--gold)">guaranteed result: '+pr.tier+' Evolved</b>. '+evolveTierNote(pa,pb)+(pr.capped?' Capped at Epic — Legendary stays exclusive to Genesis.':'');
   } else if(upgradeSelected.length===1){
     pred.textContent='1 of 2 selected — pick one more Voxel to burn.';
   } else {
@@ -1274,10 +1311,12 @@ function doUpgrade(){
   var log=document.getElementById('upgradeLog'), reveal=document.getElementById('upgradeReveal');
   log.style.display='block'; reveal.style.display='none';
   log.textContent='[UPGRADE] Calling evolve() on BNB — burning 2 Voxels + 0.001 BNB fee...';
+  var burnA=findInstance(upgradeSelected[0]), burnB=findInstance(upgradeSelected[1]);
+  var tierNote=(burnA&&burnB)?evolveTierNote(burnA,burnB):'Guaranteed at least +1 rarity tier above the best piece burned.';
   var evo=performEvolve(upgradeSelected[0], upgradeSelected[1]);
   upgradeSelected=[];
   if(!evo){ log.textContent='[UPGRADE] Failed — the selected Voxels are no longer in your wallet.'; refreshUpgradePanel(); return; }
-  log.textContent='[UPGRADE] Burn confirmed — 2 Voxels destroyed. Total ever minted stays 1,111; live supply shrinks by 1.\n[UPGRADE] Evolve confirmed. Tx: bscscan.com/tx/0xevolve'+evo.id+'…\n[UPGRADE] Received: '+evo.name+' — '+evo.tier+' tier Evolved (guaranteed at least +1 tier). Play it in Pixel Playground with +1 bonus life.';
+  log.textContent='[UPGRADE] Burn confirmed — 2 Voxels destroyed. Total ever minted stays 1,111; live supply shrinks by 1.\n[UPGRADE] Evolve confirmed. Tx: bscscan.com/tx/0xevolve'+evo.id+'…\n[UPGRADE] Received: '+evo.name+' — '+evo.tier+' tier Evolved. '+tierNote+' Play it in Pixel Playground with +1 bonus life.';
   drawVoxel(document.getElementById('upgradeRevealCanvas'), evo);
   document.getElementById('upgradeRevealTitle').textContent='Evolved — '+evo.name+' · '+evo.tier;
   document.getElementById('upgradeRevealDesc').textContent='Exclusive Evolved form — never available from a regular mint. Tier: '+evo.tier+'. In Pixel Playground this character starts with 4 lives (Evolved bonus: +1 life).';
