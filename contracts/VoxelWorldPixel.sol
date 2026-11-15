@@ -2,6 +2,7 @@
 pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -13,8 +14,12 @@ import "@openzeppelin/contracts/utils/Strings.sol";
  * Rules (matching voxelworld.fun):
  * - Total supply is capped at 1,111 = 1,000 Free Mint + 111 Genesis Mint.
  * - Free Mint: free, max 4 per wallet, only for Binance Agent ID holders.
- *   Agent ID ownership is verified off-chain; the owner marks verified
- *   wallets with setAgentIdVerified() before they can free-mint.
+ *   Eligibility is checked on-chain at mint time against the official
+ *   Binance Agent ID registry — the SPACE ID Agent ID (.ai) identity NFT.
+ *   The registry address is set once in the constructor and can never be
+ *   changed; a wallet holding at least one Agent ID (balanceOf > 0) can
+ *   free-mint. The official registry on BNB Chain is
+ *   0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F.
  *   Free Mint draws randomly from Common & Rare characters only (no Legendary).
  * - Genesis Mint: 0.0015 BNB each, max 5 per wallet, open to all wallets.
  *   Genesis draws randomly from all 12 characters, including Legendary.
@@ -66,7 +71,10 @@ contract VoxelWorldPixel is ERC721, Ownable, ReentrancyGuard {
     bool public mintOpen;
     string private _baseTokenURI;
 
-    mapping(address => bool) public agentIdVerified;
+    /// @notice The official Binance Agent ID registry (SPACE ID Agent ID,
+    /// the .ai identity NFT on BNB Chain). Set once at deploy, immutable.
+    address public immutable agentIdRegistry;
+
     mapping(address => uint256) public freeMintCount;
     mapping(address => uint256) public genesisMintCount;
     mapping(uint256 => TokenInfo) public tokenInfo;
@@ -87,11 +95,13 @@ contract VoxelWorldPixel is ERC721, Ownable, ReentrancyGuard {
         uint8 characterId,
         Tier tier
     );
-    event AgentIdVerified(address indexed wallet, bool verified);
     event MintOpenChanged(bool open);
     event Withdrawn(address indexed owner, uint256 amount);
 
-    constructor() ERC721("Voxel World Pixel", "VOXEL") Ownable(msg.sender) {}
+    constructor(address agentIdRegistry_) ERC721("Voxel World Pixel", "VOXEL") Ownable(msg.sender) {
+        require(agentIdRegistry_ != address(0), "Agent ID registry required");
+        agentIdRegistry = agentIdRegistry_;
+    }
 
     // ---- Character tiers --------------------------------------------------------
     /// @notice Base rarity tier of a character design (Epic is Evolve-only).
@@ -118,21 +128,6 @@ contract VoxelWorldPixel is ERC721, Ownable, ReentrancyGuard {
 
     function setBaseURI(string calldata uri) external onlyOwner {
         _baseTokenURI = uri;
-    }
-
-    /// @notice Mark a wallet as a verified Binance Agent ID holder (or revoke).
-    /// Verification of the Agent ID itself happens off-chain by the owner.
-    function setAgentIdVerified(address wallet, bool verified) external onlyOwner {
-        agentIdVerified[wallet] = verified;
-        emit AgentIdVerified(wallet, verified);
-    }
-
-    /// @notice Batch version of setAgentIdVerified.
-    function setAgentIdVerifiedBatch(address[] calldata wallets, bool verified) external onlyOwner {
-        for (uint256 i = 0; i < wallets.length; i++) {
-            agentIdVerified[wallets[i]] = verified;
-            emit AgentIdVerified(wallets[i], verified);
-        }
     }
 
     /// @notice Withdraw all sale proceeds held by this contract to the owner.
@@ -180,9 +175,10 @@ contract VoxelWorldPixel is ERC721, Ownable, ReentrancyGuard {
 
     // ---- Minting --------------------------------------------------------------------
     /// @notice Free Mint — 0 BNB, max 4 per wallet, Binance Agent ID holders only.
+    /// Eligibility is read live from the Agent ID registry at mint time.
     function freeMint(uint256 qty) external nonReentrant {
         require(mintOpen, "Mint is not open yet");
-        require(agentIdVerified[msg.sender], "Binance Agent ID not verified");
+        require(hasAgentId(msg.sender), "Binance Agent ID required");
         require(qty > 0, "Quantity must be at least 1");
         require(freeMintCount[msg.sender] + qty <= FREE_MAX_PER_WALLET, "Free Mint limit reached (max 4)");
         require(freeMinted + qty <= FREE_SUPPLY, "Free Mint sold out");
@@ -266,6 +262,11 @@ contract VoxelWorldPixel is ERC721, Ownable, ReentrancyGuard {
     }
 
     // ---- Views ------------------------------------------------------------------------
+    /// @notice True if the wallet holds a Binance Agent ID (.ai) in the registry.
+    function hasAgentId(address wallet) public view returns (bool) {
+        return IERC721(agentIdRegistry).balanceOf(wallet) > 0;
+    }
+
     /// @notice Total Voxels ever minted through Free + Genesis (cap 1,111).
     /// Evolve outputs are not counted here: evolving burns 2 and mints 1,
     /// so circulating supply only shrinks.
