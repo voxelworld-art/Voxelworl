@@ -203,7 +203,12 @@
   @media(max-width:860px){ .mint-grid{grid-template-columns:1fr} }
   .mint-card{border:2px solid #000;border-radius:20px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden;background:var(--surface)}
   .mint-card.free{background:linear-gradient(180deg, rgba(157,240,78,.13), var(--surface) 55%)}
-  .mint-card.paid{background:linear-gradient(180deg, rgba(255,217,61,.14), var(--surface) 55%)}
+  .mint-card.paid{background:linear-gradient(180deg, rgba(255,217,61,.14), var(--surface) 55%);box-shadow:var(--shadow),0 0 38px rgba(255,217,61,.42)}
+  .mint-card .tag{max-width:calc(100% - 148px)}
+  .stamp{position:absolute;top:13px;right:13px;z-index:3;font-family:"Press Start 2P",monospace;font-size:10px;line-height:1.55;padding:9px 11px;border:2px solid #000;box-shadow:4px 4px 0 #000;pointer-events:none;text-align:center;max-width:150px}
+  .stamp-soldout{background:#ff5c8a;color:#fff;transform:rotate(-8deg)}
+  .stamp-gold{background:var(--gold);color:#231a00;transform:rotate(3deg)}
+  @media(max-width:520px){ .stamp{font-size:8.5px;top:10px;right:10px;max-width:128px;padding:7px 8px} .mint-card .tag{max-width:calc(100% - 128px)} }
   .mint-card h3{font-family:"Press Start 2P",monospace;font-size:15.5px;line-height:1.55;margin:14px 0 8px}
   .price{font-family:"Press Start 2P",monospace;font-size:25px;margin:8px 0}
   .price small{font-size:11px;color:var(--muted)}
@@ -507,20 +512,20 @@
   <!-- HERO -->
   <div class="hero">
     <div>
-      <span class="badge"><i></i> Mint Is Live · BNB</span>
+      <span class="badge"><i></i> Free Mint Sold Out · Genesis Live · BNB</span>
       <h1>ENTER THE<br><span class="c1">VOXEL</span> <span class="c2">WORLD</span><br><span class="c3">PIXEL</span> REALM</h1>
-      <p class="lead">A hand-crafted pixel universe of <b>1,111 one-of-a-kind characters</b> — robots, wizards, astronauts and legends, each drawn pixel by pixel with its own traits and rarity. <b>1,000 are free</b> for Binance Agent ID holders. The final <b>111 Genesis editions</b> are reserved for collectors.</p>
+      <p class="lead">A hand-crafted pixel universe of <b>1,111 one-of-a-kind characters</b> — robots, wizards, astronauts and legends, each drawn pixel by pixel with its own traits and rarity. <b>1,000 were free for Binance Agent ID holders — and sold out in under an hour.</b> The final <b>111 Genesis editions</b> are reserved for collectors.</p>
       <div class="hero-cta">
-        <a href="#mint" class="btn btn-lime" style="min-height:52px">
+        <a href="#mint" class="btn btn-gold" style="min-height:52px">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3h4v4H6zM14 3h4v4h-4zM6 17h4v4H6zM14 17h4v4h-4zM10 10h4v4h-4z" fill="currentColor"/></svg>
-          Mint Free — 0 BNB</a>
+          Mint Genesis — 0.0015 BNB</a>
         <a href="#prompt" class="btn btn-ghost" style="min-height:52px">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M12 7V3M8 12h.01M16 12h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M9 16h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           Mint via AI Agent</a>
       </div>
       <div class="hero-mini">
         <div><b>1,111</b><span>Total Supply</span></div>
-        <div><b>1,000</b><span>Free Mint</span></div>
+        <div><b>1,000</b><span>Free Mint · Sold Out</span></div>
         <div><b>111</b><span>Genesis Paid</span></div>
         <div><b>0.0015</b><span>BNB / Genesis</span></div>
       </div>
@@ -560,7 +565,7 @@
   <!-- STATS -->
   <div class="stats">
     <div class="stat" style="--ac:var(--lime)"><b>1,111</b><span>Hard-capped supply. Minted once, never extended — ever.</span></div>
-    <div class="stat" style="--ac:var(--cyan)"><b>1,000</b><span>Free Mint reserved for Binance Agent ID holders — max 4 per wallet.</span></div>
+    <div class="stat" style="--ac:var(--cyan)"><b>1,000</b><span>Free Mint for Binance Agent ID holders — max 4 per wallet. SOLD OUT — all 1,000 claimed in under an hour.</span></div>
     <div class="stat" style="--ac:var(--gold)"><b>111</b><span>Genesis Paid Mint — rare traits, gold backgrounds, Genesis badge, and a direct shot at Legendary from the first draw.</span></div>
     <div class="stat" style="--ac:var(--pink)"><b>0.0015 BNB</b><span>One transparent Genesis price. No tiers, no hidden fees.</span></div>
   </div>
@@ -625,37 +630,38 @@
     <div class="sec-head">
       <div class="kicker">Mint Now</div>
       <h2>YOUR VOXEL IS WAITING.</h2>
-      <p>Mint is live — the contract is deployed and both mints are open. This is the whole deal: <b>1,111 Voxels, never more</b>. Free Mint (1,000) and Genesis Paid Mint (111) <b>are both open now</b>. <b>Free Mint is reserved for Binance Agent ID holders only</b> — Genesis stays open to every wallet. Every Genesis mint also gets a <b>direct shot at Legendary from its first draw</b>. Connect and mint in one click, or let your agent do it with the short prompt below.</p>
+      <p>Mint is live — and the Free Mint already sold out: all 1,000 Free Voxels were claimed by Binance Agent ID holders in under an hour. What remains is the Genesis Paid Mint (111) — open now to every wallet, each with a direct shot at Legendary from its first draw. 1,111 Voxels, never more. Connect and mint in one click, or let your agent do it with the short prompt below.</p>
     </div>
 
-    <div class="mint-open"><i></i><span><b>MINT IS LIVE ON BNB</b> — both mints are open now. Free Mint is for Binance Agent ID holders only; Genesis is open to all wallets. No waitlist, no second phase for Genesis. The buttons on this page are a rehearsal simulation.</span></div>
+    <div class="mint-open"><i></i><span><b>FREE MINT SOLD OUT — GENESIS LIVE ON BNB</b> — all 1,000 Free Voxels are gone. Genesis (111 at 0.0015 BNB) is the only mint still open — to all wallets, no waitlist. The buttons on this page are a rehearsal simulation.</span></div>
 
     <div class="live-panel">
       <h3>MINT LIVE — ONE-CLICK MINT SIMULATION</h3>
-      <p>Mint is live on BNB Chain. This panel is a rehearsal simulation — the buttons here do not mint for real. To mint for real, copy an agent prompt below (one <span class="mono">freeMint()</span> or <span class="mono">genesisMint()</span> call, one flat fee, done) or mint directly on the contract.</p>
+      <p>Mint is live on BNB Chain. This panel is a rehearsal simulation — the buttons here do not mint for real. To mint for real, copy an agent prompt below (one <span class="mono">genesisMint()</span> call, one flat fee, done) or mint directly on the contract. The Free Mint has sold out, so freeMint() now reverts on-chain.</p>
       <div class="live-rows">
         <div><span>Supply</span><b>1,111 Voxels</b></div>
         <div><span>Mint Fee</span><b>0 BNB Free · 0.0015 BNB Genesis</b></div>
         <div><span>Chain</span><b>BNB</b></div>
         <div><span>Contract</span><b class="mono" style="font-size:12.5px;word-break:break-all"><a href="https://bscscan.com/address/0x097E34c0A1657537aA0D94d171D39AB3954Fee57" target="_blank" rel="noopener">0x097E34c0A1657537aA0D94d171D39AB3954Fee57</a></b></div>
-        <div><span>Free Mint · Live Count</span><b><span id="liveFreeMinted">0</span> / 1,000 minted · <span id="liveFreeLeft">1000</span> left · Max 4 / wallet · Binance Agent ID holders only</b></div>
+        <div><span>Source Code</span><b><a href="https://sourcify.dev/#/lookup/0x097E34c0A1657537aA0D94d171D39AB3954Fee57" target="_blank" rel="noopener">Verified on Sourcify (exact match)</a></b></div>
+        <div><span>Free Mint · Live Count · SOLD OUT</span><b><span id="liveFreeMinted">1000</span> / 1,000 minted · <span id="liveFreeLeft">0</span> left · Max 4 / wallet · Binance Agent ID holders only</b></div>
         <div><span>Genesis Mint · Live Count</span><b><span id="livePaidMinted">0</span> / 111 minted · <span id="livePaidLeft">111</span> left · Open to all wallets · Max 5 / wallet</b></div>
       </div>
       <div class="live-actions">
-        <button class="btn btn-lime" onclick="doMint('free')">Mint Free — 0 BNB</button>
+        <button class="btn btn-ghost" onclick="doMint('free')">Free Mint — SOLD OUT</button>
         <button class="btn btn-gold" onclick="doMint('paid')">Mint Genesis — 0.0015 BNB</button>
       </div>
-      <p style="margin:12px 0 0;font-size:12.5px">Fee goes to the contract wallet. The contract is deployed — the address above and in the agent prompts is the real one, and the prompts are ready to execute now — mint is live. The minted counts shown on this page are live on-chain counts read from the contract.</p>
+      <p style="margin:12px 0 0;font-size:12.5px">Fee goes to the contract wallet. The contract is deployed — the address above and in the agent prompts is the real one, and the Genesis prompt is ready to execute now. The minted counts shown on this page are live on-chain counts read from the contract.</p>
     </div>
 
     <div class="mint-grid">
       <article class="mint-card free">
-        <span class="tag free">FREE MINT · 1,000 SUPPLY · BINANCE AGENT ID HOLDERS ONLY</span>
+        <span class="tag free">FREE MINT · 1,000 SUPPLY · SOLD OUT</span><span class="stamp stamp-soldout" aria-hidden="true">SOLD OUT</span>
         <h3>FREE MINT</h3>
         <div class="price">0 BNB <small>/ FREE FOREVER</small></div>
-        <p style="color:var(--muted);line-height:1.65;margin:0;font-size:14.5px">The Binance Agent ID door — <b style="color:var(--ink)">Free Mint is reserved for Binance Agent ID holders only</b>. First come, first served — verify your Agent ID, then connect a wallet or send the Free Mint prompt to an AI Agent and your Voxel is on its way.</p>
-        <div class="progress"><i id="freeBar" style="width:0%"></i></div>
-        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span><span id="freeMinted">0</span> / 1,000 minted</span><span style="color:var(--muted)"><span id="freeLeft">1000</span> left</span></div>
+        <p style="color:var(--muted);line-height:1.65;margin:0;font-size:14.5px">It went fast — all 1,000 Free Voxels were claimed in under an hour. Free Mint was reserved for Binance Agent ID holders only. That door is closed now — Genesis is the only way in.</p>
+        <div class="progress"><i id="freeBar" style="width:100%"></i></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span><span id="freeMinted">1000</span> / 1,000 minted</span><span style="color:var(--muted)"><span id="freeLeft">0</span> left</span></div>
         <ul class="check">
           <li><span><b>Binance Agent ID required</b> — holders only, verified before minting</span></li>
           <li><span><b>Max 4 per wallet</b> — fairness built into the drop</span></li>
@@ -665,21 +671,21 @@
         <div class="qty">
           <button onclick="changeQty('free',-1)" aria-label="Decrease quantity">−</button><b id="qtyFree">1</b><button onclick="changeQty('free',1)" aria-label="Increase quantity">+</button><span>Max 4 / wallet</span>
         </div>
-        <div id="freeGateStatus" style="border:2px dashed var(--line);border-radius:12px;padding:11px 13px;margin:0 0 14px;font-size:13px;line-height:1.6;color:var(--muted);background:#0a0c22">🔒 Free Mint is for Binance Agent ID holders only — verify your Agent ID in the wallet panel below to unlock.</div>
-        <button class="btn btn-lime full" onclick="doMint('free')">Mint Free Now</button>
+        <div id="freeGateStatus" style="border:2px dashed var(--line);border-radius:12px;padding:11px 13px;margin:0 0 14px;font-size:13px;line-height:1.6;color:var(--muted);background:#0a0c22">🎉 Free Mint sold out — every one of the 1,000 Free Voxels has been claimed. Genesis (111 editions at 0.0015 BNB) is the only mint still open — see the gold card.</div>
+        <button class="btn btn-ghost full" disabled style="opacity:.55;cursor:not-allowed">SOLD OUT</button>
         <button class="btn btn-ghost full" style="margin-top:10px" onclick="copyPrompt('freePrompt')">Copy Free Mint Prompt</button>
       </article>
 
       <article class="mint-card paid">
-        <span class="tag paid">PAID MINT · 111 SUPPLY · GENESIS · LIVE NOW</span>
+        <span class="tag paid">PAID MINT · 111 SUPPLY · GENESIS · THE ONLY MINT LEFT</span><span class="stamp stamp-gold" aria-hidden="true">★ LAST DOOR OPEN</span>
         <h3>PAID MINT — GENESIS</h3>
         <div class="price">0.0015 <small>BNB</small></div>
-        <p style="color:var(--muted);line-height:1.65;margin:0;font-size:14.5px">The collector door — <b style="color:var(--ink)">open now</b>, side by side with Free Mint. Just 111 editions with boosted odds for crowns, laser eyes and gold worlds — plus a permanent Genesis badge on every piece.</p>
+        <p style="color:var(--muted);line-height:1.65;margin:0;font-size:14.5px">The collector door — and now the only door still open: the Free Mint sold out in under an hour. Just 111 editions with boosted odds for crowns, laser eyes and gold worlds — plus a permanent Genesis badge on every piece.</p>
         <div style="margin-top:14px;background:var(--gold);color:#231a00;border:2px solid #000;border-radius:12px;padding:12px 14px;box-shadow:3px 3px 0 #000;font-size:13.5px;line-height:1.6"><b>★ Direct shot at Legendary — every Genesis mint draws from the full pool, including Legendary — mint is live, so every draw counts.</b> Your first Genesis draw can already land a Legendary — no lock, no separate phase.</div>
         <div class="progress"><i id="paidBar" style="width:0%"></i></div>
         <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700"><span><span id="paidMinted">0</span> / 111 minted</span><span style="color:var(--muted)"><span id="paidLeft">111</span> left</span></div>
         <ul class="check">
-          <li><span><b>Live now</b> — together with Free Mint, no later phase</span></li>
+          <li><span><b>The only mint left</b> — Free Mint sold out; Genesis is still open</span></li>
           <li><span><b>Direct shot at Legendary</b> — full pool including Legendary from the first draw</span></li>
           <li><span><b>Max 5 per wallet</b> — built for collectors</span></li>
           <li><span>Boosted <b>Rare &amp; Legendary</b> trait odds</span></li>
@@ -705,25 +711,26 @@
         <div class="wallet-row">
           <div>
             <b id="walletStatus">Wallet not connected</b>
-            <div class="addr" id="walletAddr" style="color:var(--muted);margin-top:5px">Connect on BNB — then mint in one click above. Free Mint asks for a quick Binance Agent ID check; Genesis needs none.</div>
+            <div class="addr" id="walletAddr" style="color:var(--muted);margin-top:5px">Connect a real wallet on BNB Chain — your Agent ID and holder status are read on-chain from the contract. Genesis needs no ID.</div>
+            <div class="addr" id="walletBalance" style="color:var(--muted);margin-top:5px">Voxels held by this wallet: — (on-chain)</div>
           </div>
           <button class="btn btn-dark" id="walletBtn2" onclick="toggleWallet()">Connect Wallet</button>
         </div>
         <div class="wallet-row" style="margin-top:12px">
           <div>
             <b id="agentIdStatus">Binance Agent ID — not verified</b>
-            <div class="addr" id="agentIdNote" style="color:var(--muted);margin-top:5px">Free Mint is reserved for Binance Agent ID holders — verify once and Free Mint unlocks for this wallet (max 4). Genesis needs no ID. On this page the check is simulated; the deployed contract verifies your Binance Agent ID on-chain.</div>
+            <div class="addr" id="agentIdNote" style="color:var(--muted);margin-top:5px">The Free Mint has sold out. Your Binance Agent ID status is checked on-chain against the deployed contract (hasAgentId) — not simulated. Genesis needs no ID.</div>
           </div>
-          <button class="btn btn-gold" id="agentIdBtn" onclick="verifyAgentId()">Verify Binance Agent ID</button>
+          <button class="btn btn-gold" id="agentIdBtn" onclick="verifyAgentId()">Check Agent ID (on-chain)</button>
         </div>
-        <p style="margin:14px 0 0;color:var(--muted);font-size:13.5px;line-height:1.65">Connect → verify your Binance Agent ID if you want the Free Mint → click Mint → confirm the flat fee. That's it — your Voxel lands straight in your wallet.</p>
+        <p style="margin:14px 0 0;color:var(--muted);font-size:13.5px;line-height:1.65">Connect your wallet → rehearse the mint above → for a real mint, send the Genesis prompt to your AI Agent or mint directly on the contract.</p>
       </div>
 
       <div class="panel" id="panel-agent">
-        <p style="margin:0;line-height:1.75;color:var(--muted);font-size:15px">Agents welcome. <b style="color:var(--ink)">Copy the prompt, paste it to your agent, done</b> — it already contains the chain, the real contract address, <span class="mono">freeMint() / genesisMint()</span> call and exact fee in wei, so the agent executes in one call and returns the transaction link. Try the simulator:</p>
+        <p style="margin:0;line-height:1.75;color:var(--muted);font-size:15px">Agents welcome. <b style="color:var(--ink)">Copy the prompt, paste it to your agent, done</b> — it already contains the chain, the real contract address, <span class="mono">genesisMint()</span> call and exact fee in wei (the Free Mint has sold out — its prompt now returns a sold-out notice that routes your agent to Genesis), so the agent executes in one call and returns the transaction link. Try the simulator:</p>
         <div class="agent-box" style="box-shadow:none;margin-top:16px">
           <label for="agentInput" style="font-weight:800;font-size:12.5px;letter-spacing:.08em">PROMPT FOR YOUR AI AGENT</label>
-          <textarea id="agentInput" style="margin-top:11px">Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call freeMint(1) with 0 BNB plus gas. Return the transaction link.</textarea>
+          <textarea id="agentInput" style="margin-top:11px">Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call genesisMint(1) with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.</textarea>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:13px">
             <button class="btn btn-pink" onclick="runAgent()">Run AI Agent</button>
             <button class="btn btn-ghost" onclick="fillAgentPrompt('free')">Load Free Mint Prompt</button>
@@ -784,10 +791,10 @@
     </div>
     <div class="prompt-grid">
       <article class="prompt-card">
-        <div class="p-head"><div><div class="label" style="color:#9df04e">Free Mint · 0 BNB</div><h3>Free Mint Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('freePrompt')">Copy</button></div>
+        <div class="p-head"><div><div class="label" style="color:#9df04e">Free Mint · SOLD OUT</div><h3>Free Mint Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('freePrompt')">Copy</button></div>
         <div class="p-body">
-          <div class="prompt-text" id="freePrompt">Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call freeMint(1) with 0 BNB plus gas. Return the transaction link.</div>
-          <p class="note">One line, one call — the agent checks your Binance Agent ID first, then mints from your connected wallet and returns the tx link. No Agent ID, no Free Mint.</p>
+          <div class="prompt-text" id="freePrompt">Voxel World Pixel — Free Mint is SOLD OUT: all 1,000 Free Voxels have been minted, so do NOT call freeMint() — it will revert and waste gas. Mint a Genesis Voxel instead: from my connected wallet on BNB, call genesisMint(1) on contract 0x097E34c0A1657537aA0D94d171D39AB3954Fee57 with 0.0015 BNB (1500000000000000 wei) plus gas, max 5 per wallet. Return the transaction link.</div>
+          <p class="note">The Free Mint sold out — this prompt now stops your agent from wasting gas on a reverting freeMint() call and routes it to Genesis instead.</p>
         </div>
       </article>
 
@@ -795,7 +802,7 @@
         <div class="p-head"><div><div class="label" style="color:#ffd93d">Paid Mint · Genesis 111</div><h3>Paid Mint Prompt</h3></div><button class="copy-btn" onclick="copyPrompt('paidPrompt')">Copy</button></div>
         <div class="p-body">
           <div class="prompt-text" id="paidPrompt">Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call genesisMint(1) with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.</div>
-          <p class="note">Exact fee in wei included — open to all wallets, no ID needed. Genesis is live now, together with Free Mint, with a direct shot at Legendary on every draw.</p>
+          <p class="note">Exact fee in wei included. Genesis is the only mint still open — the Free Mint has sold out. Open to all wallets, no ID needed, with a direct shot at Legendary on every draw.</p>
         </div>
       </article>
 
@@ -830,14 +837,14 @@
 
       <div class="holder-gate" id="holderGate">
         <h3 id="gateTitle">🔒 HOLDERS ONLY — CONNECT YOUR WALLET TO PLAY</h3>
-        <p id="gateText">Pixel Playground is reserved for Voxel World Pixel holders. Connect your wallet — if it holds a Voxel minted on this page, Stage 1 unlocks for you; clear each stage to unlock the next, through all 5 stages.</p>
+        <p id="gateText">Connect a wallet that holds a Voxel — holder status is checked on-chain against the contract — or mint one, or try the demo preview.</p>
         <div class="gate-actions">
           <button class="btn btn-lime" id="gateConnectBtn" onclick="toggleWallet()">Connect Wallet</button>
-          <a class="btn btn-lime" id="gateMintFreeBtn" href="#mint" style="display:none">Mint Free — 0 BNB</a>
+          <a class="btn btn-ghost" id="gateMintFreeBtn" href="#mint" style="display:none;opacity:.8">Free Mint — Sold Out</a>
           <a class="btn btn-gold" id="gateMintPaidBtn" href="#mint" style="display:none">Mint Genesis — 0.0015 BNB</a>
           <button class="btn btn-ghost" id="gateDemoBtn" onclick="tryDemoPlay()">Try demo — preview without an NFT</button>
         </div>
-        <p class="gate-note">Holder check runs on this page's mint record — the deployed contract verifies holders on-chain. The demo button is a free preview only and does not make you a holder.</p>
+        <p class="gate-note">Holder status for a connected wallet is checked on-chain against the contract; Voxels minted in this page's simulator record also unlock the game. The demo button is a free preview only and does not make you a holder.</p>
       </div>
 
       <div id="gamePlayArea" style="display:none">
@@ -845,7 +852,7 @@
       <div class="stage-grid" id="stageSelect" role="group" aria-label="Stage select"></div>
 
       <p style="margin:0 0 12px;font-size:13.5px;color:var(--muted);line-height:1.65"><b style="color:var(--gold)">★ Evolved bonus: +1 life</b> — play as an <b style="color:var(--ink)">Evolved</b> Voxel and you start every stage with <b style="color:var(--ink)">4 lives</b> instead of 3. Evolved Voxels appear in the picker below after you upgrade.</p>
-      <b class="pixelfont" style="font-size:11px;line-height:1.7;display:block;margin-bottom:11px">2 · CHOOSE YOUR VOXEL</b>
+      <b class="pixelfont" style="font-size:11px;line-height:1.7;display:block;margin-bottom:11px" id="pickerHeading">2 · CHOOSE YOUR VOXEL</b>
       <div class="char-picker" id="charPicker" role="group" aria-label="Choose your Voxel character"></div>
 
       <div class="game-hud" aria-live="polite">
@@ -916,7 +923,7 @@
   <section id="roadmap">
     <div class="sec-head"><div class="kicker">Roadmap</div><h2>THE ROAD AHEAD</h2></div>
     <div class="road">
-      <div class="phase"><span>PHASE 01</span><h3>Genesis Mint</h3><p>Mint is live on BNB Chain — 1,000 Free for Binance Agent ID holders and 111 Genesis at 0.0015 BNB are open now.</p><span class="done live">● LIVE — MINT OPEN</span></div>
+      <div class="phase"><span>PHASE 01</span><h3>Genesis Mint</h3><p>The Free Mint sold out in under an hour — all 1,000 claimed by Binance Agent ID holders. Genesis (111 at 0.0015 BNB) is still open to every wallet.</p><span class="done live">● FREE SOLD OUT · GENESIS LIVE</span></div>
       <div class="phase"><span>PHASE 02</span><h3>Pixel Playground</h3><p>A holders-only browser game with 5 stages — holders explore Voxel World and play as their own character, from Night Meadow to the King's Sky.</p><span class="done live">● LIVE · HOLDERS ONLY</span><a href="#playground" class="btn btn-lime" style="display:flex;margin-top:12px;min-height:44px;font-size:13px">▶ Play Now</a></div>
       <div class="phase"><span>PHASE 03</span><h3>Merch &amp; Stickers</h3><p>The digital sticker pack is live — all 12 Voxels plus 4 pixel text stickers, free for everyone to download as transparent PNGs. Physical merch is still planned.</p><span class="done live">● LIVE · DIGITAL STICKERS</span><span class="done" style="margin-left:6px">MERCH · STILL PLANNED</span><a href="#stickers" class="btn btn-lime" style="display:flex;margin-top:12px;min-height:44px;font-size:13px">Get Stickers</a></div>
       <div class="phase"><span>PHASE 04</span><h3>Voxel World 2</h3><p>A new map, new species, and an exclusive airdrop reserved for Genesis 111 holders.</p><span class="done">PLANNED</span></div>
@@ -927,14 +934,14 @@
   <section id="faq">
     <div class="sec-head"><div class="kicker">FAQ</div><h2>QUESTIONS, ANSWERED</h2></div>
     <details open><summary>What exactly is Voxel World Pixel?</summary><p>A collection of 1,111 pixel-art characters across 12 species — robot, cat, astronaut, alien, wizard, ninja, king, panda, frog, pirate, vampire and dino. Every piece is generated on a 16×16 pixel canvas with its own trait combination, so no two Voxels are alike.</p></details>
-    <details><summary>How is the 1,111 supply split?</summary><p>1,000 pieces are Free Mint for Binance Agent ID holders (max 4 per wallet), and 111 are Paid Mint Genesis editions at 0.0015 BNB (max 5 per wallet). Once they're gone, the supply is closed forever.</p></details>
-    <details><summary>Who can use the Free Mint?</summary><p>Only holders of a Binance Agent ID. Free Mint is gated: your wallet must hold a Binance Agent ID, and the check runs before the mint — on this page it is simulated in the wallet panel, and the deployed contract verifies it on-chain. No Binance Agent ID, no Free Mint — but Genesis stays open to everyone, no ID needed, up to 5 per wallet. The Free Mint draw itself is random, from the Common and Rare pool only — Free Mint never yields a Legendary.</p></details>
+    <details><summary>How is the 1,111 supply split?</summary><p>1,000 pieces are Free Mint for Binance Agent ID holders (max 4 per wallet) (the Free Mint has already sold out), and 111 are Paid Mint Genesis editions at 0.0015 BNB (max 5 per wallet). Once they're gone, the supply is closed forever.</p></details>
+    <details><summary>Who can use the Free Mint?</summary><p>The Free Mint has sold out — all 1,000 Free Voxels were claimed, so it is closed now. While it ran, only holders of a Binance Agent ID could use it. Free Mint was gated: your wallet had to hold a Binance Agent ID, and the check ran before the mint — the deployed contract verifies it on-chain, and the wallet panel on this page checks it on-chain too. No Binance Agent ID, no Free Mint — but Genesis stays open to everyone, no ID needed, up to 5 per wallet. The Free Mint draw itself was random, from the Common and Rare pool only — Free Mint never yielded a Legendary.</p></details>
     <details><summary>Why mint a Genesis instead of a free one?</summary><p>Genesis is the only mint with a direct shot at Legendary from its first draw. Every Genesis mint draws from the full pool — including Legendary pieces like the Pixel King — on every draw, with boosted odds for Rare and Legendary traits such as crowns, laser eyes and gold sunburst worlds. Every Genesis also carries a permanent Genesis 111 badge plus priority access to future drops, including the Voxel World 2 airdrop. Free Mint is great for joining the world, but it draws randomly from Common and Rare only — no Legendary.</p></details>
     <details><summary>Can a Paid Mint get a Legendary right away?</summary><p>Yes — it can, from its very first draw. Legendary is already in the Genesis draw now that mint is live, not locked and not saved for a separate phase, so a Genesis mint can land a Legendary immediately. It is a direct chance on every Genesis draw, which is why Genesis is limited to just 111 pieces.</p></details>
     <details><summary>How does upgrading work?</summary><p>Burn 2 of your own Voxels and pay 0.001 BNB to receive 1 brand-new Evolved character — an exclusive form that can never be minted directly. The Evolved result is guaranteed at least +1 rarity tier above the best piece you burned — unless that piece is already Legendary, in which case the result stays Legendary, because Legendary is the top tier. Total ever minted stays 1,111 — upgrading burns the 2 originals, so supply only shrinks. Evolved Voxels also get a real bonus in Pixel Playground: +1 life (you start with 4 lives).</p></details>
     <details><summary>Can an Evolved Voxel be Legendary?</summary><p>Not from Free Mint pieces — an Evolved made from Free Voxels caps at Epic, no matter what you burn. Legendary stays exclusive to Genesis: the only way to hold a Legendary is the Genesis Paid Mint draw (or evolving Genesis material). That keeps the Genesis 111 special.</p></details>
-    <details><summary>When does the Paid Mint open?</summary><p>It is open now — the Genesis Paid Mint (111 pieces at 0.0015 BNB) is live at the same time as the Free Mint, not in a later phase. The contract is deployed and mint is open, so both mints are live. The buttons on this page are a rehearsal simulation; real minting happens via the agent prompts or directly on the contract, and every Genesis draw has a shot at Legendary.</p></details>
-    <details><summary>How does minting via AI Agent work?</summary><p>Copy the prompt, paste it to your agent, done. The prompt already contains everything for one fast execution — BNB, the contract, a single freeMint() or genesisMint() call, and the exact fee (0 BNB for Free, 0.0015 BNB / 1500000000000000 wei for Genesis) — and the agent returns the transaction link. The prompts already carry the real contract address (0x097E34c0A1657537aA0D94d171D39AB3954Fee57), so they are ready to run now — mint is live. You can rehearse the flow in the simulator on this page.</p></details>
+    <details><summary>When does the Paid Mint open?</summary><p>It is open now — and it is the only mint left. The Free Mint sold out (all 1,000 claimed in under an hour), so the Genesis Paid Mint — 111 pieces at 0.0015 BNB — is now the only way to mint a Voxel. The contract is deployed and mint is open. The buttons on this page are a rehearsal simulation; real minting happens via the agent prompts or directly on the contract, and every Genesis draw has a shot at Legendary.</p></details>
+    <details><summary>How does minting via AI Agent work?</summary><p>Copy the prompt, paste it to your agent, done. The prompt already contains everything for one fast execution — BNB, the contract, a single genesisMint() call at exactly 0.0015 BNB (1500000000000000 wei). The Free Mint has sold out, so its prompt no longer calls freeMint() — it routes your agent to Genesis instead — and the agent returns the transaction link. The prompts already carry the real contract address (0x097E34c0A1657537aA0D94d171D39AB3954Fee57), so they are ready to run now — mint is live. You can rehearse the flow in the simulator on this page.</p></details>
     <details><summary>Do I need any ID to mint Genesis?</summary><p>No. Paid Genesis is open to all wallets — no ID, no whitelist check. Connect any BNB wallet and mint directly, up to 5 per wallet.</p></details>
     <details><summary>Who can play Pixel Playground, and how do stages work?</summary><p>Only Voxel holders can play. Connect your wallet — if it has minted a Voxel on this page (by wallet or AI Agent), the game unlocks and shows “Holder verified.” The holder check runs on this page's mint record, not on-chain; a clearly labelled demo preview is also available without an NFT. There are 5 stages — Night Meadow, Sunset Dunes, Neon Forest, Lava Caves and King's Sky. Each stage has a gem target and a time limit; reach the target before time runs out, with lives left, to clear it and unlock the next stage.</p></details>
     <details><summary>Which wallets are supported?</summary><p>Any major Web3 wallet — MetaMask, Rabby, Trust Wallet and Coinbase Wallet included. Just set your wallet to BNB and use the Connect Wallet button in the top-right corner to get started.</p></details>
@@ -1091,7 +1098,7 @@ function randomizeShowcase(){
 }
 
 // ================= MARQUEE =================
-var phrase='✦ VOXEL WORLD PIXEL &nbsp; ✦ 1,111 SUPPLY &nbsp; ✦ 1,000 FREE MINT &nbsp; ✦ 111 GENESIS — 0.0015 BNB &nbsp; ✦ 12 SPECIES &nbsp; ✦ MINT BY WALLET OR AI AGENT &nbsp; ';
+var phrase='✦ VOXEL WORLD PIXEL &nbsp; ✦ FREE MINT SOLD OUT &nbsp; ✦ GENESIS LIVE — 111 ONLY &nbsp; ✦ 0.0015 BNB &nbsp; ✦ DIRECT SHOT AT LEGENDARY &nbsp; ✦ 12 SPECIES &nbsp; ✦ MINT BY WALLET OR AI AGENT &nbsp; ';
 document.getElementById('marqueeText').innerHTML=phrase.repeat(4);
 </script>
 
@@ -1123,36 +1130,113 @@ function tryDemoPlay(){
   toast('Demo preview on — this is a free preview, not holder access. Mint a Voxel to play as a verified holder.');
   var el=document.getElementById('playground'); if(el) el.scrollIntoView({behavior:'smooth'});
 }
-function toggleWallet(){
-  walletConnected=!walletConnected;
-  if(!walletConnected) agentIdVerified=false; // disconnecting drops the Agent ID verification with the session
-  var addr='0x7a3F…9eVoxel42';
-  document.getElementById('walletStatus').textContent=walletConnected?'Wallet connected':'Wallet not connected';
-  document.getElementById('walletAddr').textContent=walletConnected?addr+' · Ready to mint Free and Genesis.':'Connect MetaMask, Rabby, Trust Wallet or Coinbase Wallet to begin.';
-  document.getElementById('walletBtn2').textContent=walletConnected?'Disconnect':'Connect Wallet';
-  document.getElementById('headerWalletBtn').textContent=walletConnected?'0x7a3F…9e42':'Connect Wallet';
+var walletAddress='';
+var walletBalanceOnChain=0;
+var agentIdChecked=false;
+var walletEventsBound=false;
+function truncAddr(a){ return a.slice(0,6)+'…'+a.slice(-4); }
+function abiAddr(a){ return '000000000000000000000000'+a.slice(2).toLowerCase(); }
+function disconnectWallet(){
+  walletConnected=false; walletAddress=''; walletBalanceOnChain=0;
+  agentIdVerified=false; agentIdChecked=false;
+  freePerWallet=0; paidPerWallet=0;
+  var hb=document.getElementById('headerWalletBtn'); if(hb) hb.textContent='Connect Wallet';
+  var b2=document.getElementById('walletBtn2'); if(b2) b2.textContent='Connect Wallet';
+  var ws=document.getElementById('walletStatus'); if(ws) ws.textContent='Wallet not connected';
+  var wa=document.getElementById('walletAddr'); if(wa) wa.textContent='Connect a real wallet on BNB Chain — your Agent ID and holder status are read on-chain from the contract. Genesis needs no ID.';
+  var wb=document.getElementById('walletBalance'); if(wb) wb.textContent='Voxels held by this wallet: — (on-chain)';
   refreshAgentIdUI();
   if(window.__refreshHolderGate) window.__refreshHolderGate();
   if(window.__refreshUpgradePanel) window.__refreshUpgradePanel();
-  toast(walletConnected?'Wallet connected: '+addr:'Wallet disconnected.');
 }
+function updateConnectedUI(){
+  var t=truncAddr(walletAddress);
+  var hb=document.getElementById('headerWalletBtn'); if(hb) hb.textContent=t;
+  var b2=document.getElementById('walletBtn2'); if(b2) b2.textContent='Disconnect';
+  var ws=document.getElementById('walletStatus'); if(ws) ws.textContent='Wallet connected';
+  var wa=document.getElementById('walletAddr'); if(wa) wa.textContent=t+' · BNB Chain';
+  refreshAgentIdUI();
+  if(window.__refreshHolderGate) window.__refreshHolderGate();
+  if(window.__refreshUpgradePanel) window.__refreshUpgradePanel();
+}
+async function runOnChainChecks(){
+  if(!walletAddress) return;
+  var addr=walletAddress;
+  try{ var h=await ethCallUint('0x4eab3ef2'+abiAddr(addr)); if(walletAddress===addr&&isFinite(h)){ agentIdVerified=(h===1); agentIdChecked=true; refreshAgentIdUI(); } }catch(e){}
+  try{ var bal=await ethCallUint('0x70a08231'+abiAddr(addr)); if(walletAddress===addr&&isFinite(bal)){ walletBalanceOnChain=bal; var wb=document.getElementById('walletBalance'); if(wb) wb.textContent='Voxels held by this wallet: '+bal+' (on-chain)'; } }catch(e){}
+  try{ var fc=await ethCallUint('0x5ecf8a80'+abiAddr(addr)); if(walletAddress===addr&&isFinite(fc)) freePerWallet=Math.max(0,Math.min(4,fc)); }catch(e){}
+  try{ var gc=await ethCallUint('0x067d3498'+abiAddr(addr)); if(walletAddress===addr&&isFinite(gc)) paidPerWallet=Math.max(0,Math.min(5,gc)); }catch(e){}
+  if(window.__refreshHolderGate) window.__refreshHolderGate();
+  if(window.__refreshUpgradePanel) window.__refreshUpgradePanel();
+}
+function bindWalletEvents(){
+  if(walletEventsBound) return;
+  if(typeof window.ethereum==='undefined'||!window.ethereum||typeof window.ethereum.on!=='function') return;
+  walletEventsBound=true;
+  window.ethereum.on('accountsChanged',function(accs){
+    if(!accs||!accs.length){ disconnectWallet(); toast('Wallet disconnected.'); return; }
+    walletAddress=accs[0]; walletConnected=true;
+    agentIdVerified=false; agentIdChecked=false; walletBalanceOnChain=0;
+    updateConnectedUI();
+    runOnChainChecks();
+  });
+  window.ethereum.on('chainChanged',function(cid){
+    var ws=document.getElementById('walletStatus'); if(!ws) return;
+    if((cid||'').toLowerCase()!=='0x38'){ ws.textContent='Wrong network — please switch to BNB Chain'; }
+    else if(walletConnected){ ws.textContent='Wallet connected'; }
+  });
+}
+async function toggleWallet(){
+  if(walletConnected){ disconnectWallet(); toast('Wallet disconnected.'); return; }
+  if(typeof window.ethereum==='undefined'||!window.ethereum){
+    var msg='No wallet detected — open this page in MetaMask, Rabby, Trust Wallet or Binance Web3 Wallet, or install one.';
+    var wa0=document.getElementById('walletAddr'); if(wa0) wa0.textContent=msg;
+    toast(msg);
+    return;
+  }
+  try{
+    var accounts=await window.ethereum.request({method:'eth_requestAccounts'});
+    if(!accounts||!accounts.length){ toast('Connection request rejected in your wallet.'); return; }
+    var addr=accounts[0];
+    var chainId=await window.ethereum.request({method:'eth_chainId'});
+    if((chainId||'').toLowerCase()!=='0x38'){
+      try{
+        await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x38'}]});
+      }catch(swErr){
+        if(swErr&&swErr.code===4902){
+          await window.ethereum.request({method:'wallet_addEthereumChain',params:[{chainId:'0x38',chainName:'BNB Smart Chain',nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},rpcUrls:['https://bsc-dataseed.binance.org'],blockExplorerUrls:['https://bscscan.com']}]});
+        } else { throw swErr; }
+      }
+    }
+    walletConnected=true; walletAddress=addr;
+    bindWalletEvents();
+    updateConnectedUI();
+    toast('Wallet connected: '+truncAddr(addr));
+    runOnChainChecks();
+  }catch(e){
+    if(e&&e.code===4001){ toast('Connection request rejected in your wallet.'); }
+    else { toast('Wallet connection failed — please try again in your wallet.'); }
+  }
+}
+bindWalletEvents();
 
 // ================= BINANCE AGENT ID GATE (FREE MINT) =================
 var agentIdVerified=false;
 function refreshAgentIdUI(){
   var st=document.getElementById('agentIdStatus'), btn=document.getElementById('agentIdBtn'), pill=document.getElementById('freeGateStatus');
-  if(st) st.textContent=agentIdVerified?'Binance Agent ID — verified ✓':'Binance Agent ID — not verified';
-  if(btn){ btn.textContent=agentIdVerified?'Agent ID Verified ✓':'Verify Binance Agent ID'; btn.disabled=agentIdVerified; btn.style.opacity=agentIdVerified?'.55':'1'; }
-  if(pill){
-    if(agentIdVerified){ pill.textContent='✓ Binance Agent ID verified — Free Mint is unlocked for this wallet (max 4 per wallet).'; pill.style.borderColor='rgba(157,240,78,.55)'; pill.style.color='#d9ffb0'; }
-    else { pill.textContent='🔒 Free Mint is for Binance Agent ID holders only — verify your Agent ID in the wallet panel below to unlock.'; pill.style.borderColor=''; pill.style.color=''; }
-  }
+  if(st) st.textContent=agentIdChecked?(agentIdVerified?'Binance Agent ID — verified ✓ (checked on-chain)':'Binance Agent ID — not held by this wallet (checked on-chain)'):'Binance Agent ID — not checked yet';
+  if(btn){ btn.textContent='Check Agent ID (on-chain)'; btn.disabled=false; btn.style.opacity='1'; }
+  if(pill){ pill.textContent='🎉 Free Mint sold out — every one of the 1,000 Free Voxels has been claimed. Genesis (111 editions at 0.0015 BNB) is the only mint still open — see the gold card.'; pill.style.borderColor=''; pill.style.color=''; }
 }
-function verifyAgentId(){
-  if(!walletConnected){ toast('Connect your wallet first — then verify your Binance Agent ID.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
-  if(agentIdVerified){ toast('Binance Agent ID already verified for this wallet.'); return; }
-  agentIdVerified=true; refreshAgentIdUI();
-  toast('Binance Agent ID verified — Free Mint unlocked for this wallet (max 4 per wallet).');
+async function verifyAgentId(){
+  if(!walletConnected||!walletAddress){ toast('Connect your wallet first — then check your Binance Agent ID.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
+  toast('Checking your Binance Agent ID on-chain…');
+  try{
+    var v=await ethCallUint('0x4eab3ef2'+abiAddr(walletAddress));
+    if(!isFinite(v)) throw new Error('Bad RPC result');
+    agentIdVerified=(v===1); agentIdChecked=true; refreshAgentIdUI();
+    toast(agentIdVerified?'Binance Agent ID verified on-chain for this wallet.':'No Binance Agent ID held by this wallet (checked on-chain). Genesis needs no ID.');
+  }catch(e){ toast('On-chain Agent ID check failed — please try again.'); }
 }
 refreshAgentIdUI();
 
@@ -1164,7 +1248,7 @@ function changeQty(type,d){
   document.getElementById(type==='free'?'qtyFree':'qtyPaid').textContent=qty[type];
   if(type==='paid') document.getElementById('paidTotal').textContent='Total: '+(qty.paid*0.0015).toFixed(4).replace(/0+$/,'').replace(/\.$/,'.0')+' BNB';
 }
-var freeMinted=0, paidMinted=0;
+var freeMinted=1000, paidMinted=0;
 var freePerWallet=0; // Free Mint minted by the current wallet in this session — max 4 per wallet
 var paidPerWallet=0; // Genesis minted by the current wallet in this session — max 5 per wallet, cumulative across transactions
 function syncMintCounts(){
@@ -1216,8 +1300,8 @@ function drawFromPool(pool,count){
 function doMint(type){
   if(!walletConnected){ toast('Connect your wallet first — then mint in one click. Or use the AI Agent prompt.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
   if(type==='free'){
-    if(!agentIdVerified){ toast('Free Mint is only for Binance Agent ID holders — verify your Binance Agent ID in the wallet panel below first. Genesis is open to all wallets.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
     if(freeMinted>=1000){ toast('Free Mint is sold out.'); return; }
+    if(!agentIdVerified){ toast('Free Mint is only for Binance Agent ID holders — check your Binance Agent ID in the wallet panel below first. Genesis is open to all wallets.'); showTab('wallet'); document.getElementById('mint').scrollIntoView({behavior:'smooth'}); return; }
     if(freePerWallet>=4){ toast('Free Mint limit reached — max 4 per wallet. This wallet has already minted 4 Free Voxels.'); return; }
     if(freePerWallet+qty.free>4){ toast('Free Mint limit reached — max 4 per wallet. You have minted '+freePerWallet+' Free Voxel(s), so you can mint '+(4-freePerWallet)+' more.'); return; }
     var freePicks=drawFromPool(FREE_POOL,qty.free);
@@ -1245,7 +1329,7 @@ function showTab(which){
 
 // ================= PROMPTS / COPY / AGENT =================
 var PROMPTS={
-free:"Mint 1 Voxel World Pixel NFT (Free Mint) now from my connected wallet on BNB, max 4 per wallet. Free Mint is only for Binance Agent ID holders — verify my Binance Agent ID first, and stop without minting if I don't hold one. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call freeMint(1) with 0 BNB plus gas. Return the transaction link.",
+free:"Voxel World Pixel — Free Mint is SOLD OUT: all 1,000 Free Voxels have been minted, so do NOT call freeMint() — it will revert and waste gas. Mint a Genesis Voxel instead: from my connected wallet on BNB, call genesisMint(1) on contract 0x097E34c0A1657537aA0D94d171D39AB3954Fee57 with 0.0015 BNB (1500000000000000 wei) plus gas, max 5 per wallet. Return the transaction link.",
 paid:"Mint 1 Voxel World Pixel NFT (Genesis) now from my connected wallet on BNB, max 5 per wallet. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call genesisMint(1) with 0.0015 BNB (1500000000000000 wei) plus gas. Return the transaction link.",
 upgrade:"Upgrade my Voxel World Pixel NFTs on BNB. Burn 2 of my Voxels [token ids] and evolve them into 1 Evolved Voxel. Contract: 0x097E34c0A1657537aA0D94d171D39AB3954Fee57. Call evolve() with my 2 token ids and 0.001 BNB (1000000000000000 wei) plus gas. Return the transaction link."
 };
@@ -1253,7 +1337,7 @@ function fillAgentPrompt(type){
   showTab('agent');
   document.getElementById('agentInput').value=PROMPTS[type];
   document.getElementById('agentInput').scrollIntoView({behavior:'smooth',block:'center'});
-  toast(type==='free'?'Free Mint prompt loaded for the AI Agent.':(type==='upgrade'?'Upgrade / Evolve prompt loaded for the AI Agent.':'Paid Mint Genesis prompt loaded for the AI Agent.'));
+  toast(type==='free'?'Free Mint prompt loaded — Free Mint is sold out; this prompt routes your agent to Genesis.':(type==='upgrade'?'Upgrade / Evolve prompt loaded for the AI Agent.':'Paid Mint Genesis prompt loaded for the AI Agent.'));
 }
 async function copyPrompt(id){
   var el=document.getElementById(id); var text=el?el.innerText.trim():'';
@@ -1564,17 +1648,24 @@ refreshUpgradePanel();
   };
 
   // --- Holder gate ---
-  function playUnlocked(){ return (typeof walletConnected!=='undefined'&&walletConnected&&typeof isHolder==='function'&&isHolder())||(typeof demoHolder!=='undefined'&&demoHolder); }
+  function onChainHolder(){ return (typeof walletConnected!=='undefined'&&walletConnected&&typeof walletBalanceOnChain!=='undefined'&&walletBalanceOnChain>0); }
+  function playUnlocked(){ return (typeof walletConnected!=='undefined'&&walletConnected&&typeof isHolder==='function'&&isHolder())||(typeof demoHolder!=='undefined'&&demoHolder)||onChainHolder(); }
   window.__refreshHolderGate=function(){
     var gate=document.getElementById('holderGate'), area=document.getElementById('gamePlayArea'), badge=document.getElementById('holderBadge');
     var title=document.getElementById('gateTitle'), text=document.getElementById('gateText');
     var cBtn=document.getElementById('gateConnectBtn'), fBtn=document.getElementById('gateMintFreeBtn'), pBtn=document.getElementById('gateMintPaidBtn'), dBtn=document.getElementById('gateDemoBtn');
     if(playUnlocked()){
       gate.style.display='none'; area.style.display='block'; badge.classList.add('show');
-      if(typeof demoHolder!=='undefined'&&demoHolder&&!(typeof isHolder==='function'&&isHolder())){
+      var ph=document.getElementById('pickerHeading');
+      if(onChainHolder()&&!(typeof isHolder==='function'&&isHolder())){
+        badge.innerHTML='✓ <span>Holder verified on-chain — this wallet holds <b>'+walletBalanceOnChain+' Voxel'+(walletBalanceOnChain===1?'':'s')+'</b>. Pick your Voxel below — the full roster is yours to play.</span>';
+        if(ph) ph.textContent='2 · PICK YOUR VOXEL';
+      } else if(typeof demoHolder!=='undefined'&&demoHolder&&!(typeof isHolder==='function'&&isHolder())){
         badge.innerHTML='👀 <span>Demo preview — playing without an NFT. <b>Mint a Voxel</b> to become a verified holder.</span>';
+        if(ph) ph.textContent='2 · CHOOSE YOUR VOXEL';
       } else {
         badge.innerHTML='✓ <span>Holder verified ✓ — <b>'+walletOwnedCount+' Voxel'+(walletOwnedCount===1?'':'s')+'</b> in your wallet. All unlocked stages are yours to play.</span>';
+        if(ph) ph.textContent='2 · CHOOSE YOUR VOXEL';
       }
       renderStageSelect(); return;
     }
@@ -1582,11 +1673,11 @@ refreshUpgradePanel();
     gate.style.display='block'; area.style.display='none'; badge.classList.remove('show');
     if(typeof walletConnected!=='undefined'&&walletConnected){
       title.textContent='NO VOXEL FOUND IN THIS WALLET';
-      text.textContent='This wallet is connected, but it does not hold a Voxel yet. Mint one below — Free Mint is 0 BNB for Binance Agent ID holders, Genesis is open to all wallets — and the game unlocks automatically, with your minted Voxel as your default character.';
+      text.textContent='This wallet is connected, but it does not hold a Voxel yet — holder status was checked on-chain against the contract. The Free Mint has sold out, so mint a Genesis Voxel (0.0015 BNB, open to all wallets) and the game unlocks automatically.';
       cBtn.style.display='none'; fBtn.style.display=''; pBtn.style.display=''; dBtn.style.display='';
     } else {
       title.textContent='🔒 HOLDERS ONLY — CONNECT YOUR WALLET TO PLAY';
-      text.textContent='Pixel Playground is reserved for Voxel World Pixel holders. Connect your wallet — if it holds a Voxel minted on this page, Stage 1 unlocks for you; clear each stage to unlock the next, through all 5 stages.';
+      text.textContent='Connect a wallet that holds a Voxel — holder status is checked on-chain against the contract — or mint one, or try the demo preview.';
       cBtn.style.display=''; fBtn.style.display='none'; pBtn.style.display='none'; dBtn.style.display='';
     }
   };
